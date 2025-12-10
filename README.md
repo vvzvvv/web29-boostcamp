@@ -1,2 +1,76 @@
-# web29-boostcamp
-최강 29조 레포입니다.
+# CloudCraft
+
+프로젝트 이미지 첨부 예정
+
+<br/>
+
+## 📖 프로젝트 소개
+
+> CloudCraft는 실제 클라우드 계정 없이 콘솔형 UI에서 직접 설정을 조작하며 클라우드 아키텍처와 동작을 직관적으로 학습할 수 있도록 돕는 시뮬레이션 플랫폼입니다.
+
+### 프로젝트 기간
+
+`25.12.22 ~ 26.02.05`
+
+<br/>
+
+## Ⓜ️ 주요 기능
+
+### 기능 추가 예정
+
+사진 또는 GIF
+
+기능 설명
+
+<br/>
+
+## 🎱 개발 팀
+
+> 러닝바이두잉을 실천하는 팀 러바두 입니다!
+
+<table>
+  <tr align="center">
+    <th>J047_김승현</th>
+    <th>J057_김용준</th>
+    <th>J254_조윤주</th>
+    <th>J303_김동규</th>
+  </tr>
+  <tr align="center">
+    <td>
+      <img src="https://avatars.githubusercontent.com/u/130816706" width="130px"/>
+      <br/>
+      <a href="https://github.com/vvzvvv" target="_blank">
+       <b>vvzvvv</b>
+      </a>
+    </td>
+    <td>
+      <img src="https://avatars.githubusercontent.com/u/212116342" width="130px"/>
+      <br/>
+      <a href="https://github.com/shahhenshah" target="_blank">
+       <b>shahhenshah</b>
+      </a>
+    </td>
+    <td>
+      <img src="https://avatars.githubusercontent.com/u/125597330" width="130px"/>
+      <br/>
+      <a href="https://github.com/zooyaam" target="_blank">
+       <b>zooyaam</b>
+      </a>
+    </td>
+    <td>
+      <img src="https://avatars.githubusercontent.com/u/106072839" width="130px"/>
+      <br/>
+      <a href="https://github.com/caffesale" target="_blank">
+       <b>caffesale</b>
+      </a>
+    </td>
+  </tr>
+</table>
+
+<br/>
+
+## 🐾 히스토리
+
+| 일자 | 릴리즈 | 상세 내용 |
+| --- | --- | --- |
+|  |  |  |
