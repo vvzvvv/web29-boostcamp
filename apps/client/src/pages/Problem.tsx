@@ -36,7 +36,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { type Edge, type Node, ReactFlow } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 
-function Problem() {
+const Problem = () => {
   const [nodes, setNodes] = useState<Node[]>(initialNodes);
   const [edges, setEdges] = useState<Edge[]>(initialEdges);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -299,6 +299,6 @@ function Problem() {
       </Dialog>
     </section>
   );
-}
+};
 
 export default Problem;
