@@ -1,17 +1,16 @@
-import { Routes, Route } from 'react-router-dom'
-import Home from './pages/Home'
-import About from './pages/About'
-import NotFound from './pages/NotFound'
-import './App.css'
+import { Route, Routes } from 'react-router-dom';
+
+import { Home, NotFound, Problem, Problems } from '@/pages';
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/about" element={<About />} />
+      <Route path="/problems" element={<Problems />} />
+      <Route path="/problems/problem" element={<Problem />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
-  )
+  );
 }
 
-export default App
+export default App;
