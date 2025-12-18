@@ -1,14 +1,16 @@
-import { Routes, Route } from 'react-router-dom'
-import Problem from '@/pages/Problem'
-import NotFound from './pages/NotFound'
+import { Route, Routes } from 'react-router-dom';
+
+import { Home, NotFound, Problem, Problems } from '@/pages';
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Problem />} />
+      <Route path="/" element={<Home />} />
+      <Route path="/problems" element={<Problems />} />
+      <Route path="/problems/problem" element={<Problem />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
-  )
+  );
 }
 
-export default App
+export default App;

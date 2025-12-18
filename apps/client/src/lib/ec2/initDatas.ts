@@ -1,4 +1,4 @@
-import { type Node, type Edge } from '@xyflow/react'
+import { type Edge, type Node } from '@xyflow/react';
 
 const initialNodes: Node[] = [
   {
@@ -46,7 +46,7 @@ const initialNodes: Node[] = [
       whiteSpace: 'pre-line',
     },
   },
-]
+];
 
 const initialEdges: Edge[] = [
   {
@@ -67,7 +67,7 @@ const initialEdges: Edge[] = [
     label: '라우팅',
     labelStyle: { fontSize: 12, fontWeight: 'bold' },
   },
-]
+];
 
 const ec2Node: Node = {
   id: 'ec2',
@@ -83,7 +83,7 @@ const ec2Node: Node = {
     fontSize: '14px',
     fontWeight: 'bold',
   },
-}
+};
 
 const ec2Edge: Edge = {
   id: 'e3',
@@ -93,6 +93,6 @@ const ec2Edge: Edge = {
   style: { stroke: '#FF9800', strokeWidth: 2 },
   label: '인스턴스 접근',
   labelStyle: { fontSize: 12, fontWeight: 'bold' },
-}
+};
 
-export { initialNodes, initialEdges, ec2Node, ec2Edge }
+export { initialNodes, initialEdges, ec2Node, ec2Edge };

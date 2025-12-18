@@ -1,23 +1,8 @@
-import { useState } from 'react'
-import {
-  ec2Schema,
-  type TFormValues,
-  getEC2Warnings,
-  type EC2Warning,
-} from '@/lib/ec2/ec2ZodSchema'
-import { useForm, Controller } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Label } from '@/components/ui/label'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
-import { Button } from '@/components/ui/button'
+import { useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Dialog,
   DialogContent,
@@ -25,22 +10,38 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog'
-import { ReactFlow, type Node, type Edge } from '@xyflow/react'
+} from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  type EC2Warning,
+  type TFormValues,
+  ec2Schema,
+  getEC2Warnings,
+} from '@/lib/ec2/ec2ZodSchema';
+import {
+  ec2Edge,
+  ec2Node,
   initialEdges,
   initialNodes,
-  ec2Node,
-  ec2Edge,
-} from '@/lib/ec2/initDatas'
-import '@xyflow/react/dist/style.css'
+} from '@/lib/ec2/initDatas';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { type Edge, type Node, ReactFlow } from '@xyflow/react';
+import '@xyflow/react/dist/style.css';
 
-function Problem() {
-  const [nodes, setNodes] = useState<Node[]>(initialNodes)
-  const [edges, setEdges] = useState<Edge[]>(initialEdges)
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [errorMessages, setErrorMessages] = useState<string[]>([])
-  const [warningMessages, setWarningMessages] = useState<EC2Warning[]>([])
+const Problem = () => {
+  const [nodes, setNodes] = useState<Node[]>(initialNodes);
+  const [edges, setEdges] = useState<Edge[]>(initialEdges);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [errorMessages, setErrorMessages] = useState<string[]>([]);
+  const [warningMessages, setWarningMessages] = useState<EC2Warning[]>([]);
 
   const { handleSubmit, control, getValues } = useForm<TFormValues>({
     defaultValues: {
@@ -52,57 +53,57 @@ function Problem() {
     },
     mode: 'onChange',
     resolver: zodResolver(ec2Schema),
-  })
+  });
 
   const onSubmit = (data: TFormValues) => {
-    console.log('Form data:', data)
+    console.log('Form data:', data);
 
     // Warning 체크 (error가 아니므로 제출은 진행됨)
-    const warnings = getEC2Warnings(data)
+    const warnings = getEC2Warnings(data);
 
     if (warnings.length > 0) {
-      console.warn('경고:', warnings)
+      console.warn('경고:', warnings);
       // Warning을 모달로 표시
-      setErrorMessages([]) // error 초기화
-      setWarningMessages(warnings)
-      setIsDialogOpen(true)
+      setErrorMessages([]); // error 초기화
+      setWarningMessages(warnings);
+      setIsDialogOpen(true);
     }
 
     // EC2 인스턴스가 이미 추가되었는지 확인
-    const ec2Exists = nodes.some((node) => node.id === 'ec2')
+    const ec2Exists = nodes.some((node) => node.id === 'ec2');
 
     if (!ec2Exists) {
       // EC2 노드와 엣지 추가
-      setNodes((prevNodes) => [...prevNodes, ec2Node])
-      setEdges((prevEdges) => [...prevEdges, ec2Edge])
+      setNodes((prevNodes) => [...prevNodes, ec2Node]);
+      setEdges((prevEdges) => [...prevEdges, ec2Edge]);
     }
-  }
+  };
 
   const onError = (errors: unknown) => {
-    console.log('Validation errors:', errors)
+    console.log('Validation errors:', errors);
 
     // 에러 메시지 수집
-    const messages: string[] = []
+    const messages: string[] = [];
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Object.entries(errors as any).forEach(([, error]: [string, any]) => {
       if (error?.message) {
-        messages.push(error.message)
+        messages.push(error.message);
       }
-    })
+    });
 
     // 현재 form 값으로 warning도 체크
-    const currentValues = getValues()
-    const warnings = getEC2Warnings(currentValues)
+    const currentValues = getValues();
+    const warnings = getEC2Warnings(currentValues);
 
     // 에러와 warning을 함께 모달로 표시
-    setErrorMessages(messages)
-    setWarningMessages(warnings)
-    setIsDialogOpen(true)
-  }
+    setErrorMessages(messages);
+    setWarningMessages(warnings);
+    setIsDialogOpen(true);
+  };
 
   return (
-    <section className="grid grid-cols-[450px_1fr] h-screen">
+    <section className="grid h-screen grid-cols-[450px_1fr]">
       <Tabs defaultValue="description">
         <TabsList>
           <TabsTrigger value="description">Description</TabsTrigger>
@@ -129,7 +130,7 @@ function Problem() {
                   render={({ field }) => (
                     <Select onValueChange={field.onChange} value={field.value}>
                       <Label className="mb-2">인스턴스 타입</Label>
-                      <SelectTrigger className="w-full mb-2">
+                      <SelectTrigger className="mb-2 w-full">
                         <SelectValue placeholder="인스턴스 타입: t2.micro" />
                       </SelectTrigger>
                       <SelectContent>
@@ -148,7 +149,7 @@ function Problem() {
                   render={({ field }) => (
                     <Select onValueChange={field.onChange} value={field.value}>
                       <Label className="mb-2">AMI</Label>
-                      <SelectTrigger className="w-full mb-2">
+                      <SelectTrigger className="mb-2 w-full">
                         <SelectValue placeholder="Amazon linux 2" />
                       </SelectTrigger>
                       <SelectContent>
@@ -169,7 +170,7 @@ function Problem() {
                   render={({ field }) => (
                     <Select onValueChange={field.onChange} value={field.value}>
                       <Label className="mb-2">VPC</Label>
-                      <SelectTrigger className="w-full mb-2">
+                      <SelectTrigger className="mb-2 w-full">
                         <SelectValue placeholder="VPC (default)" />
                       </SelectTrigger>
                     </Select>
@@ -181,7 +182,7 @@ function Problem() {
                   render={({ field }) => (
                     <Select onValueChange={field.onChange} value={field.value}>
                       <Label className="mb-2">서브넷</Label>
-                      <SelectTrigger className="w-full mb-2">
+                      <SelectTrigger className="mb-2 w-full">
                         <SelectValue placeholder="subnet-public-1a" />
                       </SelectTrigger>
                       <SelectContent>
@@ -207,7 +208,7 @@ function Problem() {
                   render={({ field }) => (
                     <Select onValueChange={field.onChange} value={field.value}>
                       <Label className="mb-2">보안 그룹</Label>
-                      <SelectTrigger className="w-full mb-2">
+                      <SelectTrigger className="mb-2 w-full">
                         <SelectValue placeholder="인스턴스 타입: t2.micro" />
                       </SelectTrigger>
                       <SelectContent>
@@ -221,7 +222,7 @@ function Problem() {
                     </Select>
                   )}
                 />
-                <div className="flex gap-2 justify-end">
+                <div className="flex justify-end gap-2">
                   <Button variant="outline" type="button">
                     힌트 보기
                   </Button>
@@ -297,7 +298,7 @@ function Problem() {
         </DialogContent>
       </Dialog>
     </section>
-  )
-}
+  );
+};
 
-export default Problem
+export default Problem;
