@@ -21,74 +21,67 @@ jobs:
       - name: Validate image tag format
         run: |
           TAG="${{ inputs.image_tag }}"
-
-          # rc-{sha} 또는 semVer 형식 검증
           if [[ $TAG =~ ^rc-[a-f0-9]{7}$ ]] || [[ $TAG =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            echo "Valid tag format: $TAG"
+            echo "✅ Valid tag format: $TAG"
           else
-            echo "Error: Invalid tag format. Expected rc-{sha} or v{major}.{minor}.{patch}"
+            echo "❌ Error: Invalid tag format. Expected rc-{sha} or v{major}.{minor}.{patch}"
             exit 1
           fi
-
-      - name: Setup SSH
+      - name: Create .env file
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          echo "${{ secrets.ENV_PRODUCTION }}" > .env
 
-      - name: Copy deployment files to server
-        run: |
-          scp -i ~/.ssh/deploy_key \
-            docker-compose.yml \
-            .env.example \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH }}/
+      - name: Copy files to server
+        uses: appleboy/scp-action@v1.0.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT || 22 }}
+          source: "docker-compose.yml,.env"
+          target: "${{ secrets.DEPLOY_PATH }}"
+
+      - name: Cleanup local .env
+        if: always()
+        run: rm -f .env
 
       - name: Deploy with Docker Compose
-        run: |
-          ssh -i ~/.ssh/deploy_key ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'ENDSSH'
-            cd ${{ secrets.DEPLOY_PATH }}
+        uses: appleboy/ssh-action@1.2.4
+        env:
+          IMAGE_TAG: ${{ inputs.image_tag }}
+          REGISTRY_USER: ${{ secrets.REGISTRY_USERNAME }}
+          REGISTRY_PASS: ${{ secrets.REGISTRY_PASSWORD }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT || 22 }}
+          envs: IMAGE_TAG,REGISTRY_USER,REGISTRY_PASS
+          command_timeout: 30m
+          script: |
+            cd ${{ secrets.DEPLOY_PATH }} || exit 1
 
-            # Create .env file if it doesn't exist
-            if [ ! -f .env ]; then
-              echo "Creating .env file from .env.example"
-              cp .env.example .env
-              echo "⚠️  Please update .env file with actual values"
-            fi
+            chmod 600 .env
 
-            # Export environment variables
-            export IMAGE_TAG=${{ inputs.image_tag }}
+            echo "🚀 Starting deployment for tag: $IMAGE_TAG"
 
-            # Pull latest images
-            echo "Pulling Docker images..."
-            docker-compose pull
+            echo "$REGISTRY_PASS" | docker login -u "$REGISTRY_USER" --password-stdin
 
-            # Stop and remove old containers
-            echo "Stopping old containers..."
-            docker-compose down
+            IMAGE_TAG=$IMAGE_TAG docker compose pull
+            IMAGE_TAG=$IMAGE_TAG docker compose up -d
 
-            # Start new containers
-            echo "Starting new containers..."
-            docker-compose up -d
+            echo "✅ Deployment complete! Current status:"
+            docker compose ps
 
-            # Show running containers
-            echo "Deployment complete! Running containers:"
-            docker-compose ps
-
-            # Clean up old images
-            echo "Cleaning up old images..."
+            echo "🧹 Cleaning up unused images..."
             docker image prune -f
-          ENDSSH
 
-      - name: Cleanup SSH key
-        if: always()
-        run: |
-          rm -f ~/.ssh/deploy_key
+            docker logout
 
       - name: Deployment notification
         if: success()
         run: |
-          echo "### Deployment Successful! :rocket:" >> $GITHUB_STEP_SUMMARY
+          echo "### Deployment Successful! 🚀" >> $GITHUB_STEP_SUMMARY
           echo "**Environment:** Production" >> $GITHUB_STEP_SUMMARY
           echo "**Image tag:** ${{ inputs.image_tag }}" >> $GITHUB_STEP_SUMMARY
           echo "**Deployed at:** $(date)" >> $GITHUB_STEP_SUMMARY
