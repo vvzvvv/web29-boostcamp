@@ -2,12 +2,12 @@
 
 import React from 'react'
 
-import CloudFrontCacheBehavior from '@/components/cloudfront/cloudfront-cache-behavior'
-import CloudFrontDistributionSettings from '@/components/cloudfront/cloudfront-distribution-settings'
-import CloudFrontOriginSettings from '@/components/cloudfront/cloudfront-origin-settings'
-import CloudFrontWebsiteSettings from '@/components/cloudfront/cloudfront-website-settings'
-import S3BucketCreate from '@/components/s3/s3-bucket-create'
-import S3FileUpload from '@/components/s3/s3-file-upload'
+import CloudFrontCacheBehavior from '@/aws-services/cloudfront/cloudfront-cache-behavior'
+import CloudFrontDistributionSettings from '@/aws-services/cloudfront/cloudfront-distribution-settings'
+import CloudFrontOriginSettings from '@/aws-services/cloudfront/cloudfront-origin-settings'
+import CloudFrontWebsiteSettings from '@/aws-services/cloudfront/cloudfront-website-settings'
+import S3BucketCreate from '@/aws-services/s3/s3-bucket-create'
+import S3FileUpload from '@/aws-services/s3/s3-file-upload'
 import { StepsNavigator } from '@/components/steps'
 import type { StepConfig } from '@/components/steps'
 
