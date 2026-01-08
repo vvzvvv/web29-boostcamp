@@ -4,10 +4,9 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  ManyToOne,
-  JoinColumn,
   ManyToMany,
   JoinTable,
+  OneToOne,
 } from 'typeorm';
 import { Solution } from './solution.entity';
 import { ProblemType } from '../problems/types/problem-type.enum';
@@ -16,9 +15,6 @@ import { ProblemType } from '../problems/types/problem-type.enum';
 export class Problem {
   @PrimaryGeneratedColumn()
   id: number;
-
-  @Column({ type: 'int' })
-  solution_id: number;
 
   @Column({ type: 'enum', enum: ProblemType })
   problem_type: ProblemType;
@@ -35,8 +31,7 @@ export class Problem {
   @UpdateDateColumn({ type: 'timestamp' })
   updated_at: Date;
 
-  @ManyToOne(() => Solution)
-  @JoinColumn({ name: 'solution_id' })
+  @OneToOne(() => Solution, (solution) => solution.problem)
   solution: Solution;
 
   @ManyToMany(() => Problem)

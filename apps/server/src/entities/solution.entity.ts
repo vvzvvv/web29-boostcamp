@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
+import { Problem } from './problem.entity';
 
 @Entity('solution')
 export class Solution {
@@ -10,4 +17,8 @@ export class Solution {
 
   @Column({ type: 'json' })
   config_info: object;
+
+  @OneToOne(() => Problem, (problem) => problem.solution)
+  @JoinColumn({ name: 'problem_id' })
+  problem: Problem;
 }
