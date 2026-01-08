@@ -1,11 +1,11 @@
 import { Entity, Column, ManyToOne, JoinColumn, PrimaryColumn } from 'typeorm';
-import { Cheetsheet } from './cheetsheet.entity';
+import { Cookbook } from './cookbook.entity';
 import { Problem } from './problem.entity';
 
-@Entity('cheetsheet_problem')
-export class CheetsheetProblem {
+@Entity('cookbook_problem')
+export class CookProblem {
   @PrimaryColumn({ type: 'int' })
-  cheetsheet_id: number;
+  cookbook_id: number;
 
   @PrimaryColumn({ type: 'int' })
   problem_id: number;
@@ -13,9 +13,9 @@ export class CheetsheetProblem {
   @Column({ type: 'int' })
   problem_number: number;
 
-  @ManyToOne(() => Cheetsheet)
-  @JoinColumn({ name: 'cheetsheet_id' })
-  cheetsheet: Cheetsheet;
+  @ManyToOne(() => Cookbook)
+  @JoinColumn({ name: 'cookbook_id' })
+  cookbook: Cookbook;
 
   @ManyToOne(() => Problem)
   @JoinColumn({ name: 'problem_id' })
