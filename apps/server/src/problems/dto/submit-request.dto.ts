@@ -1,10 +1,7 @@
-import { IsArray, ValidateNested, IsString, IsObject } from 'class-validator';
+import { IsArray, ValidateNested, IsObject } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class ConfigDto {
-  @IsString()
-  configType: string;
-
   @IsObject()
   configInfo: Record<string, any>;
 }
