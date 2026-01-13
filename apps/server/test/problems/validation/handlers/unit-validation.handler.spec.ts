@@ -92,32 +92,46 @@ describe('UnitValidationHandler', () => {
 
   describe('validate 메서드', () => {
     it('정답과 일치하는 설정에 대해 PASS를 반환해야 한다.', () => {
-      const context = {
-        submitConfig: [
-          { id: 1, value: 'A' },
-          { id: 2, value: 'B' },
-        ],
-        problemData: [
-          { id: 1, value: 'A' },
-          { id: 2, value: 'B' },
-        ],
+      const submitRequestDto = {
+        submitConfig: {
+          vpc: [
+            { id: '1', cidrBlock: 'A' },
+            { id: '2', cidrBlock: 'B' },
+          ],
+        },
       };
-      const result = handler.validate(context);
+      const problemData = {
+        solution: {
+          vpc: [
+            { id: '1', cidrBlock: 'A' },
+            { id: '2', cidrBlock: 'B' },
+          ],
+        },
+        problemType: 'unit',
+      };
+      const result = handler.validate(submitRequestDto, problemData);
       expect(result.result).toBe('PASS');
     });
 
     it('정답과 일치하지 않는 설정에 대해 FAIL를 반환해야 한다.', () => {
-      const context = {
-        submitConfig: [
-          { id: 1, value: 'A' },
-          { id: 2, value: 'B' },
-        ],
-        problemData: [
-          { id: 1, value: 'A' },
-          { id: 2, value: 'C' },
-        ],
+      const submitRequestDto = {
+        submitConfig: {
+          vpc: [
+            { id: '1', cidrBlock: 'A' },
+            { id: '2', cidrBlock: 'B' },
+          ],
+        },
       };
-      const result = handler.validate(context);
+      const problemData = {
+        solution: {
+          vpc: [
+            { id: '1', cidrBlock: 'A' },
+            { id: '2', cidrBlock: 'C' },
+          ],
+        },
+        problemType: 'unit',
+      };
+      const result = handler.validate(submitRequestDto, problemData);
       expect(result.result).toBe('FAIL');
     });
   });
