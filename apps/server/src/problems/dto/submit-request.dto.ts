@@ -1,21 +1,36 @@
-import { IsArray, ValidateNested, IsObject, IsString } from 'class-validator';
+import { IsObject, ValidateNested, IsOptional, IsArray } from 'class-validator';
 import { Type } from 'class-transformer';
+import * as ServiceConfigType from '../types/service-config-type.enum';
 
-export class ConfigDto {
-  @IsString()
-  configType: string;
-
-  @IsObject()
-  configInfo: Record<string, any>;
-}
-
-export class SubmitRequestDto {
+// 서비스별 키-설정 값
+export class SubmitConfig {
+  @IsOptional()
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => ConfigDto)
-  submitConfig: ConfigDto[];
+  @Type(() => ServiceConfigType.VPCConfig)
+  vpc?: ServiceConfigType.VPCConfig[];
+
+  @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => ServiceConfigType.EC2Config)
+  ec2?: ServiceConfigType.EC2Config[];
+
+  @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => ServiceConfigType.SubnetConfig)
+  subnet?: ServiceConfigType.SubnetConfig[];
 }
 
+export class UnitSubmitRequestDto {
+  @IsObject()
+  @ValidateNested()
+  @Type(() => SubmitConfig)
+  submitConfig: SubmitConfig;
+}
+
+// TODO: NetworkTask 구체화하기
 export class NetworkTask {
   source: unknown;
   destination: unknown;
@@ -23,11 +38,13 @@ export class NetworkTask {
 }
 
 export class ScenarioSubmitRequestDto {
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => NetworkTask)
-  submitConfig: ConfigDto[];
+  @IsObject()
+  @ValidateNested()
+  @Type(() => SubmitConfig)
+  submitConfig: SubmitConfig;
 
   @IsObject()
+  @ValidateNested()
+  @Type(() => NetworkTask)
   networkTask: NetworkTask;
 }
