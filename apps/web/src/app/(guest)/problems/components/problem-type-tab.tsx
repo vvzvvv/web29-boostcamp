@@ -1,4 +1,10 @@
+'use client'
+
 import { BookOpenIcon, FileTextIcon, LayersIcon } from 'lucide-react'
+
+import { useEffect } from 'react'
+
+import { useRouter } from 'next/navigation'
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { cn } from '@/lib/utils'
@@ -26,6 +32,12 @@ export const ProblemTypeTab = () => {
     },
   ]
 
+  const router = useRouter()
+
+  const handleTabChange = (value: string) => {
+    router.push(`/problems?type=${value}`)
+  }
+
   return (
     <Tabs defaultValue="unit" className="w-full">
       <TabsList className="w-full rounded-none bg-transparent p-0">
@@ -38,6 +50,7 @@ export const ProblemTypeTab = () => {
               'data-[state=active]:text-primary text-foreground/60 data-[state=active]:bg-transparent',
               'data-[state=active]:border-primary border-b',
             )}
+            onClick={() => handleTabChange(tab.type)}
           >
             <tab.icon className="mr-2 inline-block h-4 w-4" />
             {tab.label}
