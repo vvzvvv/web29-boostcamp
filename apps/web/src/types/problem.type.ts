@@ -1,7 +1,7 @@
 export const enum ProblemType {
-  UNIT = 'UNIT',
-  COOKBOOK = 'COOKBOOK',
-  SCENARIO = 'SCENARIO',
+  UNIT = 'unit',
+  COOKBOOK = 'cookbook',
+  SCENARIO = 'scenario',
 }
 
 export type Unit = {

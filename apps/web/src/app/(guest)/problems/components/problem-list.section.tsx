@@ -5,6 +5,7 @@ import { CookbookCard } from './cookbook-card'
 import { CompactUnitCard, UnitCard } from './unit'
 
 import { cn } from '@/lib/utils'
+import { ProblemType } from '@/types/problem.type'
 
 const fakeUnitProblem = {
   id: 1,
@@ -37,9 +38,12 @@ export const ProblemListSection = () => {
 
   return (
     <section
-      className={cn(currentTab === 'unit' && 'grid grid-cols-3 gap-4', 'pt-6')}
+      className={cn(
+        currentTab === ProblemType.UNIT && 'grid grid-cols-3 gap-4',
+        'pt-6',
+      )}
     >
-      {currentTab === 'unit' ? (
+      {currentTab === ProblemType.UNIT ? (
         <UnitCard {...fakeUnitProblem} />
       ) : (
         <CookbookCard {...fakeCookbookProblem}>
