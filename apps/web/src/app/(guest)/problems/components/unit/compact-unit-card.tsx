@@ -1,15 +1,15 @@
 import { Badge } from '@/components/ui/badge'
-import { UnitProblem } from '@/types/problem.type'
+import { Unit } from '@/types/problem.type'
 
-interface CompactUnitProblemCardProps extends UnitProblem {
+interface CompactUnitCardProps extends Unit {
   step: number
 }
 
-export const CompactUnitProblemCard = ({
+export const CompactUnitCard = ({
   step,
   title,
   description,
-}: CompactUnitProblemCardProps) => {
+}: CompactUnitCardProps) => {
   return (
     <div className="rounded-xl border p-4">
       <div className="flex items-center gap-1.5">

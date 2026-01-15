@@ -14,14 +14,9 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { UnitProblem } from '@/types/problem.type'
+import { Unit } from '@/types/problem.type'
 
-export const UnitProblemCard = ({
-  id,
-  title,
-  description,
-  tags,
-}: UnitProblem) => {
+export const UnitCard = ({ id, title, description, tags }: Unit) => {
   const router = useRouter()
 
   const handleCardClick = () => {

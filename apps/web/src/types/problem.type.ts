@@ -4,7 +4,7 @@ export const enum ProblemType {
   SCENARIO = 'SCENARIO',
 }
 
-export type UnitProblem = {
+export type Unit = {
   id: number
   title: string
   description: string

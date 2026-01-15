@@ -1,9 +1,6 @@
-import { CookbookProblemCard } from './components/cookbook-problem-card'
+import { CookbookProblemCard } from './components/cookbook-card'
 import { ProblemTypeTab } from './components/problem-type-tab'
-import {
-  CompactUnitProblemCard,
-  UnitProblemCard,
-} from './components/unit-problem'
+import { CompactUnitCard, UnitCard } from './components/unit'
 
 const fakeUnitProblem = {
   id: 1,
@@ -47,11 +44,7 @@ export default function ProblemsPage() {
       <section className="pt-4">
         <CookbookProblemCard {...fakeCookbookProblem}>
           {fakeCookbookProblem.problems.map((problem, index) => (
-            <CompactUnitProblemCard
-              key={problem.id}
-              step={index + 1}
-              {...problem}
-            />
+            <CompactUnitCard key={problem.id} step={index + 1} {...problem} />
           ))}
         </CookbookProblemCard>
       </section>
