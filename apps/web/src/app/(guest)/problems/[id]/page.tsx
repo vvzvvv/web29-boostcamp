@@ -1,6 +1,10 @@
 import React from 'react'
 
-import { API_URL } from '@/app/api/api'
+// import { API_URL } from '@/app/api/api'
+import {
+  IServiceMapper,
+  serviceMapper,
+} from '@/aws-services/utils/serviceMapper'
 
 interface ProblemDetailPageProps {
   params: {
@@ -11,16 +15,23 @@ interface ProblemDetailPageProps {
   }
 }
 
-const getData = async (id: string) => {
-  const response = await fetch(`${API_URL}/problems/${id}`)
-  return await response.json()
+const getData = (_id: string) => {
+  // const response = await fetch(`${API_URL}/problems/${id}`)
+  // return await response.json()
+
+  const result: IServiceMapper = {
+    serviceName: 'S3',
+    service_task: 'bucket-create',
+    input_sections: ['general', 'ownership', 'public'],
+  }
+  return result
 }
 
 export default async function ProblemDetailPage({
   params: { id },
-  searchParams: { type },
+  searchParams: { type: _type },
 }: ProblemDetailPageProps) {
-  const problemData = await getData(id)
-
-  return <div>page</div>
+  const problemData = getData(id)
+  const { Component, config } = serviceMapper(problemData)
+  return <Component {...config} />
 }
