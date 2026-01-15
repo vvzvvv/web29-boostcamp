@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
-export const Tags = ({ control }: S3SectionProps) => {
+export const Tags = ({ control: _control }: S3SectionProps) => {
   return (
     <SectionContainer
       title="태그 - 선택 사항"

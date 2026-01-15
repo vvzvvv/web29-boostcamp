@@ -29,7 +29,7 @@ export default function S3BucketCreate({
       </div>
 
       {/* Section 1: General Configuration */}
-      {config.general.visible && (
+      {config.general && (
         <>
           <GeneralConfiguration control={control} config={config} />
           <Separator />
@@ -37,7 +37,7 @@ export default function S3BucketCreate({
       )}
 
       {/* Section 2: Object Ownership */}
-      {config.ownership.visible && (
+      {config.ownership && (
         <>
           <ObjectOwnership control={control} config={config} />
           <Separator />
@@ -45,7 +45,7 @@ export default function S3BucketCreate({
       )}
 
       {/* Section 3: Block Public Access */}
-      {config.blockPublicAccess.visible && (
+      {config.blockPublicAccess && (
         <>
           <BlockPublicAccess
             control={control}
@@ -57,7 +57,7 @@ export default function S3BucketCreate({
       )}
 
       {/* Section 4: Bucket Versioning */}
-      {config.versioning.visible && (
+      {config.versioning && (
         <>
           <BucketVersioning control={control} config={config} />
           <Separator />
@@ -65,7 +65,7 @@ export default function S3BucketCreate({
       )}
 
       {/* Section 5: Tags (Optional) */}
-      {config.tags.visible && (
+      {config.tags && (
         <>
           <Tags control={control} config={config} />
           <Separator />
@@ -73,7 +73,7 @@ export default function S3BucketCreate({
       )}
 
       {/* Section 6: Default Encryption */}
-      {config.encryption.visible && (
+      {config.encryption && (
         <>
           <DefaultEncryption control={control} config={config} />
           <Separator />
@@ -81,7 +81,7 @@ export default function S3BucketCreate({
       )}
 
       {/* Section 7: Advanced Settings */}
-      {config.advancedSettings.visible && (
+      {config.advancedSettings && (
         <AdvancedSettings control={control} config={config} />
       )}
     </div>

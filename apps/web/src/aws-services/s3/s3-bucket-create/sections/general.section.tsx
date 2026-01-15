@@ -35,7 +35,7 @@ const GENERAL_OPTIONS = {
 
 export const GeneralConfiguration = ({
   control,
-  config: { general },
+  config: { general: _general },
 }: S3SectionProps) => {
   return (
     <SectionContainer
@@ -54,7 +54,6 @@ export const GeneralConfiguration = ({
                 {...field}
                 id="bucket-name"
                 placeholder={GENERAL_OPTIONS.bucketName.placeholder}
-                disabled={general?.disabled && general.disabled}
                 className="max-w-md"
               />
             )}
@@ -72,11 +71,7 @@ export const GeneralConfiguration = ({
             name="general.region"
             control={control}
             render={({ field }) => (
-              <Select
-                value={field.value}
-                onValueChange={field.onChange}
-                disabled={general?.disabled && general.disabled}
-              >
+              <Select value={field.value} onValueChange={field.onChange}>
                 <SelectTrigger id="region" className="max-w-md">
                   <SelectValue placeholder="리전 선택" />
                 </SelectTrigger>
