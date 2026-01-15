@@ -1,33 +1,44 @@
+'use client'
+
 import { BookOpenIcon, FileTextIcon, LayersIcon } from 'lucide-react'
+
+import { useRouter } from 'next/navigation'
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { cn } from '@/lib/utils'
+import { ProblemType } from '@/types/problem.type'
 
 export const ProblemTypeTab = () => {
   const problemTabList = [
     {
-      type: 'unit',
+      type: ProblemType.UNIT,
       label: '유닛',
       description: '하나의 클라우드 개념을 집중적으로 학습합니다',
       icon: LayersIcon,
     },
     {
-      type: 'cookbook',
+      type: ProblemType.COOKBOOK,
       label: '쿡북',
       description:
         '여러 개의 유닛 문제를 순서대로 수행하며 하나의 목표를 달성합니다',
       icon: BookOpenIcon,
     },
     {
-      type: 'scenario',
+      type: ProblemType.SCENARIO,
       label: '시나리오',
       description: '하나의 서비스 시나리오를 기준으로 E2E 문제를 해결합니다',
       icon: FileTextIcon,
     },
   ]
 
+  const router = useRouter()
+
+  const handleTabChange = (value: string) => {
+    router.push(`/problems?type=${value}`)
+  }
+
   return (
-    <Tabs defaultValue="unit" className="w-full">
+    <Tabs defaultValue={ProblemType.UNIT} className="w-full">
       <TabsList className="w-full rounded-none bg-transparent p-0">
         {problemTabList.map((tab) => (
           <TabsTrigger
@@ -38,6 +49,7 @@ export const ProblemTypeTab = () => {
               'data-[state=active]:text-primary text-foreground/60 data-[state=active]:bg-transparent',
               'data-[state=active]:border-primary border-b',
             )}
+            onClick={() => handleTabChange(tab.type)}
           >
             <tab.icon className="mr-2 inline-block h-4 w-4" />
             {tab.label}
