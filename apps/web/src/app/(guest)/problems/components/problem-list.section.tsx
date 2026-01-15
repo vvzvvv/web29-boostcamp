@@ -1,5 +1,10 @@
+'use client'
+
+import { useProblem } from '../provider'
 import { CookbookCard } from './cookbook-card'
-import { CompactUnitCard } from './unit'
+import { CompactUnitCard, UnitCard } from './unit'
+
+import { cn } from '@/lib/utils'
 
 const fakeUnitProblem = {
   id: 1,
@@ -28,13 +33,21 @@ const fakeCookbookProblem = {
 }
 
 export const ProblemListSection = () => {
+  const { currentTab } = useProblem()
+
   return (
-    <section className="pt-6">
-      <CookbookCard {...fakeCookbookProblem}>
-        {fakeCookbookProblem.problems.map((problem, index) => (
-          <CompactUnitCard key={problem.id} step={index + 1} {...problem} />
-        ))}
-      </CookbookCard>
+    <section
+      className={cn(currentTab === 'unit' && 'grid grid-cols-3 gap-4', 'pt-6')}
+    >
+      {currentTab === 'unit' ? (
+        <UnitCard {...fakeUnitProblem} />
+      ) : (
+        <CookbookCard {...fakeCookbookProblem}>
+          {fakeCookbookProblem.problems.map((problem, index) => (
+            <CompactUnitCard key={problem.id} step={index + 1} {...problem} />
+          ))}
+        </CookbookCard>
+      )}
     </section>
   )
 }
