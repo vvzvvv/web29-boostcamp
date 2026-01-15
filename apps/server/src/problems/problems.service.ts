@@ -6,6 +6,7 @@ import { SubmitResponseDto } from './dto/submit-response.dto';
 import { ValidationService } from './validation/validation.service';
 import { ProblemType } from './types/problem-type.enum';
 import { Problem } from 'src/entities/problem.entity';
+import { ProblemDetailResponseDto } from './dto/problem-detail-response.dto';
 
 @Injectable()
 export class ProblemsService {
@@ -28,7 +29,7 @@ export class ProblemsService {
     return result;
   }
 
-  async findByProblemId(problemId: number): Promise<Problem> {
+  async findByProblemId(problemId: number): Promise<ProblemDetailResponseDto> {
     const problem = await this.problemRepository.findOne({
       where: { id: problemId },
       relations: ['tags'],
@@ -39,7 +40,12 @@ export class ProblemsService {
     }
 
     return {
-      ...problem,
+      id: problem.id,
+      problemType: problem.problem_type,
+      title: problem.title,
+      requiredFields: problem.required_fields,
+      description: problem.description,
+      tags: problem.tags.map((tag) => tag.name),
     };
   }
 }
