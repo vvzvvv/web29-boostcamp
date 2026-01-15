@@ -93,48 +93,57 @@ describe('UnitValidationHandler', () => {
   });
 
   describe('validate 메서드', () => {
-    it('정답과 일치하는 설정에 대해 PASS를 반환해야 한다.', () => {
+    it('정답과 일치하는 설정에 대해 PASS과 빈 피드백을 반환해야 한다.', () => {
       const submitRequestDto = {
         submitConfig: {
           vpc: [
-            { id: '1', cidrBlock: 'A' },
-            { id: '2', cidrBlock: 'B' },
+            { name: 'vpc-1', id: '1', cidrBlock: 'A' },
+            { name: 'vpc-2', id: '2', cidrBlock: 'B' },
           ],
         },
       };
       const problemData = {
         solution: {
           vpc: [
-            { id: '1', cidrBlock: 'A' },
-            { id: '2', cidrBlock: 'B' },
+            { name: 'vpc-1', id: '1', cidrBlock: 'A' },
+            { name: 'vpc-2', id: '2', cidrBlock: 'B' },
           ],
         },
         problemType: ProblemType.UNIT,
       };
       const result = handler.validate(submitRequestDto, problemData);
       expect(result.result).toBe('PASS');
+      expect(result.feedback.length).toBe(0);
     });
 
-    it('정답과 일치하지 않는 설정에 대해 FAIL를 반환해야 한다.', () => {
+    it('정답과 일치하지 않는 설정에 대해 FAIL과 피드백을 반환해야 한다.', () => {
       const submitRequestDto = {
         submitConfig: {
           vpc: [
-            { id: '1', cidrBlock: 'A' },
-            { id: '2', cidrBlock: 'B' },
+            { name: 'vpc-1', id: '1', cidrBlock: 'A' },
+            { name: 'vpc-2', id: '2', cidrBlock: 'B' },
           ],
         },
       };
       const problemData = {
         solution: {
           vpc: [
-            { id: '1', cidrBlock: 'A' },
-            { id: '2', cidrBlock: 'C' },
+            { name: 'vpc-1', id: '1', cidrBlock: 'A' },
+            { name: 'vpc-2', id: '2', cidrBlock: 'C' },
           ],
         },
         problemType: ProblemType.UNIT,
       };
       const result = handler.validate(submitRequestDto, problemData);
       expect(result.result).toBe('FAIL');
+      expect(result.feedback.length).toBeGreaterThan(0);
+      expect(result.feedback).toEqual([
+        {
+          field: 'vpc',
+          code: UnitProblemFeedbackType.INCORRECT,
+          message: '제출한 vpc 설정에 올바르지 않은 값이 있습니다: cidrBlock',
+        },
+      ]);
     });
   });
 

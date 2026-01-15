@@ -19,7 +19,6 @@ export class UnitValidationHandler implements ValidationHandler {
   }
 
   // unit 문제는 networkTask가 필요 없음.
-  // TODO: feedback 생성하는 로직 작성 후 이 메서드에서 사용하기
   validate(
     submitRequestDto: SubmitRequestDto,
     problemData: ProblemData,
@@ -52,19 +51,13 @@ export class UnitValidationHandler implements ValidationHandler {
       }
     }
 
-    // 만약 다른 설정 없음? -> 통과
-    if (Object.keys(mismatchedConfigs).length === 0) {
-      // 통과
-      return {
-        result: 'PASS',
-        feedback: [],
-      };
-    }
+    const feedbacks = this.generateFeedbackMessage(
+      mismatchedConfigs as UnitProblemValidateResult,
+    );
 
-    // 아니면 정답과 일치하지 않는 설정들 -> 틀림
     return {
-      result: 'FAIL',
-      feedback: [],
+      result: Object.keys(mismatchedConfigs).length === 0 ? 'PASS' : 'FAIL',
+      feedback: feedbacks,
     };
   }
 
