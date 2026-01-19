@@ -1,26 +1,51 @@
-import { Injectable } from '@nestjs/common';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { SubmitRequestDto } from './dto/submit-request.dto';
 import { SubmitResponseDto } from './dto/submit-response.dto';
 import { ValidationService } from './validation/validation.service';
 import { ProblemType } from './types/problem-type.enum';
+import { Problem } from 'src/entities/problem.entity';
+import { ProblemDetailResponseDto } from './dto/problem-detail-response.dto';
 
 @Injectable()
 export class ProblemsService {
-  constructor(private readonly validationService: ValidationService) {}
+  constructor(
+    private readonly validationService: ValidationService,
+    @InjectRepository(Problem)
+    private readonly problemRepository: Repository<Problem>,
+  ) {}
 
   submit(problemId: number, body: SubmitRequestDto): SubmitResponseDto {
     // MOCK 문제 데이터
     const problemData = {
       problemType: ProblemType.UNIT,
-      answer: '1234',
+      solution: {},
     };
+    // problemId로 문제 데이터를 조회하는 로직 추후 구현 필요
 
-    const result = this.validationService.validate(
-      problemData.problemType,
-      body.submitConfig[0],
-      problemData,
-    );
+    const result = this.validationService.validate(body, problemData);
 
     return result;
+  }
+
+  async findByProblemId(problemId: number): Promise<ProblemDetailResponseDto> {
+    const problem = await this.problemRepository.findOne({
+      where: { id: problemId },
+      relations: ['tags'],
+    });
+
+    if (!problem) {
+      throw new NotFoundException(`Problem with ID ${problemId} not found`);
+    }
+
+    return {
+      id: problem.id,
+      problem_type: problem.problem_type,
+      title: problem.title,
+      required_fields: problem.required_fields,
+      description: problem.description,
+      tags: problem.tags.map((tag) => tag.name),
+    };
   }
 }
