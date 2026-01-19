@@ -17,7 +17,15 @@ import S3BucketList from '../s3/s3-bucket-list/s3-bucket-list'
 import { S3_FILE_UPLOAD_SECTIONS } from '../s3/s3-file-upload/constants'
 import S3FileUpload from '../s3/s3-file-upload/s3-file-upload'
 
-const S3 = {
+import { ComponentType } from 'react'
+
+export interface ServicePage {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  component: ComponentType<any>
+  sections: readonly string[]
+}
+
+const S3: Record<string, ServicePage> = {
   'bucket-create': {
     component: S3BucketCreate,
     sections: S3_BUCKET_CREATE_SECTIONS,
@@ -36,7 +44,7 @@ const S3 = {
   },
 }
 
-const CloudFront = {
+const CloudFront: Record<string, ServicePage> = {
   'distribution-list': {
     component: CloudFrontDistributionList,
     sections: CLOUDFRONT_DISTRIBUTION_LIST_SECTIONS,

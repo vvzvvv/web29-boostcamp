@@ -1,27 +1,27 @@
 import { AWS_SERVICE_REGISTRY } from '../registry/registry'
 
 export interface IServiceMapper {
-  input_sections: string[]
+  inputSections: string[]
   serviceName: keyof typeof AWS_SERVICE_REGISTRY
-  service_task: 'bucket-create'
+  serviceTask: string
 }
 
 export const serviceMapper = ({
   serviceName,
-  service_task,
-  input_sections,
+  serviceTask,
+  inputSections,
 }: IServiceMapper) => {
   const service = AWS_SERVICE_REGISTRY[serviceName]
   if (!service) {
     throw new Error('service component is not found')
   }
-  const page = service[service_task]
+  const page = service[serviceTask]
   if (!page) {
     throw new Error('page component is not found')
   }
 
-  const inputSet = new Set(input_sections)
-  const config = input_sections.reduce<Record<string, boolean>>(
+  const inputSet = new Set(inputSections)
+  const config = inputSections.reduce<Record<string, boolean>>(
     (acc, section) => {
       acc[section] = inputSet.has(section)
       return acc
@@ -30,7 +30,7 @@ export const serviceMapper = ({
   )
 
   return {
-    Component: page,
+    Component: page.component,
     config,
   }
 }

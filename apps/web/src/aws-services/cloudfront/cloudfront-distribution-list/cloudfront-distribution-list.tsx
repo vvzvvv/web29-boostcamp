@@ -13,7 +13,7 @@ import type {
   Distribution,
 } from './types'
 
-import React from 'react'
+import React, { useState } from 'react'
 import { useWatch } from 'react-hook-form'
 
 // 샘플 배포 데이터
@@ -66,10 +66,10 @@ export default function CloudFrontDistributionList({
   setValue: _setValue,
   onNext,
 }: CloudFrontDistributionListProps) {
-  const [selectedDistributions, setSelectedDistributions] = React.useState<
+  const [selectedDistributions, setSelectedDistributions] = useState<
     Set<string>
   >(new Set())
-  const [distributions] = React.useState<Distribution[]>(SAMPLE_DISTRIBUTIONS)
+  const [distributions] = useState<Distribution[]>(SAMPLE_DISTRIBUTIONS)
 
   const searchQuery = useWatch({ control, name: 'searchQuery' }) || ''
 

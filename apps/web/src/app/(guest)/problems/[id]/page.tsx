@@ -21,8 +21,8 @@ const getData = (_id: string) => {
 
   const result: IServiceMapper = {
     serviceName: 'S3',
-    service_task: 'bucket-create',
-    input_sections: ['general', 'ownership', 'public'],
+    serviceTask: 'bucket-create',
+    inputSections: ['general', 'ownership', 'public'],
   }
   return result
 }
