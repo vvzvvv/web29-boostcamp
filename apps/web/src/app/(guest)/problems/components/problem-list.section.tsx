@@ -10,9 +10,7 @@ import { cn } from '@/lib/utils'
 import { CookbookProblem, ProblemType, UnitProblem } from '@/types/problem.type'
 
 export const ProblemListSection = () => {
-  const { currentType, useProblemListQuery } = useProblem()
-
-  const { data: problems, isSuccess } = useProblemListQuery()
+  const { currentType } = useProblem()
 
   const UnitProblemList = ({ data }: { data: UnitProblem[] }) => {
     return (
@@ -38,19 +36,18 @@ export const ProblemListSection = () => {
     )
   }
 
-  if (isSuccess)
-    return (
-      <section
-        className={cn(
-          currentType === ProblemType.UNIT && 'grid-cols-3',
-          'grid gap-4',
-        )}
-      >
-        {currentType === ProblemType.UNIT ? (
-          <UnitProblemList data={problems as UnitProblem[]} />
-        ) : (
-          <CookbookProblemList data={problems as CookbookProblem[]} />
-        )}
-      </section>
-    )
+  return (
+    <section
+      className={cn(
+        currentType === ProblemType.UNIT && 'grid-cols-3',
+        'grid gap-4',
+      )}
+    >
+      {/* {currentType === ProblemType.UNIT ? (
+        <UnitProblemList data={problems as UnitProblem[]} />
+      ) : (
+        <CookbookProblemList data={problems as CookbookProblem[]} />
+      )} */}
+    </section>
+  )
 }
