@@ -1,7 +1,8 @@
-import type { S3UploadSectionProps } from '../types'
 import { ChevronRight } from 'lucide-react'
 
 import { useWatch } from 'react-hook-form'
+
+import type { S3UploadSectionProps } from '@/types/aws-services/s3/file-upload'
 
 interface BreadcrumbSectionProps extends S3UploadSectionProps {
   onBucketClick: () => void

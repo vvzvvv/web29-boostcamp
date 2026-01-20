@@ -1,6 +1,6 @@
-import type { S3UploadSectionProps } from '../types'
-
 import { useWatch } from 'react-hook-form'
+
+import type { S3UploadSectionProps } from '@/types/aws-services/s3/file-upload'
 
 export const HeaderSection = ({ control, config }: S3UploadSectionProps) => {
   const bucketName = useWatch({ control, name: 'bucketName' })

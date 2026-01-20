@@ -1,10 +1,13 @@
-import type { S3UploadWithSetValueSectionProps, UploadFile } from '../types'
 import { File, X } from 'lucide-react'
 
 import { useWatch } from 'react-hook-form'
 
 import { SectionContainer } from '@/components/section-container'
 import { Button } from '@/components/ui/button'
+import type {
+  S3UploadWithSetValueSectionProps,
+  UploadFile,
+} from '@/types/aws-services/s3/file-upload'
 
 export const FileUploadSection = ({
   control,

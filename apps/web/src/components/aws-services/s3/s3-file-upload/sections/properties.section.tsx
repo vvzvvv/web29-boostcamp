@@ -1,5 +1,3 @@
-import type { S3UploadSectionProps } from '../types'
-
 import { Controller } from 'react-hook-form'
 
 import { SectionContainer } from '@/components/section-container'
@@ -11,6 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import type { S3UploadSectionProps } from '@/types/aws-services/s3/file-upload'
 
 export const PropertiesSection = ({
   control,

@@ -1,6 +1,5 @@
-import type { S3UploadSectionProps } from '../types'
-
 import { Button } from '@/components/ui/button'
+import type { S3UploadSectionProps } from '@/types/aws-services/s3/file-upload'
 
 interface ActionButtonsSectionProps extends S3UploadSectionProps {
   onPrev: () => void

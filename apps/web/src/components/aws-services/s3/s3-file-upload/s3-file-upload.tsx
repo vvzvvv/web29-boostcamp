@@ -8,7 +8,8 @@ import {
   PermissionsSection,
   PropertiesSection,
 } from './sections'
-import type { S3UploadWithSetValueSectionProps } from './types'
+
+import type { S3UploadWithSetValueSectionProps } from '@/types/aws-services/s3/file-upload'
 
 interface S3FileUploadProps extends S3UploadWithSetValueSectionProps {
   onPrev: () => void
