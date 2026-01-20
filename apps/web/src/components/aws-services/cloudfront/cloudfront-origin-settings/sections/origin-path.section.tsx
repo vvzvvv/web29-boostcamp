@@ -1,10 +1,10 @@
-import type { CloudFrontOriginSectionProps } from '../types'
 import { Info } from 'lucide-react'
 
 import { Controller } from 'react-hook-form'
 
 import { SectionContainer } from '@/components/section-container'
 import { Input } from '@/components/ui/input'
+import type { CloudFrontOriginSectionProps } from '@/types/aws-services/cloudfront/origin-settings'
 
 export function OriginPathSection({ control }: CloudFrontOriginSectionProps) {
   return (

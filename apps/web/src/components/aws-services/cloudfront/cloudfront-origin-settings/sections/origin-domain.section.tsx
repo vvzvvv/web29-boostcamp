@@ -1,7 +1,3 @@
-import type {
-  CloudFrontOriginWithSetValueSectionProps,
-  S3Bucket,
-} from '../types'
 import { Info } from 'lucide-react'
 
 import { Controller, useWatch } from 'react-hook-form'
@@ -17,6 +13,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import type {
+  CloudFrontOriginWithSetValueSectionProps,
+  S3Bucket,
+} from '@/types/aws-services/cloudfront/origin-settings'
 
 const SAMPLE_S3_BUCKETS: S3Bucket[] = [
   { id: '1', name: 'my-application-assets', region: 'ap-northeast-2' },

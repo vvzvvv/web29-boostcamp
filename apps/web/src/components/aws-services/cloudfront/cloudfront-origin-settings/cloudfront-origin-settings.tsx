@@ -6,9 +6,9 @@ import {
   OriginDomainSection,
   OriginPathSection,
 } from './sections'
-import type { CloudFrontOriginWithSetValueSectionProps } from './types'
 
 import { Separator } from '@/components/ui/separator'
+import type { CloudFrontOriginWithSetValueSectionProps } from '@/types/aws-services/cloudfront/origin-settings'
 
 export default function CloudFrontOriginSettings({
   control,

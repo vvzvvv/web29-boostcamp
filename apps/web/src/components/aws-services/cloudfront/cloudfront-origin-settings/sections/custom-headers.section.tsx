@@ -1,5 +1,3 @@
-import type { CloudFrontOriginWithSetValueSectionProps } from '../types'
-
 import { useFieldArray } from 'react-hook-form'
 
 import { SectionContainer } from '@/components/section-container'
@@ -11,6 +9,7 @@ import {
 } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import type { CloudFrontOriginWithSetValueSectionProps } from '@/types/aws-services/cloudfront/origin-settings'
 
 export function CustomHeadersSection({
   control,

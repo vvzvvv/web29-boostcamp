@@ -1,4 +1,3 @@
-import type { CloudFrontOriginSectionProps } from '../types'
 import { Info } from 'lucide-react'
 
 import { Controller, useWatch } from 'react-hook-form'
@@ -7,6 +6,7 @@ import { SectionContainer } from '@/components/section-container'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import type { CloudFrontOriginSectionProps } from '@/types/aws-services/cloudfront/origin-settings'
 
 export function OriginAccessControlSection({
   control,

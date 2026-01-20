@@ -1,13 +1,7 @@
-import type {
-  CloudFrontOriginSettingsConfig,
-  CloudFrontOriginSettingsSectionKey,
-} from '../constants'
 import type { CloudFrontOriginFormData } from './cloudfront-origin-form-data.types'
+import type { CloudFrontOriginSettingsConfig } from './constants'
 
 import type { AwsServiceSectionTypes } from '@/types/aws-services/aws-general-types'
-
-/** @deprecated Use CloudFrontOriginSettingsSectionKey instead */
-export type CloudFrontOriginConfigKeys = CloudFrontOriginSettingsSectionKey
 
 type CloudFrontOriginSettingsTypes = AwsServiceSectionTypes<
   CloudFrontOriginFormData,
