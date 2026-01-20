@@ -1,6 +1,6 @@
 'use client'
 
-import { Ami, NameTag } from './sections'
+import { Ami, InstanceType, NameTag } from './sections'
 
 import { useForm } from 'react-hook-form'
 
@@ -50,6 +50,13 @@ export default function EC2InstanceCreate({
       {config.ami && (
         <>
           <Ami control={control} config={config} />
+          <Separator />
+        </>
+      )}
+
+      {config.instanceType && (
+        <>
+          <InstanceType control={control} config={config} />
           <Separator />
         </>
       )}
