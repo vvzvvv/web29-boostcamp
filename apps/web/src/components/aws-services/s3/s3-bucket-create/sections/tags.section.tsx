@@ -1,5 +1,3 @@
-import type { S3SectionProps } from '../types'
-
 import { SectionContainer } from '@/components/section-container'
 import {
   Accordion,
@@ -10,6 +8,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import type { S3SectionProps } from '@/types/aws-services/s3/bucket-create'
 
 export const Tags = ({ control: _control }: S3SectionProps) => {
   return (

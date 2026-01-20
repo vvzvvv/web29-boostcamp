@@ -1,4 +1,3 @@
-import type { S3WithSetValuesSectionProps } from '../types'
 import { AlertCircle } from 'lucide-react'
 
 import { Controller, useWatch } from 'react-hook-form'
@@ -6,6 +5,7 @@ import { Controller, useWatch } from 'react-hook-form'
 import { SectionContainer } from '@/components/section-container'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
+import type { S3WithSetValuesSectionProps } from '@/types/aws-services/s3/bucket-create'
 
 export const BlockPublicAccess = ({
   control,

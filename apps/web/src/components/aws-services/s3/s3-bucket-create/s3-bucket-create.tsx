@@ -1,6 +1,5 @@
 'use client'
 
-import type { S3BucketCreateConfig } from './constants'
 import {
   AdvancedSettings,
   BlockPublicAccess,
@@ -10,11 +9,14 @@ import {
   ObjectOwnership,
   Tags,
 } from './sections'
-import type { S3BucketFormData } from './types'
 
 import { useForm } from 'react-hook-form'
 
 import { Separator } from '@/components/ui/separator'
+import type {
+  S3BucketCreateConfig,
+  S3BucketFormData,
+} from '@/types/aws-services/s3/bucket-create'
 
 interface S3BucketCreateProps {
   config: S3BucketCreateConfig

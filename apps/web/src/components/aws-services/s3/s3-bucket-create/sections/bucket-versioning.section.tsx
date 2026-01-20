@@ -1,10 +1,9 @@
-import type { S3SectionProps } from '../types'
-
 import { Controller } from 'react-hook-form'
 
 import { SectionContainer } from '@/components/section-container'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
+import type { S3SectionProps } from '@/types/aws-services/s3/bucket-create'
 
 export const BucketVersioning = ({ control }: S3SectionProps) => {
   return (

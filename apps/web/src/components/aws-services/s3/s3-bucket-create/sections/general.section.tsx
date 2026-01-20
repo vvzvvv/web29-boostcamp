@@ -1,4 +1,3 @@
-import type { S3SectionProps } from '../types'
 import { Info } from 'lucide-react'
 
 import { Controller } from 'react-hook-form'
@@ -13,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import type { S3SectionProps } from '@/types/aws-services/s3/bucket-create'
 
 const GENERAL_OPTIONS = {
   bucketName: {

@@ -1,4 +1,3 @@
-import type { S3SectionProps } from '../types'
 import { Info } from 'lucide-react'
 
 import { Controller } from 'react-hook-form'
@@ -6,6 +5,7 @@ import { Controller } from 'react-hook-form'
 import { SectionContainer } from '@/components/section-container'
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import type { S3SectionProps } from '@/types/aws-services/s3/bucket-create'
 
 export const DefaultEncryption = ({ control }: S3SectionProps) => {
   return (

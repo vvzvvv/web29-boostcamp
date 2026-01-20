@@ -1,4 +1,3 @@
-import type { S3SectionProps } from '../types'
 import { AlertCircle } from 'lucide-react'
 
 import { Controller, useWatch } from 'react-hook-form'
@@ -6,6 +5,7 @@ import { Controller, useWatch } from 'react-hook-form'
 import { SectionContainer } from '@/components/section-container'
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import type { S3SectionProps } from '@/types/aws-services/s3/bucket-create'
 
 export const ObjectOwnership = ({ control }: S3SectionProps) => {
   const aclEnabled = useWatch({ control, name: 'ownership.aclEnabled' })

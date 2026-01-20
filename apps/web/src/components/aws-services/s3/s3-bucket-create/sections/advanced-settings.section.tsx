@@ -1,4 +1,3 @@
-import type { S3SectionProps } from '../types'
 import { AlertCircle } from 'lucide-react'
 
 import { Controller } from 'react-hook-form'
@@ -12,6 +11,7 @@ import {
 } from '@/components/ui/accordion'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
+import type { S3SectionProps } from '@/types/aws-services/s3/bucket-create'
 
 export const AdvancedSettings = ({ control }: S3SectionProps) => {
   return (
