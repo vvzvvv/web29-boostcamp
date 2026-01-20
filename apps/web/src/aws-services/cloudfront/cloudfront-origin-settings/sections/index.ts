@@ -1,4 +1,4 @@
-export * from './origin-domain.section'
-export * from './origin-path.section'
-export * from './origin-access-control.section'
-export * from './custom-headers.section'
+export { OriginDomainSection } from './origin-domain.section'
+export { OriginPathSection } from './origin-path.section'
+export { OriginAccessControlSection } from './origin-access-control.section'
+export { CustomHeadersSection } from './custom-headers.section'
