@@ -1,5 +1,3 @@
-import type { CloudFrontWebsiteSectionProps } from '../types'
-
 import { Controller, useWatch } from 'react-hook-form'
 
 import { SectionContainer } from '@/components/section-container'
@@ -12,6 +10,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
+import type { CloudFrontWebsiteSectionProps } from '@/types/aws-services/cloudfront/website-settings'
 
 export function WafSection({ control }: CloudFrontWebsiteSectionProps) {
   const wafEnabled = useWatch({ control, name: 'wafEnabled' })

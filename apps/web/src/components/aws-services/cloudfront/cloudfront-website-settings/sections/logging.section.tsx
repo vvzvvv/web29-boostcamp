@@ -1,5 +1,3 @@
-import type { CloudFrontWebsiteSectionProps } from '../types'
-
 import { Controller, useWatch } from 'react-hook-form'
 
 import { SectionContainer } from '@/components/section-container'
@@ -19,6 +17,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
+import type { CloudFrontWebsiteSectionProps } from '@/types/aws-services/cloudfront/website-settings'
 
 const SAMPLE_S3_BUCKETS = [
   { id: '1', name: 'cloudfront-logs-bucket', region: 'us-east-1' },

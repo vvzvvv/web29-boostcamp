@@ -7,9 +7,9 @@ import {
   ReviewSummarySection,
   WafSection,
 } from './sections'
-import type { CloudFrontWebsiteWithSetValueSectionProps } from './types'
 
 import { Separator } from '@/components/ui/separator'
+import type { CloudFrontWebsiteWithSetValueSectionProps } from '@/types/aws-services/cloudfront/website-settings'
 
 export default function CloudFrontWebsiteSettings({
   control,

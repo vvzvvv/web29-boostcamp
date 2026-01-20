@@ -1,4 +1,3 @@
-import type { CloudFrontWebsiteSectionProps } from '../types'
 import { AlertCircle, Info } from 'lucide-react'
 
 import { Controller, useWatch } from 'react-hook-form'
@@ -6,6 +5,7 @@ import { Controller, useWatch } from 'react-hook-form'
 import { SectionContainer } from '@/components/section-container'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import type { CloudFrontWebsiteSectionProps } from '@/types/aws-services/cloudfront/website-settings'
 
 export function DefaultRootObjectSection({
   control,

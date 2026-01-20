@@ -1,4 +1,3 @@
-import type { CloudFrontWebsiteWithSetValueSectionProps } from '../types'
 import { Info } from 'lucide-react'
 
 import { useFieldArray } from 'react-hook-form'
@@ -20,6 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import type { CloudFrontWebsiteWithSetValueSectionProps } from '@/types/aws-services/cloudfront/website-settings'
 
 export function CustomErrorPagesSection({
   control,

@@ -1,9 +1,9 @@
-import type { CloudFrontWebsiteSectionProps } from '../types'
 import { AlertCircle, CheckCircle2 } from 'lucide-react'
 
 import { useWatch } from 'react-hook-form'
 
 import { SectionContainer } from '@/components/section-container'
+import type { CloudFrontWebsiteSectionProps } from '@/types/aws-services/cloudfront/website-settings'
 
 export function ReviewSummarySection({
   control,
