@@ -17,7 +17,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import type { EC2SectionProps } from '@/types/aws-services/ec2'
+import type { EC2SectionProps } from '@/types/aws-services/ec2/ec2-instance-create'
 
 // 인스턴스 유형 옵션
 const INSTANCE_TYPE_OPTIONS = [

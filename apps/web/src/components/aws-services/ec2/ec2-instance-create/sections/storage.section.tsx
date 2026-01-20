@@ -17,7 +17,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import type { EC2SectionProps } from '@/types/aws-services/ec2'
+import type { EC2SectionProps } from '@/types/aws-services/ec2/ec2-instance-create'
 
 // 볼륨 유형 옵션
 const VOLUME_TYPE_OPTIONS = [

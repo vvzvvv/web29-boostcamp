@@ -17,7 +17,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import type { EC2SectionProps } from '@/types/aws-services/ec2'
+import type { EC2SectionProps } from '@/types/aws-services/ec2/ec2-instance-create'
 
 // 키 페어 옵션 (나중에 백엔드에서 받아올 예정)
 const KEY_PAIR_OPTIONS = [

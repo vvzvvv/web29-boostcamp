@@ -12,7 +12,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import type { EC2SectionProps } from '@/types/aws-services/ec2'
+import type { EC2SectionProps } from '@/types/aws-services/ec2/ec2-instance-create'
 
 export function NetworkSetting({ control }: EC2SectionProps) {
   return (
