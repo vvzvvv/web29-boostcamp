@@ -1,7 +1,7 @@
 import type { S3BucketListConfig, S3BucketListSectionKey } from '../constants'
 import { S3ListFormData } from './s3-list-form-data.types'
 
-import type { AwsServiceSectionTypes } from '@/aws-services/types/aws-general-types'
+import type { AwsServiceSectionTypes } from '@/types/aws-services/aws-general-types'
 
 /** @deprecated Use S3BucketListSectionKey instead */
 export type S3ListConfigKeys = S3BucketListSectionKey

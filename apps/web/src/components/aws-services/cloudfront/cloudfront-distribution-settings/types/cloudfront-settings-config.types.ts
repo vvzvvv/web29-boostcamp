@@ -4,7 +4,7 @@ import type {
 } from '../constants'
 import type { CloudFrontDistributionSettingsFormData } from './cloudfront-settings-form-data.types'
 
-import type { AwsServiceSectionTypes } from '@/aws-services/types/aws-general-types'
+import type { AwsServiceSectionTypes } from '@/types/aws-services/aws-general-types'
 
 /** @deprecated Use CloudFrontDistributionSettingsSectionKey instead */
 export type CloudFrontSettingsConfigKeys =

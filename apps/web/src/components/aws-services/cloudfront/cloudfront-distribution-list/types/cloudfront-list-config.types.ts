@@ -4,7 +4,7 @@ import type {
 } from '../constants'
 import type { CloudFrontListFormData } from './cloudfront-list-form-data.types'
 
-import type { AwsServiceSectionTypes } from '@/aws-services/types/aws-general-types'
+import type { AwsServiceSectionTypes } from '@/types/aws-services/aws-general-types'
 
 /** @deprecated Use CloudFrontDistributionListSectionKey instead */
 export type CloudFrontListConfigKeys = CloudFrontDistributionListSectionKey
