@@ -1,6 +1,6 @@
 import { Info } from 'lucide-react'
 
-import { Controller } from 'react-hook-form'
+import { Controller, useWatch } from 'react-hook-form'
 
 import { SectionContainer } from '@/components/section-container'
 import { Label } from '@/components/ui/label'
@@ -54,6 +54,12 @@ const AMI_OPTIONS = [
 ] as const
 
 export function Ami({ control }: EC2SectionProps) {
+  const selectedOsType = useWatch({
+    control,
+    name: 'ami.osType',
+  })
+  const selectedAmi = AMI_OPTIONS.find((ami) => ami.value === selectedOsType)
+
   return (
     <SectionContainer
       title={
@@ -107,23 +113,14 @@ export function Ami({ control }: EC2SectionProps) {
         />
 
         {/* 선택한 AMI 정보 표시 */}
-        <Controller
-          name="ami.osType"
-          control={control}
-          render={({ field }) => {
-            const selectedAmi = AMI_OPTIONS.find(
-              (ami) => ami.value === field.value,
-            )
-            return selectedAmi ? (
-              <div className="bg-muted/50 rounded-lg border p-4">
-                <h4 className="font-semibold">{selectedAmi.label} 이미지</h4>
-                <p className="text-muted-foreground text-sm">
-                  {selectedAmi.description}
-                </p>
-              </div>
-            ) : null
-          }}
-        />
+        {selectedAmi && (
+          <div className="bg-muted/50 rounded-lg border p-4">
+            <h4 className="font-semibold">{selectedAmi.label} 이미지</h4>
+            <p className="text-muted-foreground text-sm">
+              {selectedAmi.description}
+            </p>
+          </div>
+        )}
       </div>
     </SectionContainer>
   )
