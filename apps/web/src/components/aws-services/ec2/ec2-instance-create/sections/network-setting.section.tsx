@@ -36,7 +36,7 @@ export function NetworkSetting({ control }: EC2SectionProps) {
             render={({ field }) => (
               <div className="flex items-center gap-3">
                 <span
-                  className={`text-sm font-medium ${field.value ? 'text-primary' : 'text-muted-foreground'}`}
+                  className={`text-sm font-medium whitespace-nowrap ${field.value ? 'text-primary' : 'text-muted-foreground'}`}
                 >
                   {field.value ? '활성화' : '비활성화'}
                 </span>
