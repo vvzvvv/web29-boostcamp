@@ -34,11 +34,18 @@ export function NetworkSetting({ control }: EC2SectionProps) {
             name="networkSetting.autoAssignPublicIp"
             control={control}
             render={({ field }) => (
-              <Switch
-                id="auto-assign-ip"
-                checked={field.value}
-                onCheckedChange={field.onChange}
-              />
+              <div className="flex items-center gap-3">
+                <span
+                  className={`text-sm font-medium ${field.value ? 'text-primary' : 'text-muted-foreground'}`}
+                >
+                  {field.value ? '활성화' : '비활성화'}
+                </span>
+                <Switch
+                  id="auto-assign-ip"
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </div>
             )}
           />
         </div>
