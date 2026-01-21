@@ -10,8 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { VOLUME_TYPE_OPTIONS } from '@/constants/aws-services/ec2/ec2-options.constants'
-import { EC2_TOOLTIPS } from '@/constants/aws-services/ec2/ec2-tooltips.constants'
+import { EC2_TOOLTIPS, VOLUME_TYPE_OPTIONS } from '@/constants/aws-services/ec2'
 import type { EC2SectionProps } from '@/types/aws-services/ec2/ec2-instance-create'
 
 export function Storage({ control }: EC2SectionProps) {
