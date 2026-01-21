@@ -45,6 +45,18 @@ export class SubmitConfig {
   @ValidateNested({ each: true })
   @Type(() => ServiceConfigType.InternetGatewayConfig)
   internetGateway?: ServiceConfigType.InternetGatewayConfig[];
+
+  @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => ServiceConfigType.NATGatewayConfig)
+  natGateway?: ServiceConfigType.NATGatewayConfig[];
+
+  @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => ServiceConfigType.NACLConfig)
+  nacl?: ServiceConfigType.NACLConfig[];
 }
 
 // TODO: NetworkTask 구체화하기

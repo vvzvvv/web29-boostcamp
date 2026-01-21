@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { FieldValidationHandler } from '../../../../src/problems/validation/handlers/field-validation.handler';
-import type { SubmitConfig } from 'src/problems/dto/submit-request.dto';
-import { FeedbackDto } from 'src/problems/dto/submit-response.dto';
-import { VPCConfig } from 'src/problems/types/service-config-type.enum';
+import { FieldValidationHandler } from '@/problems/validation/handlers/field-validation.handler';
+import type { SubmitConfig } from '@/problems/dto/submit-request.dto';
+import { FeedbackDto } from '@/problems/dto/submit-response.dto';
+import { VPCConfig } from '@/problems/types/service-config-type.enum';
 import {
   EC2ServiceFeedbackType,
   RouteTableServiceFeedbackType,
   S3ServiceFeedbackType,
   SubnetServiceFeedbackType,
   VPCServiceFeedbackType,
-} from '../../../../src/problems/types/field-validation-feedback-types';
+} from '@/problems/types/field-validation-feedback-types';
 
 describe('FieldValidationHandler', () => {
   let handler: FieldValidationHandler;
@@ -324,6 +324,8 @@ describe('FieldValidationHandler', () => {
           subnetName: 'subnet-1',
           instanceType: 't2.micro',
           securityGroups: ['sg-1'],
+          ami: 'ami-12345678',
+          privateIpAddress: '10.0.0.10',
         },
         {
           id: '2',
@@ -334,6 +336,8 @@ describe('FieldValidationHandler', () => {
           subnetName: 'subnet-1',
           instanceType: 't2.micro',
           securityGroups: ['sg-1'],
+          ami: 'ami-12345678',
+          privateIpAddress: '10.0.0.11',
         },
       ];
       const vpcConfigs: VPCConfig[] = [
@@ -349,7 +353,13 @@ describe('FieldValidationHandler', () => {
         },
       ];
       const sgConfigs = [
-        { id: 'sg-1', name: 'sg-1', vpcId: 'vpc-1', vpcName: 'vpc-1' },
+        {
+          id: 'sg-1',
+          name: 'sg-1',
+          vpcId: 'vpc-1',
+          vpcName: 'vpc-1',
+          ipPermissions: [],
+        },
       ];
       const submitConfig: SubmitConfig = {
         ec2: ec2Configs,
@@ -381,6 +391,8 @@ describe('FieldValidationHandler', () => {
           subnetName: 'subnet-1',
           instanceType: 't2.micro',
           securityGroups: ['sg-1'],
+          ami: 'ami-12345678',
+          privateIpAddress: '10.0.0.10',
         },
       ];
       const vpcConfigs: VPCConfig[] = [
@@ -396,7 +408,13 @@ describe('FieldValidationHandler', () => {
         },
       ];
       const sgConfigs = [
-        { id: 'sg-1', name: 'sg-1', vpcId: 'vpc-1', vpcName: 'vpc-1' },
+        {
+          id: 'sg-1',
+          name: 'sg-1',
+          vpcId: 'vpc-1',
+          vpcName: 'vpc-1',
+          ipPermissions: [],
+        },
       ];
       const submitConfig: SubmitConfig = {
         ec2: ec2Configs,
@@ -437,6 +455,8 @@ describe('FieldValidationHandler', () => {
           subnetName: 'subnet-nonexistent',
           instanceType: 't2.micro',
           securityGroups: ['sg-1'],
+          ami: 'ami-12345678',
+          privateIpAddress: '10.0.0.10',
         },
       ];
       const vpcConfigs: VPCConfig[] = [
@@ -452,7 +472,13 @@ describe('FieldValidationHandler', () => {
         },
       ];
       const sgConfigs = [
-        { id: 'sg-1', name: 'sg-1', vpcId: 'vpc-1', vpcName: 'vpc-1' },
+        {
+          id: 'sg-1',
+          name: 'sg-1',
+          vpcId: 'vpc-1',
+          vpcName: 'vpc-1',
+          ipPermissions: [],
+        },
       ];
       const submitConfig: SubmitConfig = {
         ec2: ec2Configs,
@@ -485,6 +511,8 @@ describe('FieldValidationHandler', () => {
           subnetName: 'subnet-1',
           instanceType: 't2.micro',
           securityGroups: ['sg-1'],
+          ami: 'ami-12345678',
+          privateIpAddress: '10.0.0.10',
         },
       ];
       const vpcConfigs: VPCConfig[] = [
@@ -500,7 +528,13 @@ describe('FieldValidationHandler', () => {
         },
       ];
       const sgConfigs = [
-        { id: 'sg-1', name: 'sg-1', vpcId: 'vpc-1', vpcName: 'vpc-1' },
+        {
+          id: 'sg-1',
+          name: 'sg-1',
+          vpcId: 'vpc-1',
+          vpcName: 'vpc-1',
+          ipPermissions: [],
+        },
       ];
       const submitConfig: SubmitConfig = {
         ec2: ec2Configs,
@@ -607,14 +641,16 @@ describe('FieldValidationHandler', () => {
           name: 'rtb-1',
           vpcId: 'vpc-1',
           routes: [{ destinationCidr: '0.0.0.0/0', targetGatewayId: 'igw-1' }],
-          associations: ['subnet-1'],
+          associations: [{ subnetId: 'subnet-1' }],
+          vpcName: 'vpc-1',
         },
         {
           id: '2',
           name: rtb2name,
           vpcId: 'vpc-1',
           routes: [{ destinationCidr: '0.0.0.0/0', targetGatewayId: 'igw-1' }],
-          associations: ['subnet-2'],
+          associations: [{ subnetId: 'subnet-2' }],
+          vpcName: 'vpc-1',
         },
       ];
 
@@ -625,6 +661,7 @@ describe('FieldValidationHandler', () => {
             id: 'igw-1',
             name: 'igw-1',
             vpcId: 'vpc-1',
+            vpcName: 'vpc-1',
           },
         ],
       };
@@ -651,7 +688,8 @@ describe('FieldValidationHandler', () => {
             { destinationCidr: '0.0.0.0/0', targetGatewayId: 'igw-1' },
             { destinationCidr: '0.0.0.0/0', targetGatewayId: 'igw-2' },
           ],
-          associations: ['subnet-1'],
+          associations: [{ subnetId: 'subnet-1' }],
+          vpcName: 'vpc-1',
         },
       ];
       const submitConfig: SubmitConfig = {
@@ -661,6 +699,7 @@ describe('FieldValidationHandler', () => {
             id: 'igw-1',
             name: 'igw-1',
             vpcId: 'vpc-1',
+            vpcName: 'vpc-1',
           },
         ],
       };

@@ -3,19 +3,19 @@ import {
   S3Config,
   SubnetConfig,
   VPCConfig,
-} from 'src/problems/types/service-config-type.enum';
+} from '@/problems/types/service-config-type.enum';
 import {
   SubmitConfig,
   SubmitRequestDto,
-} from 'src/problems/dto/submit-request.dto';
-import { FeedbackDto } from 'src/problems/dto/submit-response.dto';
+} from '@/problems/dto/submit-request.dto';
+import { FeedbackDto } from '@/problems/dto/submit-response.dto';
 import {
   EC2ServiceFeedbackType,
   RouteTableServiceFeedbackType,
   S3ServiceFeedbackType,
   SubnetServiceFeedbackType,
   VPCServiceFeedbackType,
-} from '../../types/field-validation-feedback-types';
+} from '@/problems/types/field-validation-feedback-types';
 import { ValidationHandler } from './validation.handler';
 import { containsCidr, isCidrOverlap } from '../utils/cidr-utils';
 
