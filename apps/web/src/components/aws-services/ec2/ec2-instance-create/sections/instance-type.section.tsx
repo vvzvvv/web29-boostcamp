@@ -10,48 +10,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { INSTANCE_TYPE_OPTIONS } from '@/constants/aws-services/ec2/ec2-options.constants'
 import { EC2_TOOLTIPS } from '@/constants/aws-services/ec2/ec2-tooltips.constants'
 import type { EC2SectionProps } from '@/types/aws-services/ec2/ec2-instance-create'
-
-// 인스턴스 유형 옵션
-const INSTANCE_TYPE_OPTIONS = [
-  {
-    value: 't2.micro',
-    label: 't2.micro',
-    vcpu: '1 vCPU',
-    memory: '1 GiB',
-  },
-  {
-    value: 't2.small',
-    label: 't2.small',
-    vcpu: '1 vCPU',
-    memory: '2 GiB',
-  },
-  {
-    value: 't2.medium',
-    label: 't2.medium',
-    vcpu: '2 vCPU',
-    memory: '4 GiB',
-  },
-  {
-    value: 't3.micro',
-    label: 't3.micro',
-    vcpu: '2 vCPU',
-    memory: '1 GiB',
-  },
-  {
-    value: 't3.small',
-    label: 't3.small',
-    vcpu: '2 vCPU',
-    memory: '2 GiB',
-  },
-  {
-    value: 't3.medium',
-    label: 't3.medium',
-    vcpu: '2 vCPU',
-    memory: '4 GiB',
-  },
-] as const
 
 export function InstanceType({ control }: EC2SectionProps) {
   return (

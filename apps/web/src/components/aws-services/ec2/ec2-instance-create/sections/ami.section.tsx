@@ -4,47 +4,9 @@ import { TooltipBox } from '@/components/aws-services/common/tooltip-box'
 import { SectionContainer } from '@/components/section-container'
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { AMI_OPTIONS } from '@/constants/aws-services/ec2/ec2-options.constants'
 import { EC2_TOOLTIPS } from '@/constants/aws-services/ec2/ec2-tooltips.constants'
 import type { EC2SectionProps } from '@/types/aws-services/ec2/ec2-instance-create'
-
-// AMI 옵션 정의
-const AMI_OPTIONS = [
-  {
-    value: 'amazon-linux',
-    label: 'Amazon Linux',
-    description: 'AWS에 최적화된 Linux 배포판',
-  },
-  {
-    value: 'ubuntu',
-    label: 'Ubuntu',
-    description: '가장 인기 있는 Linux 배포판',
-  },
-  {
-    value: 'windows',
-    label: 'Windows',
-    description: 'Microsoft Windows Server',
-  },
-  {
-    value: 'mac-os',
-    label: 'macOS',
-    description: 'Apple macOS',
-  },
-  {
-    value: 'red-hat',
-    label: 'Red Hat',
-    description: 'Red Hat Enterprise Linux',
-  },
-  {
-    value: 'suse-linux',
-    label: 'SUSE Linux',
-    description: 'SUSE Linux Enterprise',
-  },
-  {
-    value: 'debian',
-    label: 'Debian',
-    description: 'Debian GNU/Linux',
-  },
-] as const
 
 export function Ami({ control }: EC2SectionProps) {
   const selectedOsType = useWatch({

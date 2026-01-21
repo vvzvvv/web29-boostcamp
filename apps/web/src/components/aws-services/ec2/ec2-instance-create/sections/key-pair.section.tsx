@@ -10,15 +10,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { KEY_PAIR_OPTIONS } from '@/constants/aws-services/ec2/ec2-options.constants'
 import { EC2_TOOLTIPS } from '@/constants/aws-services/ec2/ec2-tooltips.constants'
 import type { EC2SectionProps } from '@/types/aws-services/ec2/ec2-instance-create'
-
-// 키 페어 옵션 (나중에 백엔드에서 받아올 예정)
-const KEY_PAIR_OPTIONS = [
-  { value: 'my-key-pair', label: 'my-key-pair' },
-  { value: 'dev-key-pair', label: 'dev-key-pair' },
-  { value: 'prod-key-pair', label: 'prod-key-pair' },
-] as const
 
 export function KeyPair({ control }: EC2SectionProps) {
   return (

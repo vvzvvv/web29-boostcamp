@@ -10,37 +10,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { VOLUME_TYPE_OPTIONS } from '@/constants/aws-services/ec2/ec2-options.constants'
 import { EC2_TOOLTIPS } from '@/constants/aws-services/ec2/ec2-tooltips.constants'
 import type { EC2SectionProps } from '@/types/aws-services/ec2/ec2-instance-create'
-
-// 볼륨 유형 옵션
-const VOLUME_TYPE_OPTIONS = [
-  {
-    value: 'gp3',
-    label: '범용 SSD (gp3)',
-    iops: '3000 IOPS',
-  },
-  {
-    value: 'gp2',
-    label: '범용 SSD (gp2)',
-    iops: '',
-  },
-  {
-    value: 'io1',
-    label: '프로비저닝된 IOPS SSD (io1)',
-    iops: '400 IOPS',
-  },
-  {
-    value: 'io2',
-    label: '프로비저닝된 IOPS SSD (io2)',
-    iops: '8000 IOPS',
-  },
-  {
-    value: 'standard',
-    label: '마그네틱(표준)',
-    iops: '',
-  },
-] as const
 
 export function Storage({ control }: EC2SectionProps) {
   // 현재 선택된 볼륨 타입 감시
