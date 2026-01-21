@@ -1,17 +1,12 @@
-import { AlertTriangle, Info } from 'lucide-react'
+import { AlertTriangle } from 'lucide-react'
 
 import { Controller } from 'react-hook-form'
 
+import { TooltipBox } from '@/components/aws-services/common/tooltip-box'
 import { SectionContainer } from '@/components/section-container'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
 import { EC2_TOOLTIPS } from '@/constants/aws-services/ec2/ec2-tooltips.constants'
 import type { EC2SectionProps } from '@/types/aws-services/ec2/ec2-instance-create'
 
@@ -21,16 +16,7 @@ export function NetworkSetting({ control }: EC2SectionProps) {
       title={
         <div className="flex items-center gap-2">
           네트워크 설정
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Info className="text-muted-foreground h-4 w-4 cursor-help" />
-              </TooltipTrigger>
-              <TooltipContent className="max-w-xs text-center">
-                <p>{EC2_TOOLTIPS.networkSetting}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <TooltipBox content={EC2_TOOLTIPS.networkSetting} />
         </div>
       }
       description="인스턴스의 네트워크 및 보안 설정을 구성하세요"

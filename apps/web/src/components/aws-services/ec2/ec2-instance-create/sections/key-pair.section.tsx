@@ -1,7 +1,6 @@
-import { Info } from 'lucide-react'
-
 import { Controller } from 'react-hook-form'
 
+import { TooltipBox } from '@/components/aws-services/common/tooltip-box'
 import { SectionContainer } from '@/components/section-container'
 import { Label } from '@/components/ui/label'
 import {
@@ -11,12 +10,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
 import { EC2_TOOLTIPS } from '@/constants/aws-services/ec2/ec2-tooltips.constants'
 import type { EC2SectionProps } from '@/types/aws-services/ec2/ec2-instance-create'
 
@@ -33,16 +26,7 @@ export function KeyPair({ control }: EC2SectionProps) {
       title={
         <div className="flex items-center gap-2">
           키 페어(로그인)
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Info className="text-muted-foreground h-4 w-4 cursor-help" />
-              </TooltipTrigger>
-              <TooltipContent className="max-w-xs text-center">
-                <p>{EC2_TOOLTIPS.keyPair}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <TooltipBox content={EC2_TOOLTIPS.keyPair} />
         </div>
       }
       description="키 페어를 사용하여 인스턴스에 안전하게 연결하세요"

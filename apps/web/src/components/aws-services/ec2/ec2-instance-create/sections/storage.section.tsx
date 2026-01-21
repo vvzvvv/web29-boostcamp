@@ -1,7 +1,6 @@
-import { Info } from 'lucide-react'
-
 import { Controller, useWatch } from 'react-hook-form'
 
+import { TooltipBox } from '@/components/aws-services/common/tooltip-box'
 import { SectionContainer } from '@/components/section-container'
 import { Input } from '@/components/ui/input'
 import {
@@ -11,12 +10,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
 import { EC2_TOOLTIPS } from '@/constants/aws-services/ec2/ec2-tooltips.constants'
 import type { EC2SectionProps } from '@/types/aws-services/ec2/ec2-instance-create'
 
@@ -63,16 +56,7 @@ export function Storage({ control }: EC2SectionProps) {
       title={
         <div className="flex items-center gap-2">
           스토리지 구성
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Info className="text-muted-foreground h-4 w-4 cursor-help" />
-              </TooltipTrigger>
-              <TooltipContent className="max-w-xs text-center">
-                <p>{EC2_TOOLTIPS.storage}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <TooltipBox content={EC2_TOOLTIPS.storage} />
         </div>
       }
     >

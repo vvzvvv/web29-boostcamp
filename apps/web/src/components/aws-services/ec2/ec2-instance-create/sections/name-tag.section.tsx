@@ -1,16 +1,9 @@
-import { Info } from 'lucide-react'
-
 import { Controller } from 'react-hook-form'
 
+import { TooltipBox } from '@/components/aws-services/common/tooltip-box'
 import { SectionContainer } from '@/components/section-container'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
 import { EC2_TOOLTIPS } from '@/constants/aws-services/ec2/ec2-tooltips.constants'
 import type { EC2SectionProps } from '@/types/aws-services/ec2/ec2-instance-create'
 
@@ -20,16 +13,7 @@ export function NameTag({ control }: EC2SectionProps) {
       title={
         <div className="flex items-center gap-2">
           이름 및 태그
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Info className="text-muted-foreground h-4 w-4 cursor-help" />
-              </TooltipTrigger>
-              <TooltipContent className="max-w-xs text-center">
-                <p>{EC2_TOOLTIPS.nameTag}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <TooltipBox content={EC2_TOOLTIPS.nameTag} />
         </div>
       }
     >
