@@ -1,29 +1,34 @@
 'use client'
 
+import type { FieldValues } from 'react-hook-form'
+
+import { createServiceKey } from '@/components/aws-services/registry/form-defaults-factory'
 import {
   type IServiceMapper,
   serviceMapper,
 } from '@/components/aws-services/utils/serviceMapper'
 import { useProblemForm } from '@/contexts/problem-form-context'
-import type { S3BucketFormData } from '@/types/aws-services/s3/bucket-create'
 
 interface ProblemFormContentProps {
   problemData: IServiceMapper[]
 }
 
 export function ProblemFormContent({ problemData }: ProblemFormContentProps) {
-  const { control, setValue } = useProblemForm<S3BucketFormData>()
+  const { control, setValue } = useProblemForm<FieldValues>()
 
   return (
     <>
       {problemData.map((mapper, index) => {
         const { Component, config } = serviceMapper(mapper)
+        const formKey = createServiceKey(mapper.serviceName, mapper.serviceTask)
+
         return (
           <Component
-            key={index}
+            key={`${formKey}-${index}`}
             control={control}
             config={config}
             setValue={setValue}
+            formKey={formKey}
           />
         )
       })}
