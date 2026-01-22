@@ -81,6 +81,27 @@ export const KEY_PAIR_OPTIONS = [
   { value: 'prod-key-pair', label: 'prod-key-pair' },
 ] as const
 
+export const FIREWALL_OPTIONS = [
+  {
+    name: 'networkSetting.allowSSH',
+    id: 'allow-ssh',
+    label: '인터넷에서 SSH 트래픽 허용',
+    description: '포트 22 • 원격으로 인스턴스에 접속할 수 있습니다',
+  },
+  {
+    name: 'networkSetting.allowHTTPS',
+    id: 'allow-https',
+    label: '인터넷에서 HTTPS 트래픽 허용',
+    description: '포트 443 • 보안 웹 서버를 운영할 수 있습니다',
+  },
+  {
+    name: 'networkSetting.allowHTTP',
+    id: 'allow-http',
+    label: '인터넷에서 HTTP 트래픽 허용',
+    description: '포트 80 • 웹 서버를 운영할 수 있습니다',
+  },
+] as const
+
 export const VOLUME_TYPE_OPTIONS = [
   {
     value: 'gp3',

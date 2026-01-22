@@ -8,6 +8,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { EC2_TOOLTIPS } from '@/constants/aws-services/ec2'
+import { FIREWALL_OPTIONS } from '@/constants/aws-services/ec2'
 import type { EC2SectionProps } from '@/types/aws-services/ec2/ec2-instance-create'
 
 export function NetworkSetting({ control }: EC2SectionProps) {
@@ -59,75 +60,29 @@ export function NetworkSetting({ control }: EC2SectionProps) {
               세트입니다
             </p>
           </div>
-
-          {/* SSH 트래픽 */}
-          <div className="flex items-start gap-3">
-            <Controller
-              name="networkSetting.allowSSH"
-              control={control}
-              render={({ field }) => (
-                <Checkbox
-                  id="allow-ssh"
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              )}
-            />
-            <div className="space-y-1">
-              <Label htmlFor="allow-ssh" className="font-medium">
-                인터넷에서 SSH 트래픽 허용
-              </Label>
-              <p className="text-muted-foreground text-sm">
-                포트 22 • 원격으로 인스턴스에 접속할 수 있습니다
-              </p>
+          {FIREWALL_OPTIONS.map((option) => (
+            <div key={option.id} className="flex items-start gap-3">
+              <Controller
+                name={option.name}
+                control={control}
+                render={({ field }) => (
+                  <Checkbox
+                    id={option.id}
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                )}
+              />
+              <div className="space-y-1">
+                <Label htmlFor={option.id} className="font-medium">
+                  {option.label}
+                </Label>
+                <p className="text-muted-foreground text-sm">
+                  {option.description}
+                </p>
+              </div>
             </div>
-          </div>
-
-          {/* HTTPS 트래픽 */}
-          <div className="flex items-start gap-3">
-            <Controller
-              name="networkSetting.allowHTTPS"
-              control={control}
-              render={({ field }) => (
-                <Checkbox
-                  id="allow-https"
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              )}
-            />
-            <div className="space-y-1">
-              <Label htmlFor="allow-https" className="font-medium">
-                인터넷에서 HTTPS 트래픽 허용
-              </Label>
-              <p className="text-muted-foreground text-sm">
-                포트 443 • 보안 웹 서버를 운영할 수 있습니다
-              </p>
-            </div>
-          </div>
-
-          {/* HTTP 트래픽 */}
-          <div className="flex items-start gap-3">
-            <Controller
-              name="networkSetting.allowHTTP"
-              control={control}
-              render={({ field }) => (
-                <Checkbox
-                  id="allow-http"
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              )}
-            />
-            <div className="space-y-1">
-              <Label htmlFor="allow-http" className="font-medium">
-                인터넷에서 HTTP 트래픽 허용
-              </Label>
-              <p className="text-muted-foreground text-sm">
-                포트 80 • 웹 서버를 운영할 수 있습니다
-              </p>
-            </div>
-          </div>
+          ))}
         </div>
 
         {/* 경고 메시지 */}
