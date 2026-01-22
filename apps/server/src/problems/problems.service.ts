@@ -89,11 +89,11 @@ export class ProblemsService {
 
     return {
       id: problem.id,
-      problem_type: problem.problem_type,
+      problemType: problem.problem_type,
       title: problem.title,
       description: problem.description,
-      desc_detail: problem.desc_detail,
-      required_fields: problem.required_fields,
+      descDetail: problem.desc_detail,
+      requiredFields: problem.required_fields,
       tags: problem.tags.map((tag) => tag.name),
     };
   }
