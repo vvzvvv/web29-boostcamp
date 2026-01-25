@@ -44,7 +44,7 @@ export async function seedProblems(dataSource: DataSource): Promise<void> {
       requiredFields: [
         {
           serviceName: 'VPC',
-          serviceTask: 'vpc-create',
+          serviceTask: 'vpcCreate',
           serviceSections: ['general'],
           fixedOptions: {
             general: {
@@ -75,7 +75,7 @@ export async function seedProblems(dataSource: DataSource): Promise<void> {
       requiredFields: [
         {
           serviceName: 'Subnet',
-          serviceTask: 'subnet-create',
+          serviceTask: 'subnetCreate',
           serviceSections: ['general'],
           fixedOptions: {
             general: {
@@ -110,7 +110,7 @@ export async function seedProblems(dataSource: DataSource): Promise<void> {
       requiredFields: [
         {
           serviceName: 'Subnet',
-          serviceTask: 'public-subnet-create',
+          serviceTask: 'publicSubnetCreate',
           serviceSections: ['general', 'publicAccess'],
           fixedOptions: {
             general: {
@@ -150,7 +150,7 @@ export async function seedProblems(dataSource: DataSource): Promise<void> {
       requiredFields: [
         {
           serviceName: 'InternetGateway',
-          serviceTask: 'igw-attach',
+          serviceTask: 'igwAttach',
           serviceSections: ['general'],
           fixedOptions: {
             general: {
@@ -180,7 +180,7 @@ export async function seedProblems(dataSource: DataSource): Promise<void> {
       requiredFields: [
         {
           serviceName: 'RouteTable',
-          serviceTask: 'route-table-configure',
+          serviceTask: 'routeTableConfigure',
           serviceSections: ['general', 'routes', 'subnetAssociations'],
           fixedOptions: {
             general: {
@@ -226,7 +226,7 @@ export async function seedProblems(dataSource: DataSource): Promise<void> {
       requiredFields: [
         {
           serviceName: 'CloudFront',
-          serviceTask: 'origin-settings',
+          serviceTask: 'originSettings',
           fixedOptions: {},
           serviceSections: ['originDomain', 'originAccessControl'],
         },
@@ -246,13 +246,13 @@ export async function seedProblems(dataSource: DataSource): Promise<void> {
       requiredFields: [
         {
           serviceName: 'CloudFront',
-          serviceTask: 'origin-settings',
+          serviceTask: 'originSettings',
           fixedOptions: {},
           serviceSections: ['originDomain', 'originAccessControl'],
         },
         {
           serviceName: 'S3',
-          serviceTask: 'bucket-create',
+          serviceTask: 'bucketCreate',
           fixedOptions: {},
           serviceSections: ['ownership', 'versioning'],
         },
