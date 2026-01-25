@@ -43,7 +43,7 @@ export class ProblemsService {
     CookbookProblemItemResponseDto[]
   > {
     const cookbooks = await this.cookbookRepository.find({
-      relations: ['tags', 'cookbook_problems', 'cookbook_problems.problem'],
+      relations: ['tags', 'cookbookProblems', 'cookbookProblems.problem'],
     });
 
     return cookbooks.map((cookbook) => ({
