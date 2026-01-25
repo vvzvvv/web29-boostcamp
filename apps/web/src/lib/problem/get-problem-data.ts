@@ -1,7 +1,7 @@
 import { IServiceMapper } from '@/components/aws-services/utils/serviceMapper'
 
 interface RequiredField {
-  service: string
+  serviceName: string
   serviceTask: string
   serviceSections: string[]
   // fixedOptions?: Record<string, string>
@@ -26,7 +26,7 @@ export async function getProblemData(id: string): Promise<IServiceMapper[]> {
 
   const problemData: IServiceMapper[] = response.requiredFields.map(
     (field: RequiredField) => ({
-      serviceName: field.service,
+      serviceName: field.serviceName,
       serviceTask: field.serviceTask,
       inputSections: field.serviceSections,
     }),

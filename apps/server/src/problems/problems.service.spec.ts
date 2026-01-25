@@ -22,7 +22,7 @@ describe('ProblemsService', () => {
     descDetail: 'VPC 상세 설명',
     requiredFields: [
       {
-        service: 'VPC',
+        serviceName: 'VPC',
         serviceTask: 'vpc-create',
         serviceSections: ['general'],
         fixedOptions: {
