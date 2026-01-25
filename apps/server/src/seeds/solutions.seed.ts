@@ -18,52 +18,52 @@ export async function seedSolutions(dataSource: DataSource): Promise<void> {
   const solutions = [
     {
       problem: problems[0], // 충분히 넓은 VPC 네트워크 만들기
-      answer_config: {
+      answerConfig: {
         vpc: {
-          cidr_block: '10.0.0.0/16',
+          cidrBlock: '10.0.0.0/16',
         },
       },
     },
     {
       problem: problems[1], // VPC 안에 포함되는 Subnet 생성하기
-      answer_config: {
+      answerConfig: {
         subnet: {
-          vpc_id: '@vpc',
-          cidr_block: '10.0.1.0/24',
+          vpcId: '@vpc',
+          cidrBlock: '10.0.1.0/24',
         },
       },
     },
     {
       problem: problems[2], // 퍼블릭 서브넷 생성하기
-      answer_config: {
+      answerConfig: {
         subnet: {
-          vpc_id: '@vpc',
-          cidr_block: '10.0.2.0/24',
-          map_public_ip_on_launch: true,
+          vpcId: '@vpc',
+          cidrBlock: '10.0.2.0/24',
+          mapPublicIpOnLaunch: true,
         },
       },
     },
     {
       problem: problems[3], // Internet Gateway 연결하기
-      answer_config: {
-        internet_gateway: {
-          vpc_id: '@vpc',
+      answerConfig: {
+        internetGateway: {
+          vpcId: '@vpc',
         },
       },
     },
     {
       problem: problems[4], // 라우팅 테이블 설정하기
-      answer_config: {
-        route_table: {
-          vpc_id: '@vpc',
+      answerConfig: {
+        routeTable: {
+          vpcId: '@vpc',
         },
         route: {
-          destination_cidr_block: '0.0.0.0/0',
-          gateway_id: '@internet_gateway',
+          destinationCidrBlock: '0.0.0.0/0',
+          gatewayId: '@internetGateway',
         },
-        route_table_association: {
-          subnet_id: '@subnet',
-          route_table_id: '@route_table',
+        routeTableAssociation: {
+          subnetId: '@subnet',
+          routeTableId: '@routeTable',
         },
       },
     },
