@@ -14,7 +14,8 @@ interface ProblemFormContentProps {
 }
 
 export function ProblemFormContent({ problemData }: ProblemFormContentProps) {
-  const { control, setValue } = useProblemForm<FieldValues>()
+  const { form } = useProblemForm<FieldValues>()
+  const { control, setValue } = form
 
   return (
     <>

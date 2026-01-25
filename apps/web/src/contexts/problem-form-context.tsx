@@ -9,24 +9,16 @@ import {
   useState,
 } from 'react'
 import {
-  type Control,
   type DefaultValues,
   type FieldValues,
-  type FormState,
-  type UseFormGetValues,
-  type UseFormSetValue,
-  type UseFormWatch,
+  type UseFormReturn,
   useForm,
 } from 'react-hook-form'
 
 import type { FeedbackDetail } from '@/app/(guest)/problems/components/feedback-detail-card'
 
 interface ProblemFormContextValue<T extends FieldValues = FieldValues> {
-  control: Control<T>
-  setValue: UseFormSetValue<T>
-  watch: UseFormWatch<T>
-  getValues: UseFormGetValues<T>
-  formState: FormState<T>
+  form: UseFormReturn<T>
   feedback: FeedbackDetail[]
   isSubmitting: boolean
   submitProblem: () => Promise<void>
@@ -68,25 +60,12 @@ export function ProblemFormProvider<T extends FieldValues>({
 
   const contextValue = useMemo(
     () => ({
-      control: methods.control,
-      setValue: methods.setValue,
-      watch: methods.watch,
-      getValues: methods.getValues,
-      formState: methods.formState,
+      form: methods,
       feedback,
       isSubmitting,
       submitProblem,
     }),
-    [
-      methods.control,
-      methods.setValue,
-      methods.watch,
-      methods.getValues,
-      methods.formState,
-      feedback,
-      isSubmitting,
-      submitProblem,
-    ],
+    [methods, feedback, isSubmitting, submitProblem],
   )
 
   return (
