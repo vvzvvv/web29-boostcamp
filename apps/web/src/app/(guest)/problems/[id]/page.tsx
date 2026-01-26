@@ -18,8 +18,7 @@ export default async function ProblemDetailPage({
   const { id } = await params
   const { type: _type } = await searchParams
 
-  const { title, description, tags, serviceMappers, diagram } =
-    await getProblemData(id)
+  const { title, description, tags, serviceMappers } = await getProblemData(id)
 
   const mockFeedbackMessages = [
     {
@@ -36,7 +35,6 @@ export default async function ProblemDetailPage({
       description={description}
       tags={tags}
       problemData={serviceMappers}
-      diagramData={diagram}
       initialFeedback={mockFeedbackMessages}
     />
   )

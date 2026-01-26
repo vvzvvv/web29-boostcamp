@@ -67,7 +67,7 @@ const DEFAULT_ROOT_NODE: Node = {
   data: {
     type: 'cloud',
     label: 'AWS Cloud',
-    icon: 'cloud',
+    icon: 'awsCloud',
     width: 1000,
     height: 800,
   },

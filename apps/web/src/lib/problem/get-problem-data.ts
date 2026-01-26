@@ -1,7 +1,4 @@
-import { mockDiagramData } from './mock-diagram-data'
-
 import { IServiceMapper } from '@/components/aws-services/utils/serviceMapper'
-import { DiagramData } from '@/types/diagram.type'
 
 /*
   2026-01-26 17:02
@@ -23,7 +20,6 @@ export interface ProblemData {
   descDetail: string
   tags: string[]
   serviceMappers: IServiceMapper[]
-  diagram: DiagramData
 }
 
 export async function getProblemData(id: string): Promise<ProblemData> {
@@ -53,7 +49,6 @@ export async function getProblemData(id: string): Promise<ProblemData> {
 
   // Backend에서 diagram_template 반환 시 아래 코드로 대체
   // const diagram: DiagramData = response.diagram_template ?? mockDiagramData
-  const diagram: DiagramData = mockDiagramData
 
   return {
     problemType: response.problemType,
@@ -62,6 +57,5 @@ export async function getProblemData(id: string): Promise<ProblemData> {
     descDetail: response.descDetail,
     tags: response.tags ?? [],
     serviceMappers,
-    diagram,
   }
 }

@@ -31,7 +31,6 @@ export default function ProblemDetailClient({
   description,
   tags,
   problemData,
-  diagramData,
   initialFeedback,
 }: ProblemDetailClientProps) {
   const defaultValues = useMemo(
@@ -44,8 +43,6 @@ export default function ProblemDetailClient({
       defaultValues={defaultValues}
       problemId={problemId}
       initialFeedback={initialFeedback}
-      initialNodes={diagramData.nodes}
-      initialEdges={diagramData.edges}
     >
       <div className="grid grid-cols-[1fr,400px] gap-6">
         <section className="space-y-6 overflow-y-auto">
