@@ -44,6 +44,8 @@ export default function ProblemDetailClient({
       defaultValues={defaultValues}
       problemId={problemId}
       initialFeedback={initialFeedback}
+      initialNodes={diagramData.nodes}
+      initialEdges={diagramData.edges}
     >
       <div className="grid grid-cols-[1fr,400px] gap-6">
         {/* 왼쪽: 스크롤 영역 */}
@@ -56,7 +58,7 @@ export default function ProblemDetailClient({
         <div className="relative h-full">
           <div className="sticky top-24 space-y-4">
             <SubmitButton />
-            <DiagramPanel diagramData={diagramData} />
+            <DiagramPanel />
             <FeedbackPanel />
           </div>
         </div>

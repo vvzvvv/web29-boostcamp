@@ -1,30 +1,27 @@
 'use client'
 
+import { useCallback } from 'react'
+
 import { useProblemForm } from '@/contexts/problem-form-context'
-import type { S3BucketFormData } from '@/types/aws-services/s3/bucket-create'
-import type { DiagramData } from '@/types/diagram.type'
 import { awsNodeTypes } from '@/types/node.type'
 import {
   Background,
+  type NodeChange,
   ReactFlow,
-  useEdgesState,
-  useNodesState,
+  applyNodeChanges,
 } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 
-interface DiagramPanelProps {
-  diagramData: DiagramData
-}
+export function DiagramPanel() {
+  const { nodes, edges, setNodes } = useProblemForm()
 
-export function DiagramPanel({ diagramData }: DiagramPanelProps) {
-  const { form } = useProblemForm<S3BucketFormData>()
-  const formData = form.watch()
-
-  const [nodes, , onNodesChange] = useNodesState(diagramData.nodes)
-  const [edges, , onEdgesChange] = useEdgesState(diagramData.edges)
-
-  // formData 변경 시 노드 업데이트 로직 (향후 구현)
-  void formData
+  // 노드 변경 핸들러 (드래그, 선택 등)
+  const onNodesChange = useCallback(
+    (changes: NodeChange[]) => {
+      setNodes((nds) => applyNodeChanges(changes, nds))
+    },
+    [setNodes],
+  )
 
   return (
     <div className="h-[400px] rounded-xl border">
@@ -33,7 +30,6 @@ export function DiagramPanel({ diagramData }: DiagramPanelProps) {
         edges={edges}
         nodeTypes={awsNodeTypes}
         onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
         fitView
         proOptions={{ hideAttribution: true }}
       >
