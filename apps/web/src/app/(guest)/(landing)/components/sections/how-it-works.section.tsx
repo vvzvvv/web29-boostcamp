@@ -25,11 +25,10 @@ export const HowItWorksSection = () => {
 
         {/* Right: Tabs Content */}
         <div className="order-1 lg:order-2">
-          <Tabs defaultValue="cookbook" className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="cookbook">Cookbook</TabsTrigger>
+          <Tabs defaultValue="unit" className="w-full">
+            <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="unit">Unit</TabsTrigger>
-              <TabsTrigger value="scenario">Scenario</TabsTrigger>
+              <TabsTrigger value="cookbook">Cookbook</TabsTrigger>
             </TabsList>
 
             <TabsContent value="cookbook" className="mt-6">
@@ -72,29 +71,6 @@ export const HowItWorksSection = () => {
                   <p className="text-sm font-medium text-blue-900">
                     예시: {'"'}ap-northeast-2 리전에 t2.micro 인스턴스를
                     생성하고 SSH 접속을 허용하는 보안 그룹을 설정하세요.{'"'}
-                  </p>
-                </div>
-              </div>
-            </TabsContent>
-
-            <TabsContent value="scenario" className="mt-6">
-              <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-purple-100">
-                    <span className="text-2xl">🎭</span>
-                  </div>
-                  <h3 className="text-2xl font-semibold">Scenario</h3>
-                </div>
-                <p className="text-foreground text-lg leading-relaxed">
-                  정답이 정해져 있지 않은 검증 문제입니다. 비용 최적화, 성능
-                  개선, 보안 강화 등 실제 업무에서 마주하는 복잡한 상황을
-                  해결합니다. 여러 해결 방법 중 최적의 아키텍처를 설계하는
-                  능력을 키웁니다.
-                </p>
-                <div className="mt-4 rounded-lg bg-purple-50 p-4">
-                  <p className="text-sm font-medium text-purple-900">
-                    예시: {'"'}월 1000만 방문자를 처리할 수 있으면서 비용은
-                    최소화한 아키텍처를 설계하세요.{'"'}
                   </p>
                 </div>
               </div>

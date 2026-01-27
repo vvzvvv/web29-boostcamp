@@ -42,13 +42,10 @@ CloudCraft는 **AWS 클라우드 서비스 학습 플랫폼**으로, 사용자�
 Unit (단위 문제)
   ↓
 Cookbook (요리책 문제) = Unit 문제들의 조합
-  ↓
-Scenario (시나리오 문제) = 복합적인 실무 상황
 ```
 
 - **Unit**: 단일 AWS 서비스 설정 (예: EC2 인스턴스 생성)
 - **Cookbook**: 여러 Unit을 순차적으로 조합 (예: S3 + CloudFront 배포)
-- **Scenario**: 복잡한 실무 문제 (예: 3-tier 웹 애플리케이션 구축)
 
 ### 2. 검증 방식
 
@@ -72,7 +69,6 @@ Scenario (시나리오 문제) = 복합적인 실무 상황
 |------|------|------|
 | `unit` | 단일 서비스 설정 문제 | 독립적인 문제 |
 | `cookbook` | 여러 Unit의 조합 | Unit 문제들의 시퀀스 |
-| `scenario` | 복합 실무 문제 | 자유 형식 |
 
 ### Service Type (서비스 종류)
 
@@ -104,7 +100,7 @@ Scenario (시나리오 문제) = 복합적인 실무 상황
 ```sql
 CREATE TABLE `problem` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
-  `problem_type` ENUM('unit', 'cookbook', 'scenario') NOT NULL,
+  `problem_type` ENUM('unit', 'cookbook') NOT NULL,
   `service_type` varchar(50) NOT NULL COMMENT 'AWS 서비스 종류',
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
@@ -117,7 +113,7 @@ CREATE TABLE `problem` (
 ```
 
 **주요 필드 설명**:
-- `problem_type`: 문제 유형 (unit/cookbook/scenario)
+- `problem_type`: 문제 유형 (unit/cookbook)
 - `service_type`: AWS 서비스 종류 (ec2, s3, vpc 등)
 - `difficulty`: 난이도 (초급/중급/고급)
 - `estimated_time`: 예상 소요 시간 (분 단위)
