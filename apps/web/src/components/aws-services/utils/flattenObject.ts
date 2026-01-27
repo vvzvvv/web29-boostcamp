@@ -21,8 +21,11 @@ export function flattenObject(obj: S3FormData): S3SubmitConfig {
     if (typeof sectionValue === 'object') {
       Object.entries(sectionValue as Record<string, unknown>).forEach(
         ([k, v]) => {
-          // 특수 케이스 처리: encryption.type -> encryptionType
-          if (sectionKey === 'encryption' && k === 'type') {
+          // 특수 케이스 처리: versioning.enabled -> versioningEnabled
+          if (sectionKey === 'versioning' && k === 'enabled') {
+            result.versioningEnabled = v as boolean
+          } else if (sectionKey === 'encryption' && k === 'type') {
+            // 특수 케이스 처리: encryption.type -> encryptionType
             result.encryptionType = v as 'sse-s3' | 'sse-kms'
           } else {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
