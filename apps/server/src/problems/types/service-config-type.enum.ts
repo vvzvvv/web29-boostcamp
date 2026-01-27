@@ -1,9 +1,11 @@
+import { Type } from 'class-transformer';
 import {
   IsArray,
   IsBoolean,
   IsEnum,
   IsOptional,
   IsString,
+  ValidateNested,
 } from 'class-validator';
 
 // TODO: 각 서비스별 Config 타입 구체화하기
@@ -224,6 +226,17 @@ export class NACLConfig {
   entries: NACLRule[];
 }
 
+export class ErrorResponse {
+  @IsString()
+  errorCode: string;
+  @IsString()
+  responsePagePath: string;
+  @IsString()
+  responseCode: string;
+  @IsString()
+  ttl: string;
+}
+
 export class CloudFrontConfig {
   @IsString()
   id: string;
@@ -231,20 +244,18 @@ export class CloudFrontConfig {
   @IsString()
   name: string;
 
-  // === Origin Settings === //
+  // Origin Settings
   @IsEnum(['s3', 'custom'])
   @IsOptional()
   originType?: 's3' | 'custom';
 
-  // S3 Origin (originType === 's3' 일 때 사용)
   @IsString()
   @IsOptional()
-  selectedBucket?: string; // 선택한 S3 버킷 이름
+  selectedBucket?: string;
 
-  // Custom Origin (originType === 'custom' 일 때 사용)
   @IsString()
   @IsOptional()
-  customDomain?: string; // 직접 입력한 도메인
+  customDomain?: string;
 
   @IsString()
   @IsOptional()
@@ -254,14 +265,13 @@ export class CloudFrontConfig {
   @IsOptional()
   accessControl?: 'oac' | 'oai' | 'public';
 
-  // OAC (accessControl === 'oac' 일 때 사용)
   @IsString()
   @IsOptional()
   oacName?: string;
 
   // +) custom-headers 나중에 //
 
-  // === Distribution Settings === //
+  // Distribution Settings
   @IsString()
   @IsOptional()
   distributionName?: string;
@@ -297,6 +307,69 @@ export class CloudFrontConfig {
   @IsBoolean()
   @IsOptional()
   ipv6Enabled?: boolean;
+
+  // Cache Behavior
+  @IsEnum(['allow-all', 'redirect-to-https', 'https-only'])
+  @IsOptional()
+  viewerProtocolPolicy?: 'allow-all' | 'redirect-to-https' | 'https-only';
+
+  @IsEnum(['GET_HEAD', 'GET_HEAD_OPTIONS', 'ALL'])
+  @IsOptional()
+  allowedMethods?: 'GET_HEAD' | 'GET_HEAD_OPTIONS' | 'ALL';
+
+  @IsEnum(['managed', 'custom'])
+  @IsOptional()
+  cachePolicy?: 'managed' | 'custom';
+
+  @IsString()
+  @IsOptional()
+  managedPolicyName?: string;
+
+  @IsOptional()
+  customTTL?: { min: string; default: string; max: string };
+
+  @IsBoolean()
+  @IsOptional()
+  compressionEnabled?: boolean;
+
+  @IsString()
+  @IsOptional()
+  viewerRequestFunction?: string;
+
+  @IsString()
+  @IsOptional()
+  viewerResponseFunction?: string;
+
+  // Website Settings
+  @IsString()
+  @IsOptional()
+  defaultRootObject?: string;
+
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => ErrorResponse)
+  @IsOptional()
+  errorResponses?: ErrorResponse[];
+
+  @IsBoolean()
+  @IsOptional()
+  loggingEnabled?: boolean;
+
+  @IsString()
+  @IsOptional()
+  loggingBucket?: string;
+
+  @IsString()
+  @IsOptional()
+  logPrefix?: string;
+
+  @IsBoolean()
+  @IsOptional()
+  wafEnabled?: boolean;
+
+  @IsString()
+  @IsOptional()
+  webAclId?: string;
 }
 
 export type ServiceConfigTypes =
