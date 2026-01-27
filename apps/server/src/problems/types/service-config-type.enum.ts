@@ -260,6 +260,43 @@ export class CloudFrontConfig {
   oacName?: string;
 
   // +) custom-headers 나중에 //
+
+  // === Distribution Settings === //
+  @IsString()
+  @IsOptional()
+  distributionName?: string;
+
+  @IsString()
+  @IsOptional()
+  description?: string;
+
+  @IsBoolean()
+  @IsOptional()
+  enabled?: boolean;
+
+  @IsEnum(['all', 'performance', 'cost-optimized'])
+  @IsOptional()
+  priceClass?: 'all' | 'performance' | 'cost-optimized';
+
+  @IsArray()
+  @IsOptional()
+  cnames?: string[];
+
+  @IsEnum(['cloudfront', 'acm'])
+  @IsOptional()
+  sslCertificate?: 'cloudfront' | 'acm';
+
+  @IsString()
+  @IsOptional()
+  acmCertificateArn?: string;
+
+  @IsString()
+  @IsOptional()
+  minTlsVersion?: string;
+
+  @IsBoolean()
+  @IsOptional()
+  ipv6Enabled?: boolean;
 }
 
 export type ServiceConfigTypes =
