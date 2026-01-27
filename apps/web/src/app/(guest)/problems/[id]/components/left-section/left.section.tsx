@@ -1,4 +1,4 @@
-import { ProblemFormContent } from './problem-form-content'
+import { ProblemFormContent } from './form-content/problem-form-content'
 import { ProblemHeader } from './problem-header'
 
 import { IServiceMapper } from '@/components/aws-services/utils/serviceMapper'

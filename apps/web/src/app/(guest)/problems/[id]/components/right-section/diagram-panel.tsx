@@ -6,7 +6,6 @@ import { useProblemForm } from '@/contexts/problem-form-context'
 import { awsNodeTypes } from '@/types/node.type'
 import {
   Background,
-  ControlButton,
   Controls,
   type NodeChange,
   ReactFlow,
@@ -26,7 +25,7 @@ export function DiagramPanel() {
   )
 
   return (
-    <div className="h-[400px] overflow-hidden rounded-xl border">
+    <div className="h-[400px] overflow-hidden rounded-lg border">
       <ReactFlow
         nodes={nodes}
         edges={edges}
