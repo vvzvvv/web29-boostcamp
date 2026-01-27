@@ -20,62 +20,74 @@ export async function seedSolutions(dataSource: DataSource): Promise<void> {
     {
       problem: problems[0], // 로그 저장용 S3 버킷 생성
       answerConfig: {
-        s3: {
-          bucketName: 'my-log-bucket',
-        },
+        s3: [
+          {
+            bucketName: 'my-log-bucket',
+          },
+        ],
       },
     },
     {
       problem: problems[1], // S3 버킷 버전 관리 활성화
       answerConfig: {
-        s3: {
-          versioning: {
-            status: 'Enabled',
+        s3: [
+          {
+            versioning: {
+              status: 'Enabled',
+            },
           },
-        },
+        ],
       },
     },
     {
       problem: problems[2], // CloudFront 원본 설정
       answerConfig: {
-        cloudFront: {
-          originDomain: {
-            domainName: 'my-bucket.s3.amazonaws.com',
+        cloudFront: [
+          {
+            originDomain: {
+              domainName: 'my-bucket.s3.amazonaws.com',
+            },
+            originAccessControl: {
+              signingBehavior: 'always',
+            },
           },
-          originAccessControl: {
-            signingBehavior: 'always',
-          },
-        },
+        ],
       },
     },
     {
       problem: problems[3], // 웹 서버용 EC2 인스턴스 생성
       answerConfig: {
-        ec2: {
-          instanceType: {
-            type: 't2.micro',
+        ec2: [
+          {
+            instanceType: {
+              type: 't2.micro',
+            },
+            images: {
+              // 실제 검증 시에는 AMI ID가 리전에 따라 다르므로 주의해야 하지만, 여기선 예시값으로 둡니다.
+              ami: 'ami-0230bd60aa48260c6',
+            },
           },
-          images: {
-            // 실제 검증 시에는 AMI ID가 리전에 따라 다르므로 주의해야 하지만, 여기선 예시값으로 둡니다.
-            ami: 'ami-0230bd60aa48260c6',
-          },
-        },
+        ],
       },
     },
     {
       problem: problems[4], // 정적 웹사이트 글로벌 배포 (S3 + CloudFront)
       answerConfig: {
-        s3: {
-          bucketName: 'my-global-site',
-        },
-        cloudFront: {
-          originDomain: {
-            domainName: 'my-global-site.s3.amazonaws.com',
+        s3: [
+          {
+            bucketName: 'my-global-site',
           },
-          originAccessControl: {
-            signingBehavior: 'always',
+        ],
+        cloudFront: [
+          {
+            originDomain: {
+              domainName: 'my-global-site.s3.amazonaws.com',
+            },
+            originAccessControl: {
+              signingBehavior: 'always',
+            },
           },
-        },
+        ],
       },
     },
     {
