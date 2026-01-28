@@ -248,6 +248,20 @@ export async function seedProblems(dataSource: DataSource): Promise<void> {
         },
       ],
     },
+    {
+      problemType: ProblemType.UNIT,
+      title: 'VPC 생성하기',
+      description: '기본 설정으로 VPC를 하나 생성하세요',
+      descDetail:
+        'VPC는 가상 네트워크를 제공하는 서비스입니다. 이 문제에서는 특별한 설정 없이 기본 구성으로 VPC를 하나 생성하는 것이 목표입니다. 생성한 VPC는 이후 문제에서 사용될 수 있습니다.',
+      requiredFields: [
+        {
+          serviceName: 'vpc',
+          serviceTask: 'vpcCreate',
+          serviceSections: ['nameTag', 'cidr', 'tenancy', 'subnets'],
+        },
+      ],
+    },
   ];
 
   for (const problemData of problems) {
