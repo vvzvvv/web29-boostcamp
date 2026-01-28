@@ -4,7 +4,9 @@ import { ProblemLeftSection } from '../../components/left-section'
 import { ProblemRightSection } from '../../components/right-section'
 import { CookbookProblemHeader } from './components/cookbook-header'
 
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
+
+import { useRouter } from 'next/navigation'
 
 import { mergeServiceDefaultValues } from '@/components/aws-services/registry/form-defaults-factory'
 import type { IServiceMapper } from '@/components/aws-services/utils/serviceMapper'
@@ -21,6 +23,7 @@ interface CookbookProblemClientProps {
   problemData: IServiceMapper[]
   initialFeedback: FeedbackDetail[]
   defaultConfigs: GlobalSubmitConfig
+  units: { id: string; title: string }[]
 }
 
 export default function CookbookProblemClient({
@@ -32,11 +35,17 @@ export default function CookbookProblemClient({
   problemData,
   initialFeedback,
   defaultConfigs,
+  units,
 }: CookbookProblemClientProps) {
   const defaultValues = useMemo(
     () => mergeServiceDefaultValues(problemData),
     [problemData],
   )
+
+  const router = useRouter()
+  useEffect(() => {
+    router.push(`/problems/cookbook/${cookbookId}?unitId=${unitId}`)
+  }, [])
 
   return (
     <ProblemFormProvider
@@ -51,6 +60,8 @@ export default function CookbookProblemClient({
           title={title}
           description={description}
           tags={tags}
+          units={units}
+          currUnitId={unitId}
         />
       </ProblemLeftSection>
 

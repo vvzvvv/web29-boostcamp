@@ -40,6 +40,7 @@ export default async function CookbookProblemPage({
       problemData={serviceMappers}
       defaultConfigs={defaultConfigs}
       initialFeedback={mockFeedbackMessages}
+      units={units}
     />
   )
 }
