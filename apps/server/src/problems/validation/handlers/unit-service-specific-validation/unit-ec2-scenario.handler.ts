@@ -67,14 +67,14 @@ export class Ec2ScenarioHandler {
       }
 
       // 3. EC2_WRONG_OS_TYPE
-      if (req.expectedAmi) {
-        if (instance.osType !== req.expectedAmi) {
+      if (req.expectedOsType) {
+        if (instance.osType !== req.expectedOsType) {
           feedbacks.push({
             serviceType: 'ec2',
             service: ec2Name,
             field: 'osType',
             code: EC2FeedbackScenarios.EC2_WRONG_OS_TYPE,
-            message: `EC2 인스턴스 ${ec2Name}의 OS 타입이 올바르지 않습니다. (현재: ${instance.osType}, 요구: ${req.expectedAmi})`,
+            message: `EC2 인스턴스 ${ec2Name}의 OS 이미지가 올바르지 않습니다. (현재: ${instance.osType}, 요구: ${req.expectedOsType})`,
           });
         }
       }
