@@ -9,6 +9,7 @@ import { mergeServiceDefaultValues } from '@/components/aws-services/registry/fo
 import type { IServiceMapper } from '@/components/aws-services/utils/serviceMapper'
 import { ProblemFormProvider } from '@/contexts/problem-form-context'
 import { FeedbackDetail } from '@/types/feedback.type'
+import { GlobalSubmitConfig } from '@/types/submitConfig.types'
 
 interface ProblemDetailClientProps {
   type: string
@@ -18,6 +19,7 @@ interface ProblemDetailClientProps {
   tags: string[]
   problemData: IServiceMapper[]
   initialFeedback: FeedbackDetail[]
+  defaultConfigs: GlobalSubmitConfig
 }
 
 export default function ProblemDetailClient({
@@ -28,6 +30,7 @@ export default function ProblemDetailClient({
   tags,
   problemData,
   initialFeedback,
+  defaultConfigs,
 }: ProblemDetailClientProps) {
   const defaultValues = useMemo(
     () => mergeServiceDefaultValues(problemData),
@@ -39,6 +42,7 @@ export default function ProblemDetailClient({
       defaultValues={defaultValues}
       problemId={problemId}
       initialFeedback={initialFeedback}
+      defaultConfigs={defaultConfigs}
     >
       <ProblemLeftSection
         type={type}
