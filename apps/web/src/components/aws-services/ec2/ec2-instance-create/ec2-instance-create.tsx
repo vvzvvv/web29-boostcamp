@@ -1,5 +1,6 @@
 'use client'
 
+import { ServiceTitle } from '../../common/service-title'
 import {
   Ami,
   InstanceType,
@@ -12,7 +13,6 @@ import {
 import { useForm } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
 import type { EC2SubmitConfig } from '@/types/aws-services/ec2/ec2-submit-config.types'
 import type {
   EC2InstanceCreateConfig,
@@ -51,6 +51,8 @@ export default function EC2InstanceCreate({
 
   const instanceName = watch('nameTag.name') || ''
 
+  const isDisabled = instanceName.length === 0
+
   const handleFormSubmit = handleSubmit((data) => {
     const uniqueId = crypto.randomUUID()
     const submitData: EC2SubmitConfig = {
@@ -72,64 +74,31 @@ export default function EC2InstanceCreate({
   })
 
   return (
-    <form
-      onSubmit={handleFormSubmit}
-      className="mx-auto max-w-4xl space-y-6 p-6"
-    >
-      <div className="space-y-2">
-        <h2 className="text-3xl font-bold">인스턴스 시작</h2>
-        <p className="text-muted-foreground">
-          Amazon EC2 인스턴스를 생성하고 구성하세요
-        </p>
-      </div>
+    <form onSubmit={handleFormSubmit} className="w-full space-y-4 p-8">
+      <ServiceTitle
+        title="인스턴스 시작"
+        description="Amazon EC2 인스턴스를 생성하고 구성하세요"
+        button={{
+          isDisabled,
+          buttonText,
+        }}
+      />
 
-      <div className="flex justify-end px-6">
-        <Button type="submit" disabled={instanceName.length === 0}>
-          {buttonText}
-        </Button>
-      </div>
+      {config.nameTag && <NameTag control={control} config={config} />}
 
-      {config.nameTag && (
-        <>
-          <NameTag control={control} config={config} />
-          <Separator />
-        </>
-      )}
-
-      {config.ami && (
-        <>
-          <Ami control={control} config={config} />
-          <Separator />
-        </>
-      )}
+      {config.ami && <Ami control={control} config={config} />}
 
       {config.instanceType && (
-        <>
-          <InstanceType control={control} config={config} />
-          <Separator />
-        </>
+        <InstanceType control={control} config={config} />
       )}
 
-      {config.keyPair && (
-        <>
-          <KeyPair control={control} config={config} />
-          <Separator />
-        </>
-      )}
+      {config.keyPair && <KeyPair control={control} config={config} />}
 
       {config.networkSetting && (
-        <>
-          <NetworkSetting control={control} config={config} />
-          <Separator />
-        </>
+        <NetworkSetting control={control} config={config} />
       )}
 
-      {config.storage && (
-        <>
-          <Storage control={control} config={config} />
-          <Separator />
-        </>
-      )}
+      {config.storage && <Storage control={control} config={config} />}
     </form>
   )
 }

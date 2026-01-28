@@ -1,2 +1,3 @@
-export { ProblemFormContent } from './problem-form-content'
+export { ProblemLeftSection } from './left.section'
+
 export { ProblemHeader } from './problem-header'

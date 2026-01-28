@@ -1,5 +1,6 @@
 'use client'
 
+import { ServiceTitle } from '../../common/service-title'
 import {
   CustomHeadersSection,
   OriginAccessControlSection,
@@ -10,7 +11,6 @@ import {
 import { useForm } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
 import type { CloudFrontSubmitConfig } from '@/types/aws-services/cloudfront/cloudfront-submit-config.types'
 import type { CloudFrontOriginFormData } from '@/types/aws-services/cloudfront/origin-settings/cloudfront-origin-form-data.types'
 import type { CloudFrontOriginSettingsConfig } from '@/types/aws-services/cloudfront/origin-settings/constants'
@@ -72,40 +72,26 @@ export default function CloudFrontOriginSettings({
   })
 
   return (
-    <form
-      onSubmit={handleFormSubmit}
-      className="mx-auto max-w-4xl space-y-6 p-6"
-    >
-      {/* Header */}
-      <div className="space-y-2">
-        <h2 className="text-3xl font-bold">Origin 설정</h2>
-        <p className="text-muted-foreground">
-          CloudFront 배포의 콘텐츠 Origin을 구성하세요
-        </p>
-      </div>
-
-      <div className="flex justify-end px-6">
-        <Button type="submit" disabled={isDisabled}>
-          {buttonText}
-        </Button>
-      </div>
+    <form onSubmit={handleFormSubmit} className="w-full space-y-4 p-8">
+      <ServiceTitle
+        title="Origin 설정"
+        description="CloudFront 배포의 콘텐츠 Origin을 구성하세요"
+        button={{
+          isDisabled,
+          buttonText,
+        }}
+      />
 
       {config.originDomain && (
-        <>
-          <OriginDomainSection
-            control={control}
-            config={config}
-            setValue={setValue}
-          />
-          <Separator />
-        </>
+        <OriginDomainSection
+          control={control}
+          config={config}
+          setValue={setValue}
+        />
       )}
 
       {config.originPath && (
-        <>
-          <OriginPathSection control={control} config={config} />
-          <Separator />
-        </>
+        <OriginPathSection control={control} config={config} />
       )}
 
       {config.originAccessControl && (

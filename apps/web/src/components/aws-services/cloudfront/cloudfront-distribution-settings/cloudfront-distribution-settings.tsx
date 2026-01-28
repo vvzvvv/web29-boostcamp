@@ -1,5 +1,6 @@
 'use client'
 
+import { ServiceTitle } from '../../common/service-title'
 import {
   CnameSection,
   GeneralConfigSection,
@@ -11,7 +12,6 @@ import {
 import { useForm } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
 import type { CloudFrontSubmitConfig } from '@/types/aws-services/cloudfront/cloudfront-submit-config.types'
 import type { CloudFrontDistributionSettingsFormData } from '@/types/aws-services/cloudfront/distribution-settings/cloudfront-settings-form-data.types'
 import type { CloudFrontDistributionSettingsConfig } from '@/types/aws-services/cloudfront/distribution-settings/constants'
@@ -47,6 +47,8 @@ export default function CloudFrontDistributionSettings({
 
   const distributionName = watch('distributionName') || ''
 
+  const isDisabled = distributionName.length === 0
+
   const handleFormSubmit = handleSubmit((data) => {
     const uniqueId = crypto.randomUUID()
     const submitData: CloudFrontSubmitConfig = {
@@ -68,36 +70,22 @@ export default function CloudFrontDistributionSettings({
   })
 
   return (
-    <form
-      onSubmit={handleFormSubmit}
-      className="mx-auto max-w-4xl space-y-6 p-6"
-    >
-      {/* Header */}
-      <div className="space-y-2">
-        <h2 className="text-3xl font-bold">배포 설정</h2>
-        <p className="text-muted-foreground">
-          CloudFront 배포의 기본 설정을 구성하세요
-        </p>
-      </div>
-
-      <div className="flex justify-end px-6">
-        <Button type="submit" disabled={distributionName.length === 0}>
-          {buttonText}
-        </Button>
-      </div>
+    <form onSubmit={handleFormSubmit} className="w-full space-y-4 p-8">
+      <ServiceTitle
+        title="배포 설정"
+        description="CloudFront 배포의 기본 설정을 구성하세요"
+        button={{
+          isDisabled,
+          buttonText,
+        }}
+      />
 
       {config.generalConfig && (
-        <>
-          <GeneralConfigSection control={control} config={config} />
-          <Separator />
-        </>
+        <GeneralConfigSection control={control} config={config} />
       )}
 
       {config.priceClass && (
-        <>
-          <PriceClassSection control={control} config={config} />
-          <Separator />
-        </>
+        <PriceClassSection control={control} config={config} />
       )}
 
       {config.cname && (
@@ -106,12 +94,7 @@ export default function CloudFrontDistributionSettings({
 
       {config.sslTls && <SslTlsSection control={control} config={config} />}
 
-      {config.network && (
-        <>
-          <Separator />
-          <NetworkSection control={control} config={config} />
-        </>
-      )}
+      {config.network && <NetworkSection control={control} config={config} />}
     </form>
   )
 }

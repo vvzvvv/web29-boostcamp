@@ -8,13 +8,11 @@ interface BaseProblem {
 export const problemType = {
   UNIT: 'unit',
   COOKBOOK: 'cookbook',
-  SCENARIO: 'scenario',
 } as const
 
 export type TProblemType =
   | (typeof problemType)['UNIT']
   | (typeof problemType)['COOKBOOK']
-  | (typeof problemType)['SCENARIO']
 
 export type UnitProblem = BaseProblem
 

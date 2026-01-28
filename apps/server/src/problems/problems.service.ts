@@ -68,7 +68,6 @@ export class ProblemsService {
   async findAllProblemsByType(
     type: ProblemType,
   ): Promise<UnitProblemItemResponseDto[] | CookbookProblemItemResponseDto[]> {
-    // TODO: 시나리오 유형 추가
     switch (type) {
       case ProblemType.UNIT:
         return this.findUnitProblems();

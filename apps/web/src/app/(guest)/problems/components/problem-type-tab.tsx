@@ -28,12 +28,6 @@ export const ProblemTypeTab = () => {
         '여러 개의 유닛 문제를 순서대로 수행하며 하나의 목표를 달성합니다',
       icon: BookOpenIcon,
     },
-    {
-      type: problemType.SCENARIO,
-      label: '시나리오',
-      description: '하나의 서비스 시나리오를 기준으로 E2E 문제를 해결합니다',
-      icon: FileTextIcon,
-    },
   ]
 
   const router = useRouter()
