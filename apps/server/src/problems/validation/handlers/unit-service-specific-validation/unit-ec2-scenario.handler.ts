@@ -66,15 +66,15 @@ export class Ec2ScenarioHandler {
         }
       }
 
-      // 3. EC2_WRONG_AMI
+      // 3. EC2_WRONG_OS_TYPE
       if (req.expectedAmi) {
-        if (instance.ami !== req.expectedAmi) {
+        if (instance.osType !== req.expectedAmi) {
           feedbacks.push({
             serviceType: 'ec2',
             service: ec2Name,
-            field: 'ami',
-            code: EC2FeedbackScenarios.EC2_WRONG_AMI,
-            message: `EC2 인스턴스 ${ec2Name}의 AMI가 올바르지 않습니다. (현재: ${instance.ami}, 요구: ${req.expectedAmi})`,
+            field: 'osType',
+            code: EC2FeedbackScenarios.EC2_WRONG_OS_TYPE,
+            message: `EC2 인스턴스 ${ec2Name}의 OS 타입이 올바르지 않습니다. (현재: ${instance.osType}, 요구: ${req.expectedAmi})`,
           });
         }
       }
