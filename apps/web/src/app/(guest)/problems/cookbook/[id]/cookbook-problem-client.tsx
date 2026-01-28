@@ -2,7 +2,7 @@
 
 import { ProblemLeftSection } from '../../components/left-section'
 import { ProblemRightSection } from '../../components/right-section'
-import { UnitProblemHeader } from './components/unit-header'
+import { CookbookProblemHeader } from './components/cookbook-header'
 
 import { useMemo } from 'react'
 
@@ -12,8 +12,9 @@ import { ProblemFormProvider } from '@/contexts/problem-form-context'
 import { FeedbackDetail } from '@/types/feedback.type'
 import { GlobalSubmitConfig } from '@/types/submitConfig.types'
 
-interface UnitProblemClientProps {
+interface CookbookProblemClientProps {
   unitId: string
+  cookbookId: string
   title: string
   description: string
   tags: string[]
@@ -22,15 +23,16 @@ interface UnitProblemClientProps {
   defaultConfigs: GlobalSubmitConfig
 }
 
-export default function UnitProblemClient({
+export default function CookbookProblemClient({
   unitId,
+  cookbookId,
   title,
   description,
   tags,
   problemData,
   initialFeedback,
   defaultConfigs,
-}: UnitProblemClientProps) {
+}: CookbookProblemClientProps) {
   const defaultValues = useMemo(
     () => mergeServiceDefaultValues(problemData),
     [problemData],
@@ -40,11 +42,12 @@ export default function UnitProblemClient({
     <ProblemFormProvider
       defaultValues={defaultValues}
       unitId={unitId}
+      cookbookId={cookbookId}
       initialFeedback={initialFeedback}
       defaultConfigs={defaultConfigs}
     >
       <ProblemLeftSection problemData={problemData}>
-        <UnitProblemHeader
+        <CookbookProblemHeader
           title={title}
           description={description}
           tags={tags}

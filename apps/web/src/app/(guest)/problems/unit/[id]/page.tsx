@@ -26,7 +26,7 @@ export default async function UnitProblemPage({
 
   return (
     <UnitProblemClient
-      problemId={id}
+      unitId={id}
       title={title}
       description={description}
       tags={tags}

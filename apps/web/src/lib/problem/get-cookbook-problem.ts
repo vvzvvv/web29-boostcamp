@@ -1,5 +1,5 @@
 interface UnitProblem {
-  id: number
+  id: string
   title: string
   orderNumber: number
 }

@@ -55,7 +55,8 @@ interface ProblemFormProviderProps<
   T extends FieldValues,
 > extends PropsWithChildren {
   defaultValues: DefaultValues<T>
-  problemId: string
+  unitId: string
+  cookbookId?: string
   initialFeedback?: FeedbackDetail[]
   initialNodes?: Node[]
   initialEdges?: Edge[]
@@ -81,7 +82,8 @@ const DEFAULT_ROOT_NODE: Node = {
 export function ProblemFormProvider<T extends FieldValues>({
   children,
   defaultValues,
-  problemId,
+  unitId,
+  cookbookId,
   initialFeedback = [],
   initialNodes = [DEFAULT_ROOT_NODE],
   initialEdges = [],
@@ -189,13 +191,13 @@ export function ProblemFormProvider<T extends FieldValues>({
 
     // TODO: 실제 API 호출로 교체
     console.log('Submitting config:', finalConfig)
-    void problemId
+    void unitId
 
     await new Promise((resolve) => setTimeout(resolve, 1000))
 
     // TODO: 기존 feedback 유지 (실제로는 API 응답으로 교체)
     setFeedback(initialFeedback)
-  }, [problemId, initialFeedback, submitConfig])
+  }, [unitId, cookbookId, initialFeedback, submitConfig])
 
   const contextValue = useMemo(
     () => ({
