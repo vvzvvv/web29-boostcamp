@@ -20,7 +20,7 @@ import {
 } from 'react-hook-form'
 
 import { LAYOUT_CONFIG, useAwsDiagramLogic } from '@/hooks/diagram'
-import { useBuildDefaultNodes } from '@/lib/buildIntialNodes'
+import { useBuildDefaultNodes } from '@/lib/buildInitialNodes'
 import type { FeedbackDetail } from '@/types/feedback.type'
 import type {
   GlobalSubmitConfig,
