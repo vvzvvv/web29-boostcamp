@@ -120,7 +120,13 @@ export async function seedProblems(dataSource: DataSource): Promise<void> {
         {
           serviceName: 'ec2',
           serviceTask: 'instanceCreate',
-          serviceSections: ['nameAndTags', 'images', 'instanceType', 'network'],
+          serviceSections: [
+            'nameTag',
+            'ami',
+            'instanceType',
+            'networkSetting',
+            'storage',
+          ],
           fixedOptions: {
             images: {
               ami: {
