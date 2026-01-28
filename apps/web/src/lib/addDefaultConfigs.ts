@@ -33,6 +33,23 @@ export function addDefaultConfigs(
             isReady: true,
           })
           break
+        case 'vpc':
+          if (!defaultConfigs.vpc) defaultConfigs.vpc = []
+          defaultConfigs.vpc.push({
+            id: options.id,
+            data: options,
+            isReady: true,
+          })
+          break
+
+        case 'subnet':
+          if (!defaultConfigs.subnet) defaultConfigs.subnet = []
+          defaultConfigs.subnet.push({
+            id: options.id,
+            data: options,
+            isReady: true,
+          })
+          break
       }
     }
   }

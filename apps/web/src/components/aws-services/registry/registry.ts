@@ -1,3 +1,4 @@
+import SubnetCreate from '../subnet/subnet-create'
 import VpcCreate from '../vpc/vpc-create/vpc-create'
 
 import { ComponentType } from 'react'
@@ -32,6 +33,7 @@ import { S3_BUCKET_LIST_SECTIONS } from '@/types/aws-services/s3/bucket-list/'
 import type { S3ListFormData } from '@/types/aws-services/s3/bucket-list/s3-list-form-data.types'
 import { S3_FILE_UPLOAD_SECTIONS } from '@/types/aws-services/s3/file-upload/'
 import type { S3UploadFormData } from '@/types/aws-services/s3/file-upload/s3-upload-form-data.types'
+import { SUBNET_CREATE_SECTIONS } from '@/types/aws-services/subnet/constants'
 import { VPC_CREATE_SECTIONS } from '@/types/aws-services/vpc/constants'
 
 export interface ServicePage<T extends FieldValues = FieldValues> {
@@ -178,9 +180,20 @@ const VPC: Record<string, ServicePage> = {
   },
 }
 
+const Subnet: Record<string, ServicePage> = {
+  subnetCreate: {
+    component: SubnetCreate,
+    sections: SUBNET_CREATE_SECTIONS,
+    defaultValues: {
+      vpcId: '',
+    },
+  },
+}
+
 export const AWS_SERVICE_REGISTRY = {
   s3: S3,
   cloudFront: CloudFront,
   ec2: EC2,
   vpc: VPC,
+  subnet: Subnet,
 }
