@@ -61,7 +61,19 @@ export async function seedSolutions(dataSource: DataSource): Promise<void> {
       answerConfig: {
         ec2: [
           {
+            id: 'DONT_CARE',
+            name: 'DONT_CARE',
+            vpcName: 'DONT_CARE',
+            subnetName: 'DONT_CARE',
+            osType: 'DONT_CARE',
             instanceType: 't2.micro',
+            keyName: 'DONT_CARE',
+            autoAssignPublicIp: 'DONT_CARE',
+            allowSSH: 'DONT_CARE',
+            allowHTTPS: 'DONT_CARE',
+            allowHTTP: 'DONT_CARE',
+            storageSize: 'DONT_CARE',
+            volumeType: 'DONT_CARE',
           },
         ],
       },
