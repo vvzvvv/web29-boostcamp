@@ -44,3 +44,5 @@ export type CloudFrontSubmitConfig = {
   wafEnabled?: boolean
   webAclId?: string
 }
+
+export type CloudFrontServerPayload = Omit<CloudFrontSubmitConfig, '_type'>
