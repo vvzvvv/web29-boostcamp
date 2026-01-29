@@ -20,3 +20,5 @@ export type {
   SGWithFormSectionProps,
   VPCOption,
 } from './sg-config.types'
+
+export type { SecurityGroupSubmitConfig } from './security-group-config.types'
