@@ -67,9 +67,9 @@ export default function RouteTableEdit({ onAfterSubmit }: RouteTableEditProps) {
 
     // (A) 라우트 데이터 매핑: destinationCidrBlock -> destination 변환
     const formRoutes: RouteItem[] = (targetData.routes || []).map(
-      (r: { destinationCidrBlock?: string; target?: string }) => ({
+      (r: { destination?: string; target?: string }) => ({
         // 저장된 데이터에 destinationCidrBlock이 있다면 이를 destination으로 매핑
-        destination: r.destinationCidrBlock || '',
+        destination: r.destination || '',
         target: r.target,
       }),
     )
