@@ -19,6 +19,7 @@ interface RequiredField {
 interface ProblemData {
   problemType: string
   title: string
+  description: string
   descDetail: string
   tags: string[]
   serviceMappers: IServiceMapper[]
@@ -58,6 +59,7 @@ export async function getUnitProblemDataById(id: string): Promise<ProblemData> {
   return {
     problemType: response.problemType,
     title: response.title ?? '문제',
+    description: response.description ?? '',
     descDetail: response.descDetail ?? '',
     tags: response.tags ?? [],
     serviceMappers,
