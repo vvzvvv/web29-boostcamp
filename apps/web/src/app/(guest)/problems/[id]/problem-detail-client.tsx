@@ -16,6 +16,7 @@ interface ProblemDetailClientProps {
   unitId: string
   title: string
   description: string
+  descDetail: string
   tags: string[]
   problemData: IServiceMapper[]
   initialFeedback: FeedbackDetail[]
@@ -27,6 +28,7 @@ export default function ProblemDetailClient({
   unitId,
   title,
   description,
+  descDetail,
   tags,
   problemData,
   initialFeedback,
@@ -49,6 +51,7 @@ export default function ProblemDetailClient({
         type={type}
         title={title}
         description={description}
+        descDetail={descDetail}
         tags={tags}
         problemData={problemData}
       />

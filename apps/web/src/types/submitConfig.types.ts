@@ -10,20 +10,28 @@ import type {
   SGServerPayload,
   SGSubmitConfig,
 } from './aws-services/ec2/sg-submit-config.types'
+import { InternetGatewaySubmitConfig } from './aws-services/internet-gateway/internet-gateway.types'
+import { RouteTableSubmitConfig } from './aws-services/route-table/route-table.types'
 import type {
   S3ServerPayload,
   S3SubmitConfig,
 } from './aws-services/s3/bucket-create'
+import { SubnetSubmitConfig } from './aws-services/subnet/subnet-submit-config.types'
+import { VpcSubmitConfig } from './aws-services/vpc/vpc-submit-config.types'
 
-// GlobalSubmitConfig에 실제로 사용되는 서비스 타입
-export type SubmitConfigServiceType =
+export type ServiceType =
   | 's3'
   | 'cloudFront'
   | 'ec2'
-  | 'securityGroups'
+  | 'vpc'
+  | 'subnet'
+  | 'routeTable'
+  | 'rds'
+  | 'internetGateway'
+  | 'securityGroup'
 
-// 모든 서비스 타입 (fixedOptions의 리소스 포함)
-export type ServiceType = SubmitConfigServiceType | 'vpc' | 'subnet'
+// GlobalSubmitConfig의 키 타입
+export type SubmitConfigServiceType = keyof GlobalSubmitConfig
 
 // 일단 임시로 vpc, subnet 타입도 추가
 export type ServiceConfig =
@@ -31,8 +39,10 @@ export type ServiceConfig =
   | CloudFrontSubmitConfig
   | EC2SubmitConfig
   | SGSubmitConfig
-  | { _type: 'vpc'; id: string; name: string }
-  | { _type: 'subnet'; id: string; name: string; vpcId: string }
+  | VpcSubmitConfig
+  | SubnetSubmitConfig
+  | RouteTableSubmitConfig
+  | InternetGatewaySubmitConfig
   | { _type: 'rds'; id: string; name: string; subnetId: string }
 
 // 개별 서비스 데이터 (ID를 포함해 식별 가능하게 함)
@@ -47,7 +57,12 @@ export interface GlobalSubmitConfig {
   s3?: ServiceConfigItem<S3SubmitConfig>[]
   cloudFront?: ServiceConfigItem<CloudFrontSubmitConfig>[]
   ec2?: ServiceConfigItem<EC2SubmitConfig>[]
-  securityGroups?: ServiceConfigItem<SGSubmitConfig>[]
+  securityGroup?: ServiceConfigItem<SGSubmitConfig>[]
+  vpc?: ServiceConfigItem<VpcSubmitConfig>[]
+  subnet?: ServiceConfigItem<SubnetSubmitConfig>[]
+  routeTable?: ServiceConfigItem<RouteTableSubmitConfig>[]
+  internetGateway?: ServiceConfigItem<InternetGatewaySubmitConfig>[]
+  rds?: []
 }
 
 // 서버 제출용 payload 유니온
@@ -56,6 +71,10 @@ export type ServerPayload =
   | CloudFrontServerPayload
   | EC2ServerPayload
   | SGServerPayload
+  | VpcSubmitConfig
+  | SubnetSubmitConfig
+  | RouteTableSubmitConfig
+  | InternetGatewaySubmitConfig
 
 // 최종 제출
 export interface FinalSubmitConfig {
@@ -63,6 +82,10 @@ export interface FinalSubmitConfig {
     s3?: S3ServerPayload[]
     cloudFront?: CloudFrontServerPayload[]
     ec2?: EC2ServerPayload[]
-    securityGroups?: SGServerPayload[]
+    securityGroup?: SGServerPayload[]
+    vpc?: VpcSubmitConfig[]
+    subnet?: SubnetSubmitConfig[]
+    routeTable?: RouteTableSubmitConfig[]
+    internetGateway?: InternetGatewaySubmitConfig[]
   }
 }

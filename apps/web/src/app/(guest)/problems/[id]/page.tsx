@@ -18,8 +18,14 @@ export default async function ProblemDetailPage({
   const { id } = await params
   const { type } = await searchParams
 
-  const { title, description, tags, serviceMappers, defaultConfigs } =
-    await getUnitProblemDataById(id)
+  const {
+    title,
+    description,
+    descDetail,
+    tags,
+    serviceMappers,
+    defaultConfigs,
+  } = await getUnitProblemDataById(id)
 
   const mockFeedbackMessages = [
     {
@@ -35,6 +41,7 @@ export default async function ProblemDetailPage({
       unitId={id}
       title={title}
       description={description}
+      descDetail={descDetail}
       tags={tags}
       problemData={serviceMappers}
       defaultConfigs={defaultConfigs}

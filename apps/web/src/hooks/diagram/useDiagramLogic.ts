@@ -175,6 +175,14 @@ export function useAwsDiagramLogic(
             prevNodes,
           )
 
+          // 다이어그램에 필요없는 것들은 넘어감.
+          if (payload._type === 'routeTable') {
+            return prevNodes
+          }
+          if (payload._type === 'internetGateway' && !payload.vpcId) {
+            return prevNodes
+          }
+
           // 2. 새 노드 생성
           const nodeConfig = getNodeConfig(payload._type)
 

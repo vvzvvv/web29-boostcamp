@@ -31,7 +31,7 @@ import type {
   GlobalSubmitConfig,
   ServiceConfig,
   ServiceConfigItem,
-  SubmitConfigServiceType,
+  ServiceType,
 } from '@/types/submitConfig.types'
 import type { Edge, Node } from '@xyflow/react'
 
@@ -43,8 +43,9 @@ interface ProblemFormContextValue<T extends FieldValues = FieldValues> {
 
   // 리소스 구성 관련
   submitConfig: GlobalSubmitConfig
-  handleAddItem: (type: SubmitConfigServiceType, data: ServiceConfig) => void
-  handleRemoveItem: (type: SubmitConfigServiceType, id: string) => void
+  setSubmitConfig: Dispatch<SetStateAction<GlobalSubmitConfig>>
+  handleAddItem: (type: ServiceType, data: ServiceConfig) => void
+  handleRemoveItem: (type: ServiceType, id: string) => void
 
   // 다이어그램 관련
   nodes: Node[]
@@ -139,7 +140,7 @@ export function ProblemFormProvider<T extends FieldValues>({
 
   // 리소스 추가 핸들러
   const handleAddItem = useCallback(
-    (type: SubmitConfigServiceType, data: ServiceConfig) => {
+    (type: ServiceType, data: ServiceConfig) => {
       const id = data.name || `${type}-${Date.now()}`
 
       // 중복 체크
@@ -170,18 +171,15 @@ export function ProblemFormProvider<T extends FieldValues>({
   )
 
   // 리소스 삭제 핸들러
-  const handleRemoveItem = useCallback(
-    (type: SubmitConfigServiceType, id: string) => {
-      setSubmitConfig((prev) => ({
-        ...prev,
-        [type]: (prev[type] || []).filter((item) => item.id !== id),
-      }))
+  const handleRemoveItem = useCallback((type: ServiceType, id: string) => {
+    setSubmitConfig((prev) => ({
+      ...prev,
+      [type]: (prev[type] || []).filter((item) => item.id !== id),
+    }))
 
-      // 다이어그램에서 노드 제거
-      setNodes((prevNodes) => prevNodes.filter((node) => node.id !== id))
-    },
-    [],
-  )
+    // 다이어그램에서 노드 제거
+    setNodes((prevNodes) => prevNodes.filter((node) => node.id !== id))
+  }, [])
 
   // 제출 핸들러
   const submitProblem = useCallback(async () => {
@@ -201,30 +199,14 @@ export function ProblemFormProvider<T extends FieldValues>({
     }
 
     try {
-      const response = await submitProblemSolution(unitId, finalConfig)
-      const feedbackDetails: FeedbackDetail[] = (response.feedback || []).map(
-        (fb: { service?: string; field?: string; message: string }) => ({
-          service: fb.service || '',
-          field: fb.field || '',
-          message: fb.message,
-        }),
-      )
-      setFeedback(feedbackDetails)
+      const result = await submitProblemSolution(String(unitId), finalConfig)
 
-      // result에 따라 다이얼로그 표시
-      openModal(response.result === 'PASS')
+      setFeedback(result.feedback || [])
+      openModal(result.result)
     } catch (error) {
-      console.error('제출 실패:', error)
-      setFeedback([
-        {
-          service: 'system',
-          field: 'error',
-          message: '제출 중 오류가 발생했습니다. 다시 시도해주세요.',
-        },
-      ])
+      console.error('Failed to submit problem:', error)
     }
-  }, [unitId, submitConfig, openModal])
-
+  }, [submitConfig, openModal, unitId])
   // Navigation 핸들러 - problemType에 따라 분기
   const onNavigationConfirm = useCallback(() => {
     if (problemType === 'unit') {
@@ -242,6 +224,7 @@ export function ProblemFormProvider<T extends FieldValues>({
       isSubmitting,
       submitProblem,
       submitConfig,
+      setSubmitConfig,
       handleAddItem,
       handleRemoveItem,
       nodes,
@@ -255,6 +238,7 @@ export function ProblemFormProvider<T extends FieldValues>({
       isSubmitting,
       submitProblem,
       submitConfig,
+      setSubmitConfig,
       handleAddItem,
       handleRemoveItem,
       nodes,

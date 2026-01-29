@@ -38,7 +38,7 @@ export async function seedProblems(dataSource: DataSource): Promise<void> {
       title: '로그 저장용 S3 버킷 생성',
       description: '애플리케이션 로그를 저장하기 위한 S3 버킷을 생성하세요.',
       descDetail:
-        'S3는 높은 가용성과 내구성을 제공하는 객체 스토리지 서비스입니다. 로그 데이터를 안전하게 보관하기 위해 기본 설정으로 버킷을 생성해 봅니다. 버킷 이름은 전역적으로 고유해야 합니다.',
+        'S3는 높은 가용성과 내구성을 제공하는 객체 스토리지 서비스입니다. 로그 데이터를 안전하게 보관하기 위해 기본 설정으로 버킷을 생성해 봅니다. 버킷 이름은 전역적으로 고유해야 합니다. 버킷 이름은 my-log-bucket으로 설정해주세요.',
       requiredFields: [
         {
           serviceName: 's3',
@@ -120,7 +120,13 @@ export async function seedProblems(dataSource: DataSource): Promise<void> {
         {
           serviceName: 'ec2',
           serviceTask: 'instanceCreate',
-          serviceSections: ['nameAndTags', 'images', 'instanceType', 'network'],
+          serviceSections: [
+            'nameTag',
+            'ami',
+            'instanceType',
+            'networkSetting',
+            'storage',
+          ],
           fixedOptions: {
             images: {
               ami: {
@@ -187,64 +193,31 @@ export async function seedProblems(dataSource: DataSource): Promise<void> {
           serviceName: 's3',
           serviceTask: 'bucketCreate',
           serviceSections: ['general', 'ownership', 'blockPublicAccess'],
-          fixedOptions: [
-            {
-              _type: 's3',
-              id: 'default-bucket1',
-              name: 'default-bucket1',
-              region: 'ap-northeast-2',
-              aclEnabled: 'disabled',
-              blockAll: true,
-              blockPublicAcls: true,
-              ignorePublicAcls: true,
-              blockPublicPolicy: true,
-              restrictPublicBuckets: true,
-            },
-            {
-              _type: 's3',
-              id: 'default-bucket2',
-              name: 'default-bucket2',
-              region: 'ap-northeast-2',
-              aclEnabled: 'disabled',
-              blockAll: true,
-              blockPublicAcls: true,
-              ignorePublicAcls: true,
-              blockPublicPolicy: true,
-              restrictPublicBuckets: true,
-            },
-          ],
+        },
+        {
+          serviceName: 's3',
+          serviceTask: 'bucketList',
+          serviceSections: ['header', 'bucketTable', 'searchBar'],
+        },
+        {
+          serviceName: 'cloudFront',
+          serviceTask: 'websiteSettings',
+          serviceSections: ['defaultRootObject'],
         },
       ],
     },
     {
       problemType: ProblemType.UNIT,
-      title: 'EC2 인스턴스 생성하기',
-      description: '기본 설정으로 EC2 인스턴스를 하나 생성하세요',
+      title: 'VPC 생성하기',
+      description: '기본 설정으로 VPC를 하나 생성하세요',
       descDetail:
-        'EC2는 가상 서버를 제공하는 서비스입니다. 이 문제에서는 특별한 설정 없이 기본 구성으로 EC2 인스턴스를 하나 생성하는 것이 목표입니다. 생성한 인스턴스는 이후 문제에서 사용될 수 있습니다.',
+        'VPC는 가상 네트워크를 생성하고 관리할 수 있는 서비스입니다. 이 문제에서는 특별한 설정 없이 기본 구성으로 VPC를 하나 생성하는 것이 목표입니다. 생성한 VPC는 이후 문제에서 사용될 수 있습니다.',
       requiredFields: [
         {
-          serviceName: 'ec2',
-          serviceTask: 'instanceCreate',
-          serviceSections: ['general', 'network', 'security'],
-          fixedOptions: [
-            {
-              _type: 'vpc',
-              id: 'default-vpc1',
-              name: 'default-vpc1',
-            },
-            {
-              _type: 'vpc',
-              id: 'default-vpc2',
-              name: 'default-vpc2',
-            },
-            {
-              _type: 'subnet',
-              id: 'default-subnet1',
-              name: 'default-subnet1',
-              vpcId: 'default-vpc1',
-            },
-          ],
+          serviceName: 'vpc',
+          serviceTask: 'vpcCreate',
+          serviceSections: ['nameTag', 'cidrBlock', 'tags', 'tenancy'],
+          fixedOptions: [],
         },
       ],
     },
