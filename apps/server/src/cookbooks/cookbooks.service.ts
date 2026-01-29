@@ -16,7 +16,7 @@ export class CookbooksService {
   ): Promise<CookbookDetailResponseDto> {
     const cookbook = await this.cookbookRepository.findOne({
       where: { id: cookbookId },
-      relations: ['tags', 'cookbook_problems', 'cookbook_problems.problem'],
+      relations: ['tags', 'cookbookProblems', 'cookbookProblems.problem'],
     });
 
     if (!cookbook) {
@@ -27,14 +27,14 @@ export class CookbooksService {
       id: cookbook.id,
       title: cookbook.title,
       description: cookbook.description,
-      desc_detail: cookbook.desc_detail,
+      descDetail: cookbook.descDetail,
       tags: cookbook.tags.map((tag) => tag.name),
-      problems: cookbook.cookbook_problems
-        .sort((a, b) => a.order_number - b.order_number)
+      problems: cookbook.cookbookProblems
+        .sort((a, b) => a.orderNumber - b.orderNumber)
         .map((cp) => ({
           id: cp.problem.id,
           title: cp.problem.title,
-          order_number: cp.order_number,
+          orderNumber: cp.orderNumber,
         })),
     };
   }

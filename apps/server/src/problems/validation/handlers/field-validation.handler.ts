@@ -18,6 +18,7 @@ import {
 } from '@/problems/types/field-validation-feedback-types';
 import { ValidationHandler } from './validation.handler';
 import { containsCidr, isCidrOverlap } from '../utils/cidr-utils';
+import { removeUndefined } from '../utils/refine-request';
 
 @Injectable()
 export class FieldValidationHandler implements ValidationHandler {
@@ -56,10 +57,14 @@ export class FieldValidationHandler implements ValidationHandler {
   private validateVpcs(vpcConfigs: VPCConfig[]): FeedbackDto[] {
     const feedbacks: FeedbackDto[] = [];
 
+    const refinedVpcConfigs = vpcConfigs.map((config) =>
+      removeUndefined(config),
+    );
+
     // 1. 이름 중복 검사
     feedbacks.push(
       ...this.generateDuplicateNameFeedbacks(
-        vpcConfigs,
+        refinedVpcConfigs,
         'vpc',
         VPCServiceFeedbackType.VPC_NAME_DUPLICATED,
         '중복된 VPC Name이 존재합니다.',
@@ -67,7 +72,7 @@ export class FieldValidationHandler implements ValidationHandler {
     );
 
     // 2. CIDR 검사 (형식 및 크기)
-    for (const config of vpcConfigs) {
+    for (const config of refinedVpcConfigs) {
       const cidr = config['cidrBlock'];
       const name = config['name'];
 
@@ -95,10 +100,10 @@ export class FieldValidationHandler implements ValidationHandler {
     }
 
     // 3. VPC 간 CIDR 겹침 검사
-    for (let i = 0; i < vpcConfigs.length; i++) {
-      for (let j = i + 1; j < vpcConfigs.length; j++) {
-        const configA = vpcConfigs[i];
-        const configB = vpcConfigs[j];
+    for (let i = 0; i < refinedVpcConfigs.length; i++) {
+      for (let j = i + 1; j < refinedVpcConfigs.length; j++) {
+        const configA = refinedVpcConfigs[i];
+        const configB = refinedVpcConfigs[j];
 
         if (isCidrOverlap(configA.cidrBlock, configB.cidrBlock)) {
           feedbacks.push(
@@ -130,10 +135,14 @@ export class FieldValidationHandler implements ValidationHandler {
   ): FeedbackDto[] {
     const feedbacks: FeedbackDto[] = [];
 
+    const refinedSubnetConfigs = subnetConfigs.map((config) =>
+      removeUndefined(config),
+    );
+
     // 1. 이름 중복 검사
     feedbacks.push(
       ...this.generateDuplicateNameFeedbacks(
-        subnetConfigs,
+        refinedSubnetConfigs,
         'subnet',
         SubnetServiceFeedbackType.SUBNET_NAME_DUPLICATED,
         '중복된 Subnet Name이 존재합니다.',
@@ -146,7 +155,7 @@ export class FieldValidationHandler implements ValidationHandler {
     const vpcSubnetMap: Record<string, SubnetConfig[]> = {};
 
     // 2. 단일 Subnet 검사
-    for (const config of subnetConfigs) {
+    for (const config of refinedSubnetConfigs) {
       const { cidrBlock, vpcName, name } = config;
 
       // 그룹핑
@@ -225,29 +234,40 @@ export class FieldValidationHandler implements ValidationHandler {
     const ec2Configs = submitConfig.ec2 || [];
     const vpcConfigs = submitConfig.vpc || [];
     const subnetConfigs = submitConfig.subnet || [];
-    const sgConfigs = submitConfig.securityGroups || [];
+    // const sgConfigs = submitConfig.securityGroups || [];    // TODO: 프론트엔드 SG 연결 기능 구현 후 활성화
+
+    const refinedEc2Configs = ec2Configs.map((config) =>
+      removeUndefined(config),
+    );
+    const refinedVpcConfigs = vpcConfigs.map((config) =>
+      removeUndefined(config),
+    );
+    const refinedSubnetConfigs = subnetConfigs.map((config) =>
+      removeUndefined(config),
+    );
+    // const refinedSgConfigs = sgConfigs.map((config) => removeUndefined(config));
 
     // 1. 이름 중복 검사
     feedbacks.push(
       ...this.generateDuplicateNameFeedbacks(
-        ec2Configs,
+        refinedEc2Configs,
         'ec2',
         EC2ServiceFeedbackType.EC2_NAME_DUPLICATED,
         '중복된 EC2 Name이 존재합니다.',
       ),
     );
 
-    const vpcNameSet = new Set(vpcConfigs.map((c) => c.name));
-    const subnetNameSet = new Set(subnetConfigs.map((c) => c.name));
-    const sgVpcMap = new Map<string, string>(); // SG Name -> VPC Name
-    sgConfigs.forEach((sg) => sgVpcMap.set(sg.name, sg.vpcName));
+    const vpcNameSet = new Set(refinedVpcConfigs.map((c) => c.name));
+    const subnetNameSet = new Set(refinedSubnetConfigs.map((c) => c.name));
+    // const sgVpcMap = new Map<string, string>(); // SG Name -> VPC Name
+    // refinedSgConfigs.forEach((sg) => sgVpcMap.set(sg.name, sg.vpcName));
 
-    for (const config of ec2Configs) {
+    for (const config of refinedEc2Configs) {
       const {
         name,
         vpcName,
         subnetName,
-        securityGroups: targetSgNames,
+        // securityGroups: targetSgNames,
       } = config;
 
       // 2. VPC 존재 여부
@@ -272,20 +292,20 @@ export class FieldValidationHandler implements ValidationHandler {
         });
       }
 
-      // 4. SG 참조 검사 (다른 VPC의 SG 참조 불가)
-      const sgNames = targetSgNames || [];
-      for (const sgName of sgNames) {
-        const sgVpc = sgVpcMap.get(sgName);
-        if (sgVpc && sgVpc !== vpcName) {
-          feedbacks.push({
-            serviceType: 'ec2',
-            service: name,
-            field: 'securityGroups',
-            code: EC2ServiceFeedbackType.CANT_REF_SG_IN_OTHER_VPC,
-            message: `EC2 ${name}가 다른 VPC의 Security Group ${sgName}를 참조하고 있습니다.`,
-          });
-        }
-      }
+      // 4. SG 참조 검사 (다른 VPC의 SG 참조 불가) // TODO: 프론트엔드 구현 후 활성화
+      // const sgNames = targetSgNames || [];
+      // for (const sgName of sgNames) {
+      //   const sgVpc = sgVpcMap.get(sgName);
+      //   if (sgVpc && sgVpc !== vpcName) {
+      //     feedbacks.push({
+      //       serviceType: 'ec2',
+      //       service: name,
+      //       field: 'securityGroups',
+      //       code: EC2ServiceFeedbackType.CANT_REF_SG_IN_OTHER_VPC,
+      //       message: `EC2 ${name}가 다른 VPC의 Security Group ${sgName}를 참조하고 있습니다.`,
+      //     });
+      //   }
+      // }
     }
 
     return feedbacks;
@@ -293,11 +313,12 @@ export class FieldValidationHandler implements ValidationHandler {
 
   private validateS3Buckets(s3Configs: S3Config[]): FeedbackDto[] {
     const feedbacks: FeedbackDto[] = [];
+    const refinedS3Configs = s3Configs.map((config) => removeUndefined(config));
 
     // 1. 이름 중복 검사
     feedbacks.push(
       ...this.generateDuplicateNameFeedbacks(
-        s3Configs,
+        refinedS3Configs,
         's3',
         S3ServiceFeedbackType.BUCKET_NAME_DUPLICATED,
         '중복된 S3 버킷 이름이 존재합니다.',
@@ -305,7 +326,7 @@ export class FieldValidationHandler implements ValidationHandler {
     );
 
     // 2. 이름 형식 검사
-    for (const config of s3Configs) {
+    for (const config of refinedS3Configs) {
       const name = config.name;
       if (
         name.length < 3 ||
@@ -330,9 +351,16 @@ export class FieldValidationHandler implements ValidationHandler {
     const routeTableConfigs = submitConfig.routeTable || [];
     const internetGateways = submitConfig.internetGateway || [];
 
-    const igwIdSet = new Set(internetGateways.map((igw) => igw.id));
+    const refinedRouteTableConfigs = routeTableConfigs.map((config) =>
+      removeUndefined(config),
+    );
+    const refinedInternetGateways = internetGateways.map((igw) =>
+      removeUndefined(igw),
+    );
 
-    for (const config of routeTableConfigs) {
+    const igwIdSet = new Set(refinedInternetGateways.map((igw) => igw.id));
+
+    for (const config of refinedRouteTableConfigs) {
       const name = config.name;
       const routes = config.routes || [];
 

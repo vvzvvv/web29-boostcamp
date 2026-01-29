@@ -51,10 +51,10 @@ export function DefaultRootObjectSection({
             <Info className="mt-0.5 h-4 w-4 shrink-0" />
             <span>기본 루트 객체의 동작 방식</span>
           </div>
-          <div className="space-y-2 text-sm text-blue-900">
+          <div className="space-y-2 pl-4 text-sm text-blue-900">
             <div className="font-mono">
               <div className="text-muted-foreground">
-                사용자가 다음과 같이 접근:
+                사용자가 다음과 같이 접근
               </div>
               <div>https://d111111abcdef8.cloudfront.net/</div>
             </div>
@@ -71,11 +71,10 @@ export function DefaultRootObjectSection({
           </div>
         </div>
 
-        {/* 주의사항 */}
         <div className="flex items-start gap-2 rounded-md border border-orange-200 bg-orange-50 p-3 text-sm text-orange-900">
           <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
           <div className="space-y-1">
-            <p className="font-semibold">중요:</p>
+            <p className="font-semibold">주의사항</p>
             <ul className="list-inside list-disc space-y-1">
               <li>지정한 파일이 S3 버킷의 루트에 실제로 존재해야 합니다</li>
               <li>

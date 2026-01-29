@@ -3,6 +3,7 @@ import { SubmitConfig } from '@/problems/dto/submit-request.dto';
 import { FeedbackDto } from '@/problems/dto/submit-response.dto';
 import { SgRequirements } from '@/problems/types/requirements-types';
 import { SGFeedbackScenarios } from '@/problems/types/unit-problem-feedback-types';
+import { removeUndefined } from '../../utils/refine-request';
 
 @Injectable()
 export class SgScenarioHandler {
@@ -20,12 +21,12 @@ export class SgScenarioHandler {
       );
     }
 
-    // 2. EC2 Attachment 검증
-    if (requirements.ec2Attachment) {
-      feedbacks.push(
-        ...this.validateEc2Attachment(submitConfig, requirements.ec2Attachment),
-      );
-    }
+    // 2. EC2 Attachment 검증 (프론트엔드 미구현으로 비활성화)
+    // if (requirements.ec2Attachment) {
+    //   feedbacks.push(
+    //     ...this.validateEc2Attachment(submitConfig, requirements.ec2Attachment),
+    //   );
+    // }
 
     return feedbacks;
   }
@@ -36,9 +37,9 @@ export class SgScenarioHandler {
   ): FeedbackDto[] {
     const feedbacks: FeedbackDto[] = [];
     const sgs = config.securityGroups || [];
-
+    const refinedSgs = sgs.map((sg) => removeUndefined(sg));
     for (const [sgName, req] of Object.entries(reqs ?? {})) {
-      const sg = sgs.find((s) => s.name === sgName);
+      const sg = refinedSgs.find((s) => s.name === sgName);
       if (!sg) continue;
 
       const rules = sg.ipPermissions || [];
@@ -136,35 +137,37 @@ export class SgScenarioHandler {
     return feedbacks;
   }
 
-  private validateEc2Attachment(
-    config: SubmitConfig,
-    reqs: SgRequirements['ec2Attachment'],
-  ): FeedbackDto[] {
-    const feedbacks: FeedbackDto[] = [];
-    const ec2s = config.ec2 || [];
-
-    for (const [ec2Name, req] of Object.entries(reqs ?? {})) {
-      const ec2 = ec2s.find((i) => i.name === ec2Name);
-      if (!ec2) continue;
-
-      const attachedSgs = ec2.securityGroups || [];
-
-      if (req.requireSecurityGroups) {
-        const missingSgs = req.requireSecurityGroups.filter(
-          (reqSg) => !attachedSgs.includes(reqSg),
-        );
-
-        if (missingSgs.length > 0) {
-          feedbacks.push({
-            serviceType: 'ec2',
-            service: ec2Name,
-            field: 'securityGroups',
-            code: SGFeedbackScenarios.EC2_WRONG_SG_ATTACHED,
-            message: `EC2 인스턴스 ${ec2Name}에 올바른 보안 그룹이 연결되지 않았습니다. 누락된 그룹: ${missingSgs.join(', ')}`,
-          });
-        }
-      }
-    }
-    return feedbacks;
-  }
+  // TODO: 프론트엔드에서 EC2에 SG 추가하는 기능 생기면 활성화
+  // private validateEc2Attachment(
+  //   config: SubmitConfig,
+  //   reqs: SgRequirements['ec2Attachment'],
+  // ): FeedbackDto[] {
+  //   const feedbacks: FeedbackDto[] = [];
+  //   const ec2s = config.ec2 || [];
+  //   const refinedEc2s = ec2s.map((ec2) => removeUndefined(ec2));
+  //
+  //   for (const [ec2Name, req] of Object.entries(reqs ?? {})) {
+  //     const ec2 = refinedEc2s.find((i) => i.name === ec2Name);
+  //     if (!ec2) continue;
+  //
+  //     const attachedSgs = ec2.securityGroups || [];
+  //
+  //     if (req.requireSecurityGroups) {
+  //       const missingSgs = req.requireSecurityGroups.filter(
+  //         (reqSg) => !attachedSgs.includes(reqSg),
+  //       );
+  //
+  //       if (missingSgs.length > 0) {
+  //         feedbacks.push({
+  //           serviceType: 'ec2',
+  //           service: ec2Name,
+  //           field: 'securityGroups',
+  //           code: SGFeedbackScenarios.EC2_WRONG_SG_ATTACHED,
+  //           message: `EC2 인스턴스 ${ec2Name}에 올바른 보안 그룹이 연결되지 않았습니다. 누락된 그룹: ${missingSgs.join(', ')}`,
+  //         });
+  //       }
+  //     }
+  //   }
+  //   return feedbacks;
+  // }
 }

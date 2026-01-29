@@ -3,6 +3,7 @@ import { SubmitConfig } from '@/problems/dto/submit-request.dto';
 import { FeedbackDto } from '@/problems/dto/submit-response.dto';
 import { Ec2Requirements } from '@/problems/types/requirements-types';
 import { EC2FeedbackScenarios } from '@/problems/types/unit-problem-feedback-types';
+import { removeUndefined } from '@/problems/validation/utils/refine-request';
 
 @Injectable()
 export class Ec2ScenarioHandler {
@@ -28,9 +29,14 @@ export class Ec2ScenarioHandler {
   ): FeedbackDto[] {
     const feedbacks: FeedbackDto[] = [];
     const instances = config.ec2 || [];
+
+    const refinedInstances = instances.map((instance) =>
+      removeUndefined(instance),
+    );
+
     // 1. EC2_IN_WRONG_SUBNET
     for (const [ec2Name, req] of Object.entries(reqs ?? {})) {
-      const instance = instances.find((i) => i.name === ec2Name);
+      const instance = refinedInstances.find((i) => i.name === ec2Name);
 
       if (!instance) continue;
 
@@ -48,27 +54,27 @@ export class Ec2ScenarioHandler {
 
       // 2. EC2_PUBLIC_IP_MISSING
       if (req.requirePublicIp) {
-        // publicIpAddress가 있는지 확인
-        if (!instance.publicIpAddress) {
+        // autoAssignPublicIp 설정 확인
+        if (!instance.autoAssignPublicIp) {
           feedbacks.push({
             serviceType: 'ec2',
             service: ec2Name,
-            field: 'publicIpAddress',
+            field: 'autoAssignPublicIp',
             code: EC2FeedbackScenarios.EC2_PUBLIC_IP_MISSING,
             message: `EC2 인스턴스 ${ec2Name}에 퍼블릭 IP 자동 할당 설정이 누락되었습니다.`,
           });
         }
       }
 
-      // 3. EC2_WRONG_AMI
-      if (req.expectedAmi) {
-        if (instance.ami !== req.expectedAmi) {
+      // 3. EC2_WRONG_OS_TYPE
+      if (req.expectedOsType) {
+        if (instance.osType !== req.expectedOsType) {
           feedbacks.push({
             serviceType: 'ec2',
             service: ec2Name,
-            field: 'ami',
-            code: EC2FeedbackScenarios.EC2_WRONG_AMI,
-            message: `EC2 인스턴스 ${ec2Name}의 AMI가 올바르지 않습니다. (현재: ${instance.ami}, 요구: ${req.expectedAmi})`,
+            field: 'osType',
+            code: EC2FeedbackScenarios.EC2_WRONG_OS_TYPE,
+            message: `EC2 인스턴스 ${ec2Name}의 OS 이미지가 올바르지 않습니다. (현재: ${instance.osType}, 요구: ${req.expectedOsType})`,
           });
         }
       }
@@ -83,6 +89,33 @@ export class Ec2ScenarioHandler {
             code: EC2FeedbackScenarios.EC2_WRONG_INSTANCE_TYPE,
             message: `EC2 인스턴스 ${ec2Name}의 인스턴스 타입이 올바르지 않습니다. (현재: ${instance.instanceType}, 요구: ${req.expectedInstanceType})`,
           });
+        }
+      }
+
+      // 5. EC2_USER_DATA_MISSING
+      if (req.requireUserData && !instance.userData?.trim()) {
+        feedbacks.push({
+          serviceType: 'ec2',
+          service: ec2Name,
+          field: 'userData',
+          code: EC2FeedbackScenarios.EC2_USER_DATA_MISSING,
+          message: `EC2 인스턴스 ${ec2Name}에 User Data 스크립트가 필요합니다.`,
+        });
+      }
+
+      // 6. EC2_USER_DATA_INCOMPLETE
+      if (req.userDataMustContain?.length) {
+        const script = instance.userData || '';
+        for (const keyword of req.userDataMustContain) {
+          if (!script.includes(keyword)) {
+            feedbacks.push({
+              serviceType: 'ec2',
+              service: ec2Name,
+              field: 'userData',
+              code: EC2FeedbackScenarios.EC2_USER_DATA_INCOMPLETE,
+              message: `User Data 스크립트에 '${keyword}' 관련 설정이 필요합니다.`,
+            });
+          }
         }
       }
     }

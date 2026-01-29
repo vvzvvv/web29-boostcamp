@@ -1,5 +1,6 @@
 'use client'
 
+import { ServiceTitle } from '../../common/service-title'
 import {
   AdvancedSettings,
   BlockPublicAccess,
@@ -12,19 +13,19 @@ import {
 
 import { useForm } from 'react-hook-form'
 
-import { Separator } from '@/components/ui/separator'
+import { flattenObject } from '@/components/aws-services/utils/flattenObject'
 import type {
   S3BucketCreateConfig,
   S3BucketFormData,
+  S3SubmitConfig,
 } from '@/types/aws-services/s3/bucket-create'
 
-interface S3BucketCreateProps {
-  config: S3BucketCreateConfig
-}
-
-const defaultValues: S3BucketFormData = {
-  general: { bucketName: '', region: 'ap-northeast-2' },
-  ownership: { aclEnabled: 'disabled' },
+const DEFAULT_VALUES: S3BucketFormData = {
+  general: { name: '', region: 'ap-northeast-2' },
+  ownership: {
+    aclEnabled: 'disabled',
+    ownershipModel: 'bucket-owner-preferred',
+  },
   blockPublicAccess: {
     blockAll: true,
     blockPublicAcls: true,
@@ -38,75 +39,80 @@ const defaultValues: S3BucketFormData = {
   tags: [],
 }
 
-export default function S3BucketCreate({ config }: S3BucketCreateProps) {
-  const { control, setValue } = useForm<S3BucketFormData>({
-    defaultValues,
+interface S3BucketCreateProps {
+  config: S3BucketCreateConfig
+  onSubmit: (data: S3SubmitConfig) => void
+  buttonText?: string
+}
+
+export default function S3BucketCreate({
+  config,
+  onSubmit,
+  buttonText = 'S3 버킷 추가',
+}: S3BucketCreateProps) {
+  const { control, handleSubmit, setValue, watch, reset } =
+    useForm<S3BucketFormData>({
+      mode: 'onChange',
+      defaultValues: DEFAULT_VALUES,
+    })
+
+  const bucketName = watch('general.name') || ''
+
+  const isDisabled = bucketName.length === 0
+
+  const handleFormSubmit = handleSubmit((data) => {
+    const flattenedData = flattenObject(data as Record<string, unknown>)
+    onSubmit(flattenedData)
+    reset(DEFAULT_VALUES)
   })
 
   return (
-    <div className="mx-auto max-w-4xl space-y-6 p-6">
-      {/* Header Section */}
-      <div className="space-y-2">
-        <h2 className="text-3xl font-bold">버킷 생성</h2>
-        <p className="text-muted-foreground">S3 버킷 설정을 구성하세요</p>
-      </div>
+    <form onSubmit={handleFormSubmit} className="w-full space-y-4 p-8">
+      <ServiceTitle
+        title="S3 버킷 생성"
+        description="새로운 S3 버킷을 생성합니다"
+        button={{
+          isDisabled,
+          buttonText,
+        }}
+      />
 
-      {/* Section 1: General Configuration */}
+      {/* Section 1: bucket create region */}
       {config.general && (
-        <>
-          <GeneralConfiguration control={control} config={config} />
-          <Separator />
-        </>
+        <GeneralConfiguration control={control} config={config} />
       )}
 
       {/* Section 2: Object Ownership */}
       {config.ownership && (
-        <>
-          <ObjectOwnership control={control} config={config} />
-          <Separator />
-        </>
+        <ObjectOwnership control={control} config={config} />
       )}
 
       {/* Section 3: Block Public Access */}
       {config.blockPublicAccess && (
-        <>
-          <BlockPublicAccess
-            control={control}
-            config={config}
-            setValue={setValue}
-          />
-          <Separator />
-        </>
+        <BlockPublicAccess
+          control={control}
+          config={config}
+          setValue={setValue}
+        />
       )}
 
       {/* Section 4: Bucket Versioning */}
       {config.versioning && (
-        <>
-          <BucketVersioning control={control} config={config} />
-          <Separator />
-        </>
+        <BucketVersioning control={control} config={config} />
       )}
 
       {/* Section 5: Tags (Optional) */}
-      {config.tags && (
-        <>
-          <Tags control={control} config={config} />
-          <Separator />
-        </>
-      )}
+      {config.tags && <Tags control={control} config={config} />}
 
       {/* Section 6: Default Encryption */}
       {config.encryption && (
-        <>
-          <DefaultEncryption control={control} config={config} />
-          <Separator />
-        </>
+        <DefaultEncryption control={control} config={config} />
       )}
 
       {/* Section 7: Advanced Settings */}
       {config.advancedSettings && (
         <AdvancedSettings control={control} config={config} />
       )}
-    </div>
+    </form>
   )
 }

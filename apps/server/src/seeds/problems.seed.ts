@@ -9,16 +9,17 @@ export async function seedProblems(dataSource: DataSource): Promise<void> {
 
   // 태그 데이터 먼저 생성
   const tagNames = [
+    'Storage',
+    'S3',
+    'CDN',
+    'CloudFront',
+    'Web Hosting',
+    'Security',
+    'Compute', // 추가
+    'EC2', // 추가
+    'Server', // 추가
+    'Networking',
     'VPC',
-    'CIDR',
-    '네트워크',
-    '기초',
-    'Subnet',
-    'Public',
-    'Internet Gateway',
-    'IGW',
-    'Route Table',
-    'Routing',
   ];
 
   const tags: Tag[] = [];
@@ -35,235 +36,316 @@ export async function seedProblems(dataSource: DataSource): Promise<void> {
 
   const problems = [
     {
-      problem_type: ProblemType.UNIT,
-      title: '충분히 넓은 VPC 네트워크 만들기',
+      problemType: ProblemType.UNIT,
+      title: '로그 저장용 S3 버킷 생성',
+      description: '애플리케이션 로그를 저장하기 위한 S3 버킷을 생성하세요.',
+      descDetail:
+        'S3는 높은 가용성과 내구성을 제공하는 객체 스토리지 서비스입니다. 로그 데이터를 안전하게 보관하기 위해 기본 설정으로 버킷을 생성해 봅니다. 버킷 이름은 전역적으로 고유해야 합니다. 버킷 이름은 my-log-bucket으로 설정해주세요.',
+      requiredFields: [
+        {
+          serviceName: 's3',
+          serviceTask: 'bucketCreate',
+          serviceSections: ['general', 'tags'],
+          fixedOptions: {
+            general: {
+              bucketName: {
+                placeholder: 'my-log-bucket',
+                helperText: '전역적으로 고유한 이름을 입력하세요.',
+                required: true,
+              },
+            },
+          },
+        },
+      ],
+      tags: [tagMap.get('Storage')!, tagMap.get('S3')!],
+    },
+    {
+      problemType: ProblemType.UNIT,
+      title: 'S3 버킷 버전 관리 활성화',
       description:
-        '여러 Subnet을 생성할 수 있도록 /16 대역의 VPC를 하나 생성하세요',
-      desc_detail:
-        'VPC는 여러 Subnet을 담는 가장 큰 네트워크 단위입니다. 너무 작은 네트워크 범위를 설정하면 이후에 Subnet을 추가하거나 확장하기 어렵습니다. 이를 방지하기 위해 충분히 넓은 네트워크 대역을 먼저 설정해야 합니다. 여러 Subnet을 생성할 수 있도록 /16 대역의 VPC를 하나 생성하세요.',
-      required_fields: [
+        '중요한 문서 파일을 저장할 버킷을 만들고 버전 관리를 활성화하세요.',
+      descDetail:
+        '버전 관리를 활성화하면 실수로 객체를 삭제하거나 덮어써도 이전 버전을 복구할 수 있습니다. 중요 문서나 백업 파일 저장 시 필수적인 설정입니다.',
+      requiredFields: [
         {
-          service: 'VPC',
-          service_task: 'vpc-create',
-          service_sections: ['general'],
-          fixed_options: {
-            general: {
-              cidr_block: {
-                placeholder: '10.0.0.0/16',
-                helper_text:
-                  'VPC는 여러 Subnet을 담기 위해 넓은 네트워크 범위가 필요합니다.',
-                required: true,
+          serviceName: 's3',
+          serviceTask: 'bucketCreate',
+          serviceSections: ['general', 'versioning'],
+          fixedOptions: {
+            versioning: {
+              status: {
+                value: 'Enabled',
+                helperText: '버전 관리를 활성화해야 합니다.',
               },
             },
           },
         },
       ],
       tags: [
-        tagMap.get('VPC')!,
-        tagMap.get('CIDR')!,
-        tagMap.get('네트워크')!,
-        tagMap.get('기초')!,
+        tagMap.get('Storage')!,
+        tagMap.get('S3')!,
+        tagMap.get('Security')!,
       ],
     },
     {
-      problem_type: ProblemType.UNIT,
-      title: 'VPC 안에 포함되는 Subnet 생성하기',
+      problemType: ProblemType.UNIT,
+      title: 'CloudFront 원본(Origin) 설정',
       description:
-        '생성한 VPC의 네트워크 범위 안에 포함되는 Subnet을 하나 생성하세요',
-      desc_detail:
-        'Subnet은 반드시 VPC의 네트워크 범위 안에 포함되어야 합니다. VPC보다 넓거나 겹치지 않는 CIDR을 사용하면 Subnet은 정상적으로 동작하지 않습니다. 생성한 VPC의 네트워크 범위 안에 포함되는 Subnet을 하나 생성하세요.',
-      required_fields: [
+        'S3 버킷을 원본으로 하는 CloudFront 배포의 원본 설정을 구성하세요.',
+      descDetail:
+        'CloudFront는 전 세계 엣지 로케이션을 통해 콘텐츠를 빠르게 전송하는 CDN 서비스입니다. S3 버킷을 원본으로 지정하고, 원본 액세스 제어(OAC)를 활성화하여 보안을 강화해 봅시다.',
+      requiredFields: [
         {
-          service: 'Subnet',
-          service_task: 'subnet-create',
-          service_sections: ['general'],
-          fixed_options: {
-            general: {
-              vpc_id: {
-                placeholder: 'VPC를 선택하세요',
-                helper_text: 'Subnet CIDR은 VPC CIDR 범위 안에 있어야 합니다.',
-                required: true,
-              },
-              cidr_block: {
-                placeholder: 'x.x.x.x/x',
-                helper_text: 'VPC CIDR 범위 안에 포함되어야 합니다.',
+          serviceName: 'cloudFront',
+          serviceTask: 'originSettings',
+          serviceSections: ['originDomain', 'originAccessControl'],
+          fixedOptions: {
+            originDomain: {
+              domainName: {
+                placeholder: 'my-bucket.s3.amazonaws.com',
                 required: true,
               },
             },
           },
         },
       ],
-      tags: [
-        tagMap.get('Subnet')!,
-        tagMap.get('VPC')!,
-        tagMap.get('CIDR')!,
-        tagMap.get('네트워크')!,
-      ],
+      tags: [tagMap.get('CDN')!, tagMap.get('CloudFront')!],
     },
     {
-      problem_type: ProblemType.UNIT,
-      title: '퍼블릭 서브넷 생성하기',
+      problemType: ProblemType.UNIT,
+      title: '웹 서버용 EC2 인스턴스 생성',
       description:
-        '기존 VPC 내부에 퍼블릭 서브넷으로 사용할 서브넷을 하나 생성하세요',
-      desc_detail:
-        'EC2 인스턴스를 외부에서 접근 가능하게 만들기 위해서는 단순히 인스턴스를 생성하는 것만으로는 부족합니다. 인스턴스가 위치한 네트워크 공간이 외부 트래픽을 받을 수 있도록 설계된 서브넷이어야 합니다. 이 문제에서는, 이후 웹 서버를 배치하기 위한 준비 단계로 VPC 내부에 퍼블릭 서브넷을 하나 생성합니다.',
-      required_fields: [
+        '정적 웹사이트의 백엔드 API 서버를 위한 EC2 인스턴스를 생성하세요.',
+      descDetail:
+        'EC2는 안전하고 크기를 조정할 수 있는 컴퓨팅 파워를 클라우드에서 제공합니다. 프리티어에서 사용 가능한 t2.micro 인스턴스를 생성하고, 기본 네트워크 설정을 구성해 봅니다.',
+      requiredFields: [
         {
-          service: 'Subnet',
-          service_task: 'public-subnet-create',
-          service_sections: ['general', 'public_access'],
-          fixed_options: {
-            general: {
-              vpc_id: {
-                placeholder: '서브넷을 생성할 VPC를 선택하세요.',
-                helper_text: '서브넷은 반드시 하나의 VPC에 속해야 합니다.',
-                required: true,
-              },
-              cidr_block: {
-                placeholder: 'x.x.x.x/x',
-                helper_text: 'VPC CIDR 범위 안에 포함되어야 합니다.',
+          serviceName: 'ec2',
+          serviceTask: 'instanceCreate',
+          serviceSections: [
+            'nameTag',
+            'ami',
+            'instanceType',
+            'networkSetting',
+            'storage',
+          ],
+          fixedOptions: {
+            images: {
+              ami: {
+                placeholder: 'Amazon Linux 2023 AMI',
+                helperText: '프리티어 사용 가능 AMI를 선택하세요.',
                 required: true,
               },
             },
-            public_access: {
-              map_public_ip_on_launch: {
-                value: true,
-                helper_text: '퍼블릭 IP 자동 할당을 활성화합니다.',
+            instanceType: {
+              type: {
+                value: 't2.micro',
+                helperText: '프리티어 사용 가능 인스턴스 타입입니다.',
               },
             },
           },
         },
       ],
-      tags: [
-        tagMap.get('Subnet')!,
-        tagMap.get('Public')!,
-        tagMap.get('VPC')!,
-        tagMap.get('네트워크')!,
-      ],
+      tags: [tagMap.get('Compute')!, tagMap.get('EC2')!, tagMap.get('Server')!],
     },
     {
-      problem_type: ProblemType.UNIT,
-      title: 'Internet Gateway 연결하기',
-      description: '기존 VPC에 Internet Gateway를 하나 생성하고 연결하세요',
-      desc_detail:
-        'VPC와 서브넷을 생성했다고 해서 자동으로 인터넷과 통신할 수 있는 것은 아닙니다. VPC 내부의 리소스가 외부와 통신하려면 인터넷으로 나가는 출입구 역할을 하는 리소스가 필요합니다. Internet Gateway는 VPC 단위로 연결되는 리소스로, 외부 인터넷과 VPC를 연결하는 필수 전제 조건입니다. 기존 VPC에 Internet Gateway를 하나 생성하고 연결하세요.',
-      required_fields: [
-        {
-          service: 'InternetGateway',
-          service_task: 'igw-attach',
-          service_sections: ['general'],
-          fixed_options: {
-            general: {
-              vpc_id: {
-                placeholder: 'Internet Gateway를 연결할 VPC를 선택하세요',
-                helper_text: 'Internet Gateway는 VPC 단위로 연결됩니다',
-                required: true,
-              },
-            },
-          },
-        },
-      ],
-      tags: [
-        tagMap.get('Internet Gateway')!,
-        tagMap.get('IGW')!,
-        tagMap.get('VPC')!,
-        tagMap.get('네트워크')!,
-      ],
-    },
-    {
-      problem_type: ProblemType.UNIT,
-      title: '라우팅 테이블 설정하기',
+      problemType: ProblemType.UNIT,
+      title: '정적 웹사이트 글로벌 배포 (S3 + CloudFront)',
       description:
-        '퍼블릭 서브넷의 기본 트래픽이 Internet Gateway로 향하도록 라우팅 테이블을 설정하세요',
-      desc_detail:
-        '퍼블릭 서브넷과 Internet Gateway를 생성했더라도, 아직 외부 인터넷과 실제로 통신할 수 있는 상태는 아닙니다. 네트워크 트래픽은 명시된 경로(Route)가 없으면 어디로 가야 할지 알 수 없습니다. 라우팅 테이블은 이 서브넷에서 발생한 트래픽을 어디로 보낼 것인가를 정의하는 설정입니다. 퍼블릭 서브넷의 기본 트래픽이 Internet Gateway로 향하도록 라우팅 테이블을 설정하세요.',
-      required_fields: [
+        'S3 버킷을 생성하고 CloudFront CDN을 연결하여 웹사이트를 배포하세요.',
+      descDetail:
+        '단일 리전의 S3 버킷만으로는 전 세계 사용자에게 빠른 속도를 제공하기 어렵습니다. CloudFront를 S3 앞단에 배치하여 성능을 최적화하고, OAC를 통해 보안을 강화하는 구성을 실습합니다.',
+      requiredFields: [
         {
-          service: 'RouteTable',
-          service_task: 'route-table-configure',
-          service_sections: ['general', 'routes', 'subnet_associations'],
-          fixed_options: {
+          serviceName: 's3',
+          serviceTask: 'bucketCreate',
+          serviceSections: ['general'],
+          fixedOptions: {
             general: {
-              vpc_id: {
-                placeholder: '라우팅 테이블을 생성할 VPC를 선택하세요.',
-                helper_text: '라우팅 테이블은 VPC 단위로 관리됩니다.',
-                required: true,
-              },
-            },
-            routes: {
-              destination_cidr_block: {
-                placeholder: '예: 0.0.0.0/0',
-                helper_text: '모든 외부 트래픽을 의미하는 기본 경로입니다',
-                required: true,
-              },
-              gateway_id: {
-                placeholder: 'Internet Gateway 선택',
-                helper_text: '외부 인터넷으로 나가기 위한 대상입니다',
-                required: true,
-              },
-            },
-            subnet_associations: {
-              subnet_id: {
-                helper_text: '이 라우팅 테이블을 적용할 서브넷을 선택하세요',
+              bucketName: {
+                placeholder: 'my-global-site',
+                helperText: '원본용 버킷 이름을 입력하세요.',
                 required: true,
               },
             },
           },
         },
-      ],
-      tags: [
-        tagMap.get('Route Table')!,
-        tagMap.get('Routing')!,
-        tagMap.get('IGW')!,
-        tagMap.get('네트워크')!,
-      ],
-    },
-    {
-      problem_type: ProblemType.UNIT,
-      title: 'test unit',
-      description: 'test용 문제',
-      desc_detail: 'test용 문제입니다.',
-      required_fields: [
         {
-          service: 'CloudFront',
-          service_task: 'origin-settings',
-          fixed_options: {},
-          service_sections: ['originDomain', 'originAccessControl'],
+          serviceName: 'cloudFront',
+          serviceTask: 'originSettings',
+          serviceSections: ['originDomain', 'originAccessControl'],
+          fixedOptions: {},
         },
       ],
       tags: [
-        tagMap.get('VPC')!,
-        tagMap.get('CIDR')!,
-        tagMap.get('네트워크')!,
-        tagMap.get('기초')!,
+        tagMap.get('S3')!,
+        tagMap.get('CloudFront')!,
+        tagMap.get('CDN')!,
+        tagMap.get('Web Hosting')!,
       ],
     },
     {
-      problem_type: ProblemType.UNIT,
-      title: 'test unit 2',
-      description: '서비스 2개 테스트용',
-      desc_detail: '서비스 2개 테스트용입니다.',
-      required_fields: [
+      problemType: ProblemType.UNIT,
+      title: 'S3 버킷 생성하기',
+      description: '기본 설정으로 S3 버킷을 하나 생성하세요',
+      descDetail:
+        'S3는 객체 스토리지 서비스로, 데이터를 파일 단위로 저장하고 관리할 수 있습니다. 이 문제에서는 특별한 설정 없이 기본 구성으로 S3 버킷을 하나 생성하는 것이 목표입니다. 생성한 버킷은 이후 문제에서 사용될 수 있습니다.',
+      requiredFields: [
         {
-          service: 'CloudFront',
-          service_task: 'origin-settings',
-          fixed_options: {},
-          service_sections: ['originDomain', 'originAccessControl'],
+          serviceName: 's3',
+          serviceTask: 'bucketCreate',
+          serviceSections: ['general', 'ownership', 'blockPublicAccess'],
         },
         {
-          service: 'S3',
-          service_task: 'bucket-create',
-          fixed_options: {},
-          service_sections: ['ownership', 'versioning'],
+          serviceName: 's3',
+          serviceTask: 'bucketList',
+          serviceSections: ['header', 'bucketTable', 'searchBar'],
+        },
+        {
+          serviceName: 'cloudFront',
+          serviceTask: 'websiteSettings',
+          serviceSections: ['defaultRootObject'],
         },
       ],
+      tags: [tagMap.get('Storage')!, tagMap.get('S3')!],
+    },
+    {
+      problemType: ProblemType.UNIT,
+      title: 'VPC 생성하기',
+      description: '기본 설정으로 VPC를 하나 생성하세요',
+      descDetail:
+        'VPC는 가상 네트워크를 생성하고 관리할 수 있는 서비스입니다. 이 문제에서는 특별한 설정 없이 기본 구성으로 VPC를 하나 생성하는 것이 목표입니다. 생성한 VPC는 이후 문제에서 사용될 수 있습니다.',
+      requiredFields: [
+        {
+          serviceName: 'vpc',
+          serviceTask: 'vpcCreate',
+          serviceSections: ['nameTag', 'cidrBlock', 'tags', 'tenancy'],
+          fixedOptions: [],
+        },
+      ],
+      tags: [tagMap.get('Networking')!, tagMap.get('VPC')!],
+    },
+    {
+      problemType: ProblemType.UNIT,
+      title: 'EC2 보안 그룹 HTTP 포트 열기',
+      description:
+        '웹 서버 접근을 위해 보안 그룹에 HTTP(80) 포트를 열어주세요.',
+      descDetail: `보안 그룹은 EC2 인스턴스의 가상 방화벽 역할을 합니다.
+웹 서버를 외부에서 접근하려면 HTTP(80) 포트를 인바운드 규칙에 추가해야 합니다.
 
-      tags: [
-        tagMap.get('VPC')!,
-        tagMap.get('CIDR')!,
-        tagMap.get('네트워크')!,
-        tagMap.get('기초')!,
+전제 조건:
+- VPC가 이미 존재: default-vpc
+- EC2 인스턴스가 이미 존재: web-server
+
+학습 목표:
+1. 보안 그룹의 역할 이해
+2. 인바운드 규칙 추가 방법
+3. 포트와 소스 IP 설정`,
+      requiredFields: [
+        {
+          serviceName: 'ec2',
+          serviceTask: 'securityGroupCreate',
+          serviceSections: ['basicInfo', 'inboundRules'],
+          fixedOptions: [
+            {
+              _type: 'vpc',
+              id: 'default-vpc',
+              name: 'default-vpc',
+            },
+          ],
+        },
       ],
+      solution: {
+        answerConfig: {
+          securityGroups: [
+            {
+              name: 'web-server-sg',
+              vpcId: 'default-vpc',
+              vpcName: 'default-vpc',
+              ipPermissions: [
+                {
+                  ipProtocol: 'tcp',
+                  fromPort: '80',
+                  toPort: '80',
+                  cidrIp: '0.0.0.0/0',
+                  isInbound: true,
+                },
+              ],
+            },
+          ],
+        },
+      },
+      requirements: {
+        securityGroup: {
+          'web-server-sg': {
+            requireOpenPorts: [80],
+          },
+        },
+      },
+      tags: [tagMap.get('Security')!, tagMap.get('EC2')!],
+    },
+    {
+      problemType: ProblemType.UNIT,
+      title: 'EC2 User Data로 nginx 웹서버 설정',
+      description:
+        'User Data 스크립트를 사용하여 EC2 인스턴스에 nginx를 자동 설치하세요.',
+      descDetail: `## 전제 조건
+- VPC와 퍼블릭 서브넷이 이미 존재합니다.
+- 보안 그룹에서 HTTP(80) 포트가 열려있습니다.
+
+## 목표
+EC2 인스턴스 시작 시 자동으로 nginx 웹서버를 설치하고 실행하는 User Data 스크립트를 작성하세요.
+
+## 학습 목표
+1. EC2 User Data 개념 이해
+2. 부트스트래핑을 통한 인스턴스 자동 구성
+3. Amazon Linux에서 nginx 설치 명령어
+
+## 힌트
+- Amazon Linux에서는 yum 패키지 매니저를 사용합니다.
+- systemctl 명령으로 서비스를 시작/활성화합니다.`,
+      requiredFields: [
+        {
+          serviceName: 'ec2',
+          serviceTask: 'instanceCreate',
+          serviceSections: ['nameTag', 'ami', 'userData'],
+          fixedOptions: {
+            ami: {
+              osType: {
+                value: 'amazon-linux',
+                helperText: 'Amazon Linux 2023을 선택하세요.',
+              },
+            },
+            userData: {
+              script: {
+                placeholder:
+                  '#!/bin/bash\n# nginx 설치 및 시작 스크립트를 작성하세요',
+                helperText: 'yum을 사용하여 nginx를 설치하고 시작하세요.',
+              },
+            },
+          },
+        },
+      ],
+      solution: {
+        answerConfig: {
+          ec2: [
+            {
+              name: 'web-server',
+              osType: 'amazon-linux',
+              userData: 'DONT_CARE',
+            },
+          ],
+        },
+      },
+      requirements: {
+        ec2: {
+          'web-server': {
+            requireUserData: true,
+            userDataMustContain: ['nginx', 'yum install', 'systemctl start'],
+          },
+        },
+      },
+      tags: [tagMap.get('Compute')!, tagMap.get('EC2')!, tagMap.get('Server')!],
     },
   ];
 
