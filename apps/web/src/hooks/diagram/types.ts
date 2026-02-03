@@ -56,6 +56,7 @@ export function getIcons(serviceType: string): string {
   const TYPES_TO_ICON: Record<string, string> = {
     vpc: 'vpcGroup',
     subnet: 'privateSubnet',
+    internetGateway: 'internetGateway',
   }
   return TYPES_TO_ICON[serviceType] || serviceType
 }

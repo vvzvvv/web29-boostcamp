@@ -5,6 +5,7 @@ import { AttachForm } from './sections/attach-form'
 import { useForm, useWatch } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
+import { useActionFeedback } from '@/contexts/action-feedback-context'
 import { useProblemForm } from '@/contexts/problem-form-context'
 import type {
   InternetGatewayAttachFormData,
@@ -19,7 +20,7 @@ interface InternetGatewayAttachProps {
 export default function InternetGatewayAttach({
   onAfterSubmit,
 }: InternetGatewayAttachProps) {
-  const { submitConfig, setSubmitConfig } = useProblemForm()
+  const { submitConfig, setSubmitConfig, addAwsResource } = useProblemForm()
 
   // 1. 데이터 가공 (Transformation)
   // ServiceConfigItem<{...}>[] 형태를 순수 Config[] 형태로 변환합니다.
@@ -51,8 +52,25 @@ export default function InternetGatewayAttach({
     name: ['internetGatewayId', 'vpcId'],
   })
 
+  const { showFeedback } = useActionFeedback()
+
   const handleFormSubmit = handleSubmit((data) => {
-    // 2. 전역 상태 업데이트
+    // 2. 다이어그램 업데이트
+    const targetIgw = (submitConfig.internetGateway || []).find(
+      (item) => item.id === data.internetGatewayId,
+    )
+    if (targetIgw) {
+      const vpcName =
+        vpcList.find((v) => v.id === data.vpcId)?.name || data.vpcId
+      const updatedPayload = {
+        ...targetIgw.data,
+        vpcId: data.vpcId,
+        vpcName,
+      }
+      addAwsResource(updatedPayload)
+    }
+
+    // 3. 전역 상태 업데이트
     setSubmitConfig((prev) => {
       if (!prev.internetGateway) return prev
 
@@ -66,7 +84,8 @@ export default function InternetGatewayAttach({
               data: {
                 ...igw.data,
                 vpcId: data.vpcId,
-                vpcName: data.vpcId,
+                vpcName:
+                  vpcList.find((v) => v.id === data.vpcId)?.name || data.vpcId,
               },
             }
           }
@@ -74,6 +93,13 @@ export default function InternetGatewayAttach({
         }),
       }
     })
+
+    showFeedback({
+      title: '연결 완료',
+      message: `인터넷 게이트웨이가 VPC(${data.vpcId})에 성공적으로 연결되었습니다.`,
+      type: 'success',
+    })
+
     if (onAfterSubmit) onAfterSubmit()
   })
 
@@ -94,12 +120,7 @@ export default function InternetGatewayAttach({
 
       {/* 하단 액션 버튼 */}
       <div className="flex justify-end gap-3 pt-4">
-        <Button
-          type="submit"
-          size="lg"
-          className="bg-orange-600 font-bold text-white hover:bg-orange-700"
-          disabled={!selectedIgw || !selectedVpc}
-        >
+        <Button type="submit" size="lg" disabled={!selectedIgw || !selectedVpc}>
           인터넷 게이트웨이 연결
         </Button>
       </div>
