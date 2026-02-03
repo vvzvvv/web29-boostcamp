@@ -217,22 +217,38 @@ export function ProblemFormProvider<T extends FieldValues>({
 
     try {
       const result = await submitProblemSolution(String(unitId), finalConfig)
-
       setFeedback(result.feedback || [])
       openModal(result.result)
     } catch (error) {
       console.error('Failed to submit problem:', error)
     }
   }, [submitConfig, openModal, unitId])
+
+  type ResultDialogVariant = 'DEFAULT' | 'COOKBOOK_LAST_UNIT'
+
+  const isLastCookbookUnit = problemType === 'cookbook' && !nextUnitId
+  const dialogVariant: ResultDialogVariant = isLastCookbookUnit
+    ? 'COOKBOOK_LAST_UNIT'
+    : 'DEFAULT'
+
   // Navigation 핸들러 - problemType에 따라 분기
   const onNavigationConfirm = useCallback(() => {
     if (problemType === 'unit') {
       handleNavigation('unit', '')
     } else if (problemType === 'cookbook') {
-      // cookbook인 경우 nextUnitId가 있으면 같은 cookbook의 다음 unit으로, 없으면 목록으로
-      handleNavigation('cookbook', `${cookbookId}?unitId=${nextUnitId}`)
+      if (isLastCookbookUnit) {
+        handleNavigation('cookbook', '')
+      } else {
+        handleNavigation('cookbook', `${cookbookId}?unitId=${nextUnitId}`)
+      }
     }
-  }, [problemType, nextUnitId, cookbookId, handleNavigation])
+  }, [
+    problemType,
+    nextUnitId,
+    cookbookId,
+    handleNavigation,
+    isLastCookbookUnit,
+  ])
 
   const contextValue = useMemo(
     () => ({
@@ -271,6 +287,7 @@ export function ProblemFormProvider<T extends FieldValues>({
       <ResultDialog
         isOpen={isModalOpen}
         status={status}
+        variant={dialogVariant}
         onClose={closeModal}
         onConfirm={onNavigationConfirm}
       />

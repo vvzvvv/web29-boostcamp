@@ -18,6 +18,7 @@ import { TSolutionStatus } from '@/hooks/useSolutionDialog'
 interface ResultDialogProps {
   isOpen: boolean
   status: TSolutionStatus
+  variant?: 'DEFAULT' | 'COOKBOOK_LAST_UNIT'
   onClose: () => void
   onConfirm: () => void
 }
@@ -25,6 +26,7 @@ interface ResultDialogProps {
 export default function ResultDialog({
   isOpen,
   status,
+  variant = 'DEFAULT',
   onClose,
   onConfirm,
 }: ResultDialogProps) {
@@ -36,19 +38,31 @@ export default function ResultDialog({
       icon: (
         <CheckIcon className="text-primary bg-primary-foreground size-10 rounded-full p-2" />
       ),
-      title: '정답입니다 !',
-      description: (
-        <>
-          <span>문제 해결에 성공했어요 !</span>
-          <br />
-          <span>
-            {type === 'cookbook'
-              ? '다음 문제로 넘어가 볼까요?'
-              : '다른 문제에도 도전해보세요'}
-          </span>
-        </>
-      ),
-      buttonText: type === 'cookbook' ? '다음 문제 풀기' : '다른 문제 도전하기',
+      title: variant === 'COOKBOOK_LAST_UNIT' ? '축하합니다 !' : '정답입니다 !',
+      description:
+        variant === 'COOKBOOK_LAST_UNIT' ? (
+          <>
+            <span>하나의 쿡북을 전부 완료했어요!</span>
+            <br />
+            <span>더 많은 아키텍처 문제들이 기다리고 있어요</span>
+          </>
+        ) : (
+          <>
+            <span>문제 해결에 성공했어요 !</span>
+            <br />
+            <span>
+              {type === 'cookbook'
+                ? '다음 문제로 넘어가 볼까요?'
+                : '다른 문제에도 도전해보세요'}
+            </span>
+          </>
+        ),
+      buttonText:
+        type === 'cookbook'
+          ? variant === 'COOKBOOK_LAST_UNIT'
+            ? '문제 목록으로 이동하기'
+            : '다음 문제 풀기'
+          : '다른 문제 도전하기',
       buttonVariant: 'default' as const,
       onClick: onConfirm,
     },
