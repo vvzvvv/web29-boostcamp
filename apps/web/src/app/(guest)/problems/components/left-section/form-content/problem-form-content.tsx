@@ -31,10 +31,12 @@ export function ProblemFormContent({ problemData }: ProblemFormContentProps) {
   return (
     <React.Fragment>
       {uniqueTasks.length > 1 && (
-        <div className={cn(
-          uniqueTasks.length < 2 && 'pointer-events-none border-b',
-          'm-0 flex w-full items-end',
-        )}>
+        <div
+          className={cn(
+            uniqueTasks.length < 2 && 'pointer-events-none border-b',
+            'm-0 flex w-full items-end',
+          )}
+        >
           <ServiceTabs
             services={uniqueTasks}
             current={currTask}
