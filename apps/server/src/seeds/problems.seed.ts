@@ -431,7 +431,7 @@ EC2 인스턴스 시작 시 자동으로 nginx 웹서버를 설치하고 실행�
     },
     {
       problemType: ProblemType.UNIT,
-      title: '[가장 단순한 서버 배포] 1단계: 리전 내 가상 네트워크(VPC) 구축',
+      title: '리전 내 가상 네트워크(VPC) 구축',
       description:
         '전체 서비스의 논리적 경계가 되는 가상 네트워크인 VPC를 생성합니다.',
       descDetail: `## 개념 설명
@@ -452,8 +452,7 @@ VPC(Virtual Private Cloud)는 AWS 계정 전용의 가상 네트워크입니다.
     },
     {
       problemType: ProblemType.UNIT,
-      title:
-        '[가장 단순한 서버 배포] 2단계: 인터넷 연결 관문(IGW) 생성 및 연결',
+      title: '인터넷 연결 관문(IGW) 생성 및 연결',
       description:
         'VPC와 인터넷을 연결하는 대문인 인터넷 게이트웨이를 생성하고 VPC에 부착합니다.',
       descDetail: `## 개념 설명
@@ -489,7 +488,7 @@ VPC(Virtual Private Cloud)는 AWS 계정 전용의 가상 네트워크입니다.
     },
     {
       problemType: ProblemType.UNIT,
-      title: '[가장 단순한 서버 배포] 3단계: 외부 통신용 퍼블릭 서브넷 구성',
+      title: '외부 통신용 퍼블릭 서브넷 구성',
       description:
         'VPC의 넓은 IP 범위를 쪼개어 실제 서버를 배치할 하위 네트워크(서브넷)를 생성합니다.',
       descDetail: `## 개념 설명
@@ -527,7 +526,7 @@ VPC(Virtual Private Cloud)는 AWS 계정 전용의 가상 네트워크입니다.
     },
     {
       problemType: ProblemType.UNIT,
-      title: '[가장 단순한 서버 배포] 4단계: 인터넷 경로 설정 및 서브넷 연결',
+      title: '인터넷 경로 설정 및 서브넷 연결',
       description:
         '트래픽의 이동 경로(지도)를 정의하는 라우트 테이블을 설정하여 인터넷으로 나가는 길을 뚫어줍니다.',
       descDetail: `## 개념 설명
@@ -586,7 +585,7 @@ VPC(Virtual Private Cloud)는 AWS 계정 전용의 가상 네트워크입니다.
     },
     {
       problemType: ProblemType.UNIT,
-      title: '[가장 단순한 서버 배포] 5단계: 웹 서버용 EC2 인스턴스 실행',
+      title: '웹 서버용 EC2 인스턴스 실행',
       description:
         '완성된 퍼블릭 인프라 위에 실제 웹 서비스를 제공할 가상 서버(EC2)를 올립니다.',
       descDetail: `## 개념 설명
@@ -727,7 +726,7 @@ NAT(Network Address Translation) 게이트웨이는 프라이빗 서브넷에 �
     // New Advanced Cookbook Problems
     {
       problemType: ProblemType.UNIT,
-      title: '[보안 네트워크 구축] 1단계: 사용자 지정 VPC 생성',
+      title: '사용자 지정 VPC 생성',
       description: '보안 네트워크 구축을 위한 전용 VPC를 생성합니다.',
       descDetail: `## 개념 설명
 독립된 네트워크 환경을 구축하기 위해 새로운 VPC를 생성합니다. 이번에는 기본 대역이 아닌 우리가 설계한 특정 IP 대역을 사용합니다.
@@ -747,7 +746,7 @@ NAT(Network Address Translation) 게이트웨이는 프라이빗 서브넷에 �
     },
     {
       problemType: ProblemType.UNIT,
-      title: '[보안 네트워크 구축] 2단계: 서브넷 분리 (Public & Private)',
+      title: '서브넷 분리 (Public & Private)',
       description:
         '외부 통신용 퍼블릭 서브넷과 내부 보호용 프라이빗 서브넷을 생성합니다.',
       descDetail: `## 개념 설명
@@ -798,7 +797,7 @@ NAT(Network Address Translation) 게이트웨이는 프라이빗 서브넷에 �
     },
     {
       problemType: ProblemType.UNIT,
-      title: '[보안 네트워크 구축] 3단계: 인터넷 게이트웨이 구성',
+      title: '인터넷 게이트웨이 구성',
       description:
         'VPC가 인터넷과 통신할 수 있도록 인터넷 게이트웨이를 연결합니다.',
       descDetail: `## 요구사항
@@ -846,7 +845,7 @@ NAT(Network Address Translation) 게이트웨이는 프라이빗 서브넷에 �
     },
     {
       problemType: ProblemType.UNIT,
-      title: '[보안 네트워크 구축] 4단계: 퍼블릭 라우팅 설정',
+      title: '퍼블릭 라우팅 설정',
       description:
         '퍼블릭 서브넷의 트래픽이 인터넷으로 나갈 수 있도록 라우팅을 설정합니다.',
       descDetail: `## 개념 설명
@@ -938,7 +937,7 @@ NAT(Network Address Translation) 게이트웨이는 프라이빗 서브넷에 �
     },
     {
       problemType: ProblemType.UNIT,
-      title: '[보안 네트워크 구축] 5단계: NAT Gateway와 프라이빗 라우팅',
+      title: 'NAT Gateway와 프라이빗 라우팅',
       description:
         '프라이빗 서브넷의 인스턴스가 안전하게 인터넷 접속(업데이트 등)을 할 수 있도록 NAT Gateway를 구성합니다.',
       descDetail: `## 개념 설명
@@ -1155,7 +1154,7 @@ Private Subnet의 서버도 OS 업데이트 등을 위해 인터넷 접속이 �
     },
     {
       problemType: ProblemType.UNIT,
-      title: '[보안 네트워크 구축] 6단계: 보안 그룹 및 EC2 배포',
+      title: '보안 그룹 및 EC2 배포',
       description:
         '보안 그룹을 설정하고 프라이빗 서브넷에 웹 서버를 배포합니다.',
       descDetail: `## 요구사항
@@ -1387,7 +1386,7 @@ Private Subnet의 서버도 OS 업데이트 등을 위해 인터넷 접속이 �
     },
     {
       problemType: ProblemType.UNIT,
-      title: '[고가용성 아키텍처] 1단계: HA 전용 VPC 생성',
+      title: 'HA 전용 VPC 생성',
       description: '고가용성 아키텍처 구축을 위한 기반 네트워크를 생성합니다.',
       descDetail: `## 개념 설명
 고가용성(High Availability)은 시스템이 오랜 기간 동안 지속적으로 정상 운영 가능한 성질을 말합니다. 이를 위해 우리는 장애 격리 영역인 가용 영역(Available Zone)을 여러 개 사용할 것입니다. 이를 위한 전용 VPC를 생성해 봅시다.
@@ -1407,7 +1406,7 @@ Private Subnet의 서버도 OS 업데이트 등을 위해 인터넷 접속이 �
     },
     {
       problemType: ProblemType.UNIT,
-      title: '[고가용성 아키텍처] 2단계: 멀티 AZ 서브넷 구성',
+      title: '멀티 AZ 서브넷 구성',
       description:
         '서로 다른 가용 영역(AZ)에 두 개의 서브넷을 생성하여 이중화 기반을 마련합니다.',
       descDetail: `## 개념 설명
@@ -1468,7 +1467,7 @@ Private Subnet의 서버도 OS 업데이트 등을 위해 인터넷 접속이 �
     },
     {
       problemType: ProblemType.UNIT,
-      title: '[고가용성 아키텍처] 3단계: 인터넷 연결 설정',
+      title: '인터넷 연결 설정',
       description:
         'HA VPC가 인터넷과 통신할 수 있도록 인터넷 게이트웨이를 연결합니다.',
       descDetail: `## 요구사항
@@ -1518,7 +1517,7 @@ Private Subnet의 서버도 OS 업데이트 등을 위해 인터넷 접속이 �
     },
     {
       problemType: ProblemType.UNIT,
-      title: '[고가용성 아키텍처] 4단계: 통합 라우팅 테이블 구성',
+      title: '통합 라우팅 테이블 구성',
       description:
         '두 개의 서브넷이 하나의 라우트 테이블을 공유하여 인터넷에 연결되도록 설정합니다.',
       descDetail: `## 개념 설명
@@ -1643,7 +1642,7 @@ Private Subnet의 서버도 OS 업데이트 등을 위해 인터넷 접속이 �
     },
     {
       problemType: ProblemType.UNIT,
-      title: '[고가용성 아키텍처] 5단계: 웹 보안 그룹 생성',
+      title: '웹 보안 그룹 생성',
       description: '웹 서비스를 위한 보안 그룹을 생성합니다.',
       descDetail: `## 요구사항
 - **이름**: 'ha-web-sg'
@@ -1739,7 +1738,7 @@ Private Subnet의 서버도 OS 업데이트 등을 위해 인터넷 접속이 �
     },
     {
       problemType: ProblemType.UNIT,
-      title: '[고가용성 아키텍처] 6단계: 이중화 서버 배포 (Dual Deployment)',
+      title: '이중화 서버 배포 (Dual Deployment)',
       description:
         '각 가용 영역(AZ)에 하나씩 웹 서버를 배포하여 이중화 구성을 완성합니다.',
       descDetail: `## 개념 설명
