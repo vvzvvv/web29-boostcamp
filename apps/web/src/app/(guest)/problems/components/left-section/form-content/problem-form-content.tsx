@@ -6,6 +6,7 @@ import { ServiceTabs } from './service-tabs'
 import React, { useState } from 'react'
 
 import { type IServiceMapper } from '@/components/aws-services/utils/serviceMapper'
+import { cn } from '@/lib/utils'
 
 interface ProblemFormContentProps {
   problemData: IServiceMapper[]
@@ -30,7 +31,10 @@ export function ProblemFormContent({ problemData }: ProblemFormContentProps) {
   return (
     <React.Fragment>
       {uniqueTasks.length > 1 && (
-        <div className="m-0 flex w-full items-end">
+        <div className={cn(
+          uniqueTasks.length < 2 && 'pointer-events-none border-b',
+          'm-0 flex w-full items-end',
+        )}>
           <ServiceTabs
             services={uniqueTasks}
             current={currTask}
