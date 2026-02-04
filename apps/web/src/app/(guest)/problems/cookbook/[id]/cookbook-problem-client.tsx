@@ -3,6 +3,7 @@
 import { ProblemLeftSection } from '../../components/left-section'
 import { ProblemRightSection } from '../../components/right-section'
 import { CookbookProblemHeader } from './components/cookbook-header'
+import { CookbookUnitProblemHeader } from './components/cookbook-unit-header'
 
 import { useEffect, useMemo } from 'react'
 
@@ -50,26 +51,34 @@ export default function CookbookProblemClient({
   }, [])
 
   return (
-    <ProblemFormProvider
-      defaultValues={defaultValues}
-      unitId={unitId}
-      cookbookId={cookbookId}
-      problemType="cookbook"
-      nextUnitId={nextUnitId}
-      defaultConfigs={defaultConfigs}
-    >
-      <ProblemLeftSection problemData={problemData}>
-        <CookbookProblemHeader
-          title={title}
-          descDetail={descDetail}
-          unitDescDetail={unitDescDetail}
-          tags={tags}
-          units={units}
-          currUnitId={unitId}
-        />
-      </ProblemLeftSection>
+    <>
+      <CookbookProblemHeader
+        title={title}
+        descDetail={descDetail}
+        tags={tags}
+        units={units}
+        currUnitId={unitId}
+      />
+      <ProblemFormProvider
+        defaultValues={defaultValues}
+        unitId={unitId}
+        cookbookId={cookbookId}
+        problemType="cookbook"
+        nextUnitId={nextUnitId}
+        defaultConfigs={defaultConfigs}
+      >
+        <div className="mt-4 grid grid-cols-2 gap-4">
+          <ProblemLeftSection problemData={problemData}>
+            <CookbookUnitProblemHeader
+              unitDescDetail={unitDescDetail}
+              units={units}
+              currUnitId={unitId}
+            />
+          </ProblemLeftSection>
 
-      <ProblemRightSection />
-    </ProblemFormProvider>
+          <ProblemRightSection />
+        </div>
+      </ProblemFormProvider>
+    </>
   )
 }
