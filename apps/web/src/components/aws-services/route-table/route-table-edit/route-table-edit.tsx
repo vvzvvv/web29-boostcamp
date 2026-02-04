@@ -3,7 +3,7 @@
 import { RoutesEditor, SubnetAssociations } from './sections'
 import { toast } from 'sonner'
 
-import { useEffect, useMemo } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
@@ -62,9 +62,9 @@ export default function RouteTableEdit({ onAfterSubmit }: RouteTableEditProps) {
       .map((subnet) => subnet?.data)
   }, [subnetItems, currentVpcId])
 
-  // 4. 라우팅 테이블 선택 시 폼 초기화 (데이터 매핑 로직 포함)
-  useEffect(() => {
-    if (!selectedRouteTableId || !selectedRouteTable) return
+  // 4. 초기 폼 데이터 생성 함수 (useEffect와 초기화 버튼에서 공유)
+  const getInitialFormData = useCallback((): RouteTableEditFormData | null => {
+    if (!selectedRouteTableId || !selectedRouteTable) return null
 
     const targetData = selectedRouteTable.data
 
@@ -75,7 +75,6 @@ export default function RouteTableEdit({ onAfterSubmit }: RouteTableEditProps) {
         targetGatewayId?: string
         targetGatewayName?: string
       }) => ({
-        // 저장된 데이터에 destinationCidrBlock이 있다면 이를 destination으로 매핑
         destinationCidr: r.destinationCidr || '',
         targetGatewayId: r.targetGatewayId || '',
         targetGatewayName: r.targetGatewayName || r.targetGatewayId || '',
@@ -95,14 +94,26 @@ export default function RouteTableEdit({ onAfterSubmit }: RouteTableEditProps) {
       }
     }
 
-    reset({
+    return {
       selectedRouteTableId,
       routes: formRoutes,
       associatedSubnetIds:
         targetData.associations?.map((a: { subnetId: string }) => a.subnetId) ||
         [],
-    })
-  }, [selectedRouteTableId, selectedRouteTable, currentVpcId, vpcItems, reset])
+    }
+  }, [selectedRouteTableId, selectedRouteTable, currentVpcId, vpcItems])
+
+  // 5. 라우팅 테이블 선택 시 폼 초기화
+  useEffect(() => {
+    const data = getInitialFormData()
+    if (data) reset(data)
+  }, [getInitialFormData, reset])
+
+  // 6. 변경사항 초기화 핸들러
+  const handleReset = () => {
+    const data = getInitialFormData()
+    if (data) reset(data)
+  }
 
   const handleFormSubmit = handleSubmit((data) => {
     setSubmitConfig((prev) => {
@@ -217,21 +228,7 @@ export default function RouteTableEdit({ onAfterSubmit }: RouteTableEditProps) {
             </Tabs>
 
             <div className="bg-muted/10 flex justify-end gap-3 border-t p-4">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => {
-                  // 리셋 로직도 useEffect와 동일하게 처리하기 위해
-                  // 단순히 선택된 ID를 다시 설정하여 useEffect 트리거 (혹은 useEffect 로직 복사)
-                  // 여기서는 간단히 setValue로 트리거합니다.
-                  setValue('selectedRouteTableId', '')
-                  setTimeout(
-                    () =>
-                      setValue('selectedRouteTableId', selectedRouteTableId),
-                    0,
-                  )
-                }}
-              >
+              <Button type="button" variant="outline" onClick={handleReset}>
                 변경사항 초기화
               </Button>
               <Button
