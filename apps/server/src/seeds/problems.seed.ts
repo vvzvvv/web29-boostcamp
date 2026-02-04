@@ -497,7 +497,7 @@ export async function seedProblems(dataSource: DataSource): Promise<void> {
         overview:
           "인터넷 게이트웨이(IGW)는 VPC 내부 리소스(예: EC2)와 인터넷 간의 통신을 가능하게 하는 창구입니다. IGW가 없으면 VPC 내의 서버들은 외부에서 접속할 수도, 외부로 데이터를 보낼 수도 없는 '고립된 섬'이 됩니다.",
         requirements:
-          '- 이름 태그: `cloud-craft-igw`로 설정하세요.\n-VPC 연결: 앞서 생성한 `cloud-craft-vpc`를 선택하여 연결하세요',
+          '- 이름 태그: `cloud-craft-igw`로 설정하세요.\n- VPC 연결: 앞서 생성한 `cloud-craft-vpc`를 선택하여 연결하세요',
       },
       requiredFields: [
         {
@@ -568,11 +568,11 @@ export async function seedProblems(dataSource: DataSource): Promise<void> {
         '트래픽의 이동 경로(지도)를 정의하는 라우트 테이블을 설정하여 인터넷으로 나가는 길을 뚫어줍니다.',
       descDetail: {
         overview:
-          '라우트 테이블은 네트워크 트래픽이 어디로 가야 할지 알려주는 ‘안내 표지판’ 세트입니다.',
+          '라우트 테이블은 네트워크 트래픽이 어디로 가야 할지 알려주는 **안내 표지판** 세트입니다.',
         requirements:
           '- 라우트 테이블 태그: `cloud-craft-public-rt`로 설정하세요.\n- 라우트 규칙: `0.0.0.0/0` 목적지에 대해 대상 `cloud-craft-igw`를 추가하세요.\n- 서브넷 연결: 아까 만든 `cloud-craft-public-subnet`을 이 라우트 테이블에 연결하세요.',
         learningObjectives:
-          '지금까지 만든 서브넷이 진짜 ‘퍼블릭’이 되려면, 라우트 테이블에서 "0.0.0.0/0(모든 인터넷 대역)으로 가려면 아까 만든 IGW로 가라"는 규칙을 추가하고 이를 서브넷에 연결해야 합니다.',
+          '지금까지 만든 서브넷이 진짜 **퍼블릭**이 되려면, 라우트 테이블에서 _"0.0.0.0/0(모든 인터넷 대역)으로 가려면 아까 만든 IGW로 가라"_ 는 규칙을 추가하고 이를 서브넷에 연결해야 합니다.',
       },
       requiredFields: [
         {
