@@ -231,11 +231,7 @@ export default function RouteTableEdit({ onAfterSubmit }: RouteTableEditProps) {
               <Button type="button" variant="outline" onClick={handleReset}>
                 변경사항 초기화
               </Button>
-              <Button
-                type="submit"
-                className="bg-orange-600 font-bold text-white hover:bg-orange-700"
-                disabled={!isDirty}
-              >
+              <Button type="submit" disabled={!isDirty}>
                 변경사항 저장
               </Button>
             </div>

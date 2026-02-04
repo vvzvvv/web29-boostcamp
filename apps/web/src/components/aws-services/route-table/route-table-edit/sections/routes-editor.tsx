@@ -1,6 +1,6 @@
 'use client'
 
-import { Plus, Trash2 } from 'lucide-react'
+import { PinIcon, Plus, Trash2 } from 'lucide-react'
 
 import { useFieldArray, useFormContext } from 'react-hook-form'
 
@@ -84,9 +84,14 @@ export function RoutesEditor() {
                       </Button>
                     )}
                     {isLocal && (
-                      <span className="text-muted-foreground px-2 text-xs">
-                        기본
-                      </span>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        disabled
+                        size="icon"
+                      >
+                        <PinIcon className="h-4 w-4" />
+                      </Button>
                     )}
                   </TableCell>
                 </TableRow>
