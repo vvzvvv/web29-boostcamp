@@ -38,11 +38,11 @@ export function UnitProblemHeader({
         {/* 요구사항 */}
         {descDetail.requirements && (
           <div className="space-y-2">
-            <h3 className="flex items-center gap-2 text-sm font-semibold">
+            <h3 className="flex items-center gap-2 font-semibold">
               <ListTodo className="bg-primary/20 text-primary/70 h-5 w-5 rounded-full p-1" />
               요구사항
             </h3>
-            <div className="markdown-content text-muted-foreground text-sm">
+            <div className="markdown-content text-muted-foreground">
               <ReactMarkdown>{descDetail.requirements}</ReactMarkdown>
             </div>
           </div>
@@ -51,11 +51,11 @@ export function UnitProblemHeader({
         {/* 전제 조건 */}
         {descDetail.prerequisites && (
           <div className="space-y-2">
-            <h3 className="flex items-center gap-2 text-sm font-semibold">
+            <h3 className="flex items-center gap-2 font-semibold">
               <ClipboardCheck className="bg-primary/20 text-primary/70 h-5 w-5 rounded-full p-1" />
               전제 조건
             </h3>
-            <div className="markdown-content text-muted-foreground text-sm">
+            <div className="markdown-content text-muted-foreground">
               <ReactMarkdown>{descDetail.prerequisites}</ReactMarkdown>
             </div>
           </div>
@@ -64,11 +64,11 @@ export function UnitProblemHeader({
         {/* 학습 목표 */}
         {descDetail.learningObjectives && (
           <div className="space-y-2">
-            <h3 className="flex items-center gap-2 text-sm font-semibold">
+            <h3 className="flex items-center gap-2 font-semibold">
               <Goal className="bg-primary/20 text-primary/70 h-5 w-5 rounded-full p-1" />
               학습 목표
             </h3>
-            <div className="markdown-content text-muted-foreground text-sm">
+            <div className="markdown-content text-muted-foreground">
               <ReactMarkdown>{descDetail.learningObjectives}</ReactMarkdown>
             </div>
           </div>
@@ -77,11 +77,11 @@ export function UnitProblemHeader({
         {/* 힌트 */}
         {descDetail.hint && (
           <div className="space-y-2">
-            <h3 className="flex items-center gap-2 text-sm font-semibold">
+            <h3 className="flex items-center gap-2 font-semibold">
               <Lightbulb className="bg-primary/20 text-primary/70 h-5 w-5 rounded-full p-1" />
               힌트
             </h3>
-            <div className="markdown-content text-muted-foreground text-sm">
+            <div className="markdown-content text-muted-foreground">
               <ReactMarkdown>{descDetail.hint}</ReactMarkdown>
             </div>
           </div>
