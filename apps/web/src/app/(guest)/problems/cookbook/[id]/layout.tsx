@@ -1,11 +1,7 @@
-export default function UnitProblemLayout({
+export default function CookbookProblemLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  return (
-    <div className="mx-auto grid w-full max-w-7xl grid-cols-2 gap-4 px-4 py-6">
-      {children}
-    </div>
-  )
+  return <div className="mx-auto w-full max-w-7xl px-4 py-6">{children}</div>
 }
