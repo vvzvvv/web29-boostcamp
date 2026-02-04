@@ -1,4 +1,11 @@
 import { ProblemTagBadge } from '../../../(list)/components/problem-tag-badge'
+import {
+  ClipboardCheck,
+  Goal,
+  LayersIcon,
+  Lightbulb,
+  ListTodo,
+} from 'lucide-react'
 
 import ReactMarkdown from 'react-markdown'
 
@@ -76,17 +83,18 @@ export function CookbookProblemHeader({
           {/* 유닛 상세 설명 */}
           <div className="flex flex-col gap-3">
             {/* 개요 */}
-            {unitDescDetail.overview && (
-              <div className="markdown-content text-muted-foreground text-sm">
-                <ReactMarkdown>{unitDescDetail.overview}</ReactMarkdown>
-              </div>
-            )}
+            <div className="markdown-content text-muted-foreground">
+              <ReactMarkdown>{unitDescDetail.overview}</ReactMarkdown>
+            </div>
 
             {/* 요구사항 */}
             {unitDescDetail.requirements && (
-              <div className="space-y-1.5">
-                <h4 className="text-xs font-semibold">요구사항</h4>
-                <div className="markdown-content text-muted-foreground text-xs">
+              <div className="space-y-2">
+                <h3 className="flex items-center gap-2 font-semibold">
+                  <ListTodo className="bg-primary/20 text-primary/70 h-5 w-5 rounded-full p-1" />
+                  요구사항
+                </h3>
+                <div className="markdown-content text-muted-foreground">
                   <ReactMarkdown>{unitDescDetail.requirements}</ReactMarkdown>
                 </div>
               </div>
@@ -94,9 +102,12 @@ export function CookbookProblemHeader({
 
             {/* 전제 조건 */}
             {unitDescDetail.prerequisites && (
-              <div className="space-y-1.5">
-                <h4 className="text-xs font-semibold">전제 조건</h4>
-                <div className="markdown-content text-muted-foreground text-xs">
+              <div className="space-y-2">
+                <h3 className="flex items-center gap-2 font-semibold">
+                  <ClipboardCheck className="bg-primary/20 text-primary/70 h-5 w-5 rounded-full p-1" />
+                  전제 조건
+                </h3>
+                <div className="markdown-content text-muted-foreground">
                   <ReactMarkdown>{unitDescDetail.prerequisites}</ReactMarkdown>
                 </div>
               </div>
@@ -104,9 +115,12 @@ export function CookbookProblemHeader({
 
             {/* 학습 목표 */}
             {unitDescDetail.learningObjectives && (
-              <div className="space-y-1.5">
-                <h4 className="text-xs font-semibold">학습 목표</h4>
-                <div className="markdown-content text-muted-foreground text-xs">
+              <div className="space-y-2">
+                <h3 className="flex items-center gap-2 font-semibold">
+                  <Goal className="bg-primary/20 text-primary/70 h-5 w-5 rounded-full p-1" />
+                  학습 목표
+                </h3>
+                <div className="markdown-content text-muted-foreground">
                   <ReactMarkdown>
                     {unitDescDetail.learningObjectives}
                   </ReactMarkdown>
@@ -116,9 +130,12 @@ export function CookbookProblemHeader({
 
             {/* 힌트 */}
             {unitDescDetail.hint && (
-              <div className="space-y-1.5">
-                <h4 className="text-xs font-semibold">힌트</h4>
-                <div className="markdown-content text-muted-foreground text-xs">
+              <div className="space-y-2">
+                <h3 className="flex items-center gap-2 font-semibold">
+                  <Lightbulb className="bg-primary/20 text-primary/70 h-5 w-5 rounded-full p-1" />
+                  힌트
+                </h3>
+                <div className="markdown-content text-muted-foreground">
                   <ReactMarkdown>{unitDescDetail.hint}</ReactMarkdown>
                 </div>
               </div>
