@@ -8,6 +8,7 @@ import {
   GlobeIcon,
   LayersIcon,
   NetworkIcon,
+  PinIcon,
   RouteIcon,
   ServerIcon,
   ShieldCheckIcon,
@@ -137,16 +138,27 @@ export const CreatedResourcePanel = () => {
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 h-7 w-7 transition-all"
+                        className={cn(
+                          'h-7 w-7 transition-all',
+                          item.isDefault
+                            ? 'text-muted-foreground/50 cursor-default'
+                            : 'text-muted-foreground hover:text-destructive hover:bg-destructive/10',
+                        )}
                         onClick={() =>
+                          !item.isDefault &&
                           handleRemoveItem(
                             serviceType as keyof typeof submitConfig,
                             item.id,
                           )
                         }
-                        title="제거"
+                        title={item.isDefault ? '고정된 리소스' : '제거'}
+                        disabled={item.isDefault}
                       >
-                        <Trash2Icon className="h-3.5 w-3.5" />
+                        {item.isDefault ? (
+                          <PinIcon className="h-3.5 w-3.5" />
+                        ) : (
+                          <Trash2Icon className="h-3.5 w-3.5" />
+                        )}
                       </Button>
                     </div>
                   )
