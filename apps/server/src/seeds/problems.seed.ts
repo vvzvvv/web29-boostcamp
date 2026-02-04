@@ -570,7 +570,7 @@ export async function seedProblems(dataSource: DataSource): Promise<void> {
         overview:
           '라우트 테이블은 네트워크 트래픽이 어디로 가야 할지 알려주는 ‘안내 표지판’ 세트입니다.',
         requirements:
-          "- 라우트 테이블 태그: 'cloud-craft-public-rt'로 설정하세요.\n- 라우트 규칙: '0.0.0.0/0' 목적지에 대해 대상 'cloud-craft-igw'를 추가하세요.\n- 서브넷 연결: 아까 만든 'cloud-craft-public-subnet'을 이 라우트 테이블에 연결하세요.",
+          '- 라우트 테이블 태그: `cloud-craft-public-rt`로 설정하세요.\n- 라우트 규칙: `0.0.0.0/0` 목적지에 대해 대상 `cloud-craft-igw`를 추가하세요.\n- 서브넷 연결: 아까 만든 `cloud-craft-public-subnet`을 이 라우트 테이블에 연결하세요.',
         learningObjectives:
           '지금까지 만든 서브넷이 진짜 ‘퍼블릭’이 되려면, 라우트 테이블에서 "0.0.0.0/0(모든 인터넷 대역)으로 가려면 아까 만든 IGW로 가라"는 규칙을 추가하고 이를 서브넷에 연결해야 합니다.',
       },
@@ -630,7 +630,7 @@ export async function seedProblems(dataSource: DataSource): Promise<void> {
         overview:
           'EC2(Elastic Compute Cloud)는 클라우드에서 자유롭게 대여할 수 있는 가상 컴퓨터입니다.',
         requirements:
-          "- 인스턴스 이름: 'cloud-craft-web-server'로 설정하세요.\n- AMI: 'Amazon Linux 2023 AMI'를 선택하세요.\n- 네트워크 설정: 'cloud-craft-vpc'와 'cloud-craft-public-subnet'을 선택하세요.",
+          '- 인스턴스 이름: `cloud-craft-web-server`로 설정하세요.\n- AMI: `Amazon Linux 2023 AMI`를 선택하세요.\n- 네트워크 설정: `cloud-craft-vpc`와 `cloud-craft-public-subnet`을 선택하세요.',
         learningObjectives:
           '지금까지 정성껏 만든 네트워크(VPC)와 도로(Route Table), 대문(IGW)이 깔린 서브넷에 이 서버를 배치하면, 전 세계 사람들이 접속할 수 있는 서비스 인프라가 완성됩니다.',
       },
@@ -702,7 +702,7 @@ export async function seedProblems(dataSource: DataSource): Promise<void> {
         overview:
           'NAT(Network Address Translation) 게이트웨이는 프라이빗 서브넷에 위치한 인스턴스들이 인터넷과 통신할 수 있도록 해주는 서비스입니다.',
         requirements:
-          "- NAT 게이트웨이 이름: 'cloud-craft-nat'로 설정하세요.\n- 대상 서브넷: 'cloud-craft-public-subnet'을 선택하세요.",
+          '- NAT 게이트웨이 이름: `cloud-craft-nat`로 설정하세요.\n- 대상 서브넷: `cloud-craft-public-subnet`을 선택하세요.',
         learningObjectives:
           'NAT 게이트웨이는 퍼블릭 서브넷에 위치하며, 프라이빗 서브넷의 인스턴스들은 NAT 게이트웨이를 통해 인터넷으로 나갑니다.',
       },
@@ -794,7 +794,7 @@ export async function seedProblems(dataSource: DataSource): Promise<void> {
         overview:
           '보안 아키텍처의 핵심은 망 분리입니다. Public Subnet은 인터넷과 직접 통신하는 리소스가, Private Subnet은 인터넷에서 직접 접근할 수 없는 리소스가 위치하여 보안을 강화합니다.',
         requirements:
-          "1. Public Subnet:\n   - 이름: 'secure-public-subnet'\n   - CIDR: '10.1.1.0/24'\n   - VPC: 'secure-vpc'\n2. Private Subnet:\n   - 이름: 'secure-private-subnet'\n   - CIDR: '10.1.2.0/24'\n   - VPC: 'secure-vpc'",
+          '1. Public Subnet:\n   - 이름: `secure-public-subnet`\n   - CIDR: `10.1.1.0/24`\n   - VPC: `secure-vpc`\n2. Private Subnet:\n   - 이름: `secure-private-subnet`\n   - CIDR: `10.1.2.0/24`\n   - VPC: `secure-vpc`',
         learningObjectives:
           'Public Subnet에는 Load Balancer, NAT Gateway, Bastion Host가, Private Subnet에는 Web Server, DB가 위치하여 보안을 강화합니다.',
       },
@@ -839,7 +839,7 @@ export async function seedProblems(dataSource: DataSource): Promise<void> {
         overview:
           'VPC가 인터넷과 통신하기 위해 인터넷 게이트웨이를 생성하고 VPC에 연결합니다.',
         requirements:
-          "- 이름: 'secure-igw'\n- VPC 연결: 'secure-vpc'에 연결하세요.",
+          '- 이름: `secure-igw`\n- VPC 연결: `secure-vpc`에 연결하세요.',
       },
       requiredFields: [
         {
@@ -890,7 +890,7 @@ export async function seedProblems(dataSource: DataSource): Promise<void> {
         overview:
           '서브넷이 ‘퍼블릭’이 되려면 인터넷 게이트웨이(IGW)로 향하는 경로가 있어야 합니다.',
         requirements:
-          "- 라우트 테이블 이름: 'secure-public-rt'\n- VPC: 'secure-vpc'\n- 라우트 추가: 대상 '0.0.0.0/0' -> 타겟 'secure-igw'\n- 서브넷 연결: 'secure-public-subnet' 연결",
+          '- 라우트 테이블 이름: `secure-public-rt`\n- VPC: `secure-vpc`\n- 라우트 추가: 대상 `0.0.0.0/0` -> 타겟 `secure-igw`\n- 서브넷 연결: `secure-public-subnet` 연결',
       },
       requiredFields: [
         {
@@ -980,7 +980,7 @@ export async function seedProblems(dataSource: DataSource): Promise<void> {
         overview:
           'Private Subnet의 서버도 OS 업데이트 등을 위해 인터넷 접속이 필요할 때가 있습니다. NAT Gateway를 사용하면, 외부에서는 서버로 직접 접근할 수 없지만(보안), 서버에서는 외부로 요청을 보낼 수 있습니다.',
         requirements:
-          "1. NAT Gateway 생성:\n   - 이름: 'secure-nat'\n   - 위치: 'secure-public-subnet' (주의!)\n2. Private 라우트 테이블 구성:\n   - 이름: 'secure-private-rt'\n   - VPC: 'secure-vpc'\n   - 라우트 추가: 대상 '0.0.0.0/0' -> 타겟 'secure-nat'\n   - 서브넷 연결: 'secure-private-subnet' 연결",
+          '1. NAT Gateway 생성:\n   - 이름: `secure-nat`\n   - 위치: `secure-public-subnet` (주의!)\n2. Private 라우트 테이블 구성:\n   - 이름: `secure-private-rt`\n   - VPC: `secure-vpc`\n   - 라우트 추가: 대상 `0.0.0.0/0` -> 타겟 `secure-nat`\n   - 서브넷 연결: `secure-private-subnet` 연결',
         hint: 'NAT Gateway는 반드시 Public Subnet에 배치되어야 합니다.',
       },
       requiredFields: [
@@ -1191,7 +1191,7 @@ export async function seedProblems(dataSource: DataSource): Promise<void> {
         overview:
           '보안 그룹을 생성하고 프라이빗 서브넷에 EC2 인스턴스를 배포하여 보안성을 강화합니다.',
         requirements:
-          "1. 보안 그룹 생성:\n   - 이름: 'secure-web-sg'\n   - VPC: 'secure-vpc'\n   - 인바운드 규칙: HTTP(80) 허용 (소스: 0.0.0.0/0)\n2. EC2 인스턴스 생성:\n   - 이름: 'secure-db-server' (프라이빗 DB 서버 역할 가정)\n   - 위치: 'secure-private-subnet'\n   - 보안 그룹: 'secure-web-sg' 선택",
+          '1. 보안 그룹 생성:\n   - 이름: `secure-web-sg`\n   - VPC: `secure-vpc`\n   - 인바운드 규칙: HTTP(80) 허용 (소스: 0.0.0.0/0)\n2. EC2 인스턴스 생성:\n   - 이름: `secure-db-server` (프라이빗 DB 서버 역할 가정)\n   - 위치: `secure-private-subnet`\n   - 보안 그룹: `secure-web-sg` 선택',
       },
       requiredFields: [
         {
@@ -1418,7 +1418,7 @@ export async function seedProblems(dataSource: DataSource): Promise<void> {
         overview:
           '고가용성(High Availability)은 시스템이 오랜 기간 동안 지속적으로 정상 운영 가능한 성질을 말합니다.',
         requirements:
-          "- 이름 태그: 'ha-vpc'\n- IPv4 CIDR: '10.2.0.0/16' (새로운 대역 사용)",
+          '- 이름 태그: `ha-vpc`\n- IPv4 CIDR: `10.2.0.0/16` (새로운 대역 사용)',
         learningObjectives:
           '장애 격리 영역인 가용 영역(Available Zone)을 여러 개 사용하기 위한 전용 VPC를 생성합니다.',
       },
@@ -1441,7 +1441,7 @@ export async function seedProblems(dataSource: DataSource): Promise<void> {
         overview:
           '하나의 데이터 센터(AZ)에 화재나 정전이 발생해도 서비스가 유지되려면, 리소스를 지리적으로 떨어진 두 개 이상의 AZ에 분산 배치해야 합니다.',
         requirements:
-          "1. 서브넷 A (Zone A):\n   - 이름: 'ha-subnet-a'\n   - CIDR: '10.2.1.0/24'\n   - AZ: 'us-east-1a'\n   - VPC: 'ha-vpc'\n2. 서브넷 C (Zone C):\n   - 이름: 'ha-subnet-c'\n   - CIDR: '10.2.2.0/24'\n   - AZ: 'us-east-1c'\n   - VPC: 'ha-vpc'",
+          '1. 서브넷 A (Zone A):\n   - 이름: `ha-subnet-a`\n   - CIDR: `10.2.1.0/24`\n   - AZ: `us-east-1a`\n   - VPC: `ha-vpc`\n2. 서브넷 C (Zone C):\n   - 이름: `ha-subnet-c`\n   - CIDR: `10.2.2.0/24`\n   - AZ: `us-east-1c`\n   - VPC: `ha-vpc`',
       },
       requiredFields: [
         {
@@ -1493,7 +1493,7 @@ export async function seedProblems(dataSource: DataSource): Promise<void> {
       descDetail: {
         overview:
           'HA VPC가 인터넷과 통신하기 위해 인터넷 게이트웨이를 생성하고 VPC에 연결합니다.',
-        requirements: "- 이름: 'ha-igw'\n- VPC 연결: 'ha-vpc'에 연결하세요.",
+        requirements: '- 이름: `ha-igw`\n- VPC 연결: `ha-vpc`에 연결하세요.',
       },
       requiredFields: [
         {
@@ -1546,7 +1546,7 @@ export async function seedProblems(dataSource: DataSource): Promise<void> {
         overview:
           '각 서브넷마다 라우트 테이블을 따로 만들 수도 있지만, 정책이 동일하다면(둘 다 퍼블릭이라면) 하나의 라우트 테이블을 공유하여 관리 효율을 높일 수 있습니다.',
         requirements:
-          "- 이름: 'ha-public-rt'\n- VPC: 'ha-vpc'\n- 라우트: '0.0.0.0/0' -> 'ha-igw'\n- 서브넷 연결: 'ha-subnet-a' 와 'ha-subnet-c' 둘 다 연결하세요.",
+          '- 이름: `ha-public-rt`\n- VPC: `ha-vpc`\n- 라우트: `0.0.0.0/0` -> `ha-igw`\n- 서브넷 연결: `ha-subnet-a` 와 `ha-subnet-c` 둘 다 연결하세요.',
       },
       requiredFields: [
         {
@@ -1668,7 +1668,7 @@ export async function seedProblems(dataSource: DataSource): Promise<void> {
         overview:
           '웹 서비스를 위한 보안 그룹을 생성하고 HTTP 포트를 허용합니다.',
         requirements:
-          "- 이름: 'ha-web-sg'\n- VPC: 'ha-vpc'\n- 인바운드 규칙: HTTP (80) 허용 (Anywhere)",
+          '- 이름: `ha-web-sg`\n- VPC: `ha-vpc`\n- 인바운드 규칙: HTTP (80) 허용 (Anywhere)',
       },
       requiredFields: [
         {
@@ -1767,7 +1767,7 @@ export async function seedProblems(dataSource: DataSource): Promise<void> {
         overview:
           '인프라만 이중화해서는 소용이 없습니다. 실제 애플리케이션 서버도 각 영역에 분산 배치되어야 합니다.',
         requirements:
-          "1. 서버 1 (Zone A):\n   - 이름: 'ha-web-1'\n   - 위치: 'ha-subnet-a'\n   - 보안 그룹: 'ha-web-sg'\n2. 서버 2 (Zone C):\n   - 이름: 'ha-web-2'\n   - 위치: 'ha-subnet-c'\n   - 보안 그룹: 'ha-web-sg'",
+          '1. 서버 1 (Zone A):\n   - 이름: `ha-web-1`\n   - 위치: `ha-subnet-a`\n   - 보안 그룹: `ha-web-sg`\n2. 서버 2 (Zone C):\n   - 이름: `ha-web-2`\n   - 위치: `ha-subnet-c`\n   - 보안 그룹: `ha-web-sg`',
         learningObjectives:
           'Zone A가 다운되어도 Zone C의 서버가 요청을 처리할 수 있습니다.',
       },
