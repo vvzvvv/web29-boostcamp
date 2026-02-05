@@ -58,7 +58,7 @@ const LandingDiagram = () => {
 
   const fitViewOptions: FitViewOptions = {
     padding: '150px',
-    maxZoom: 0.85,
+    maxZoom: 1,
   }
 
   return (
