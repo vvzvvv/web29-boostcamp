@@ -12,17 +12,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { AZ_OPTIONS } from '@/types/aws-services/subnet/constants'
 import type { SubnetFormData } from '@/types/aws-services/subnet/subnet-form-data.types'
-
-// TODO: 나중에 리전에 따라 가용 영역 동적으로 불러오기
-const AZ_OPTIONS = [
-  { value: 'us-east-1a', label: 'us-east-1a' },
-  { value: 'us-east-1b', label: 'us-east-1b' },
-  { value: 'us-east-1c', label: 'us-east-1c' },
-  { value: 'us-east-1d', label: 'us-east-1d' },
-  { value: 'us-east-1e', label: 'us-east-1e' },
-  { value: 'us-east-1f', label: 'us-east-1f' },
-]
 
 interface SubnetSettingsProps {
   control: Control<SubnetFormData>
