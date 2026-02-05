@@ -4,6 +4,7 @@ import { PinIcon, Plus, Trash2 } from 'lucide-react'
 
 import { useFieldArray, useFormContext } from 'react-hook-form'
 
+import { TooltipBox } from '@/components/aws-services/common/tooltip-box'
 import { SectionContainer } from '@/components/section-container'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -15,6 +16,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { ROUTE_TABLE_EDIT_TOOLTIPS } from '@/constants/aws-services/route-table'
 import type { RouteTableEditFormData } from '@/types/aws-services/route-table/route-table.types'
 
 export function RoutesEditor() {
@@ -29,7 +31,12 @@ export function RoutesEditor() {
 
   return (
     <SectionContainer
-      title="라우트 (Routes)"
+      title={
+        <div className="flex items-center gap-2">
+          라우트 (Routes)
+          <TooltipBox content={ROUTE_TABLE_EDIT_TOOLTIPS.routes} />
+        </div>
+      }
       description="트래픽이 향할 대상을 결정합니다. 가장 구체적인 라우트가 우선순위를 갖습니다."
     >
       <div className="overflow-hidden rounded-md border">
