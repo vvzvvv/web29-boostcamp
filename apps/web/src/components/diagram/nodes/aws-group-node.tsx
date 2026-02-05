@@ -54,15 +54,9 @@ export function AwsGroupNode({ data }: AwsGroupNodeProps) {
       <Handle type="target" position={Position.Top} className="!bg-gray-400" />
       <div className="flex items-center gap-2">
         {iconPath && (
-          <Image
-            src={iconPath}
-            alt={data.label}
-            width={40}
-            height={40}
-            className="h-10 w-10"
-          />
+          <Image src={iconPath} alt={data.label} width={64} height={64} />
         )}
-        <span className="text-lg font-semibold text-gray-700">
+        <span className="text-2xl font-semibold text-gray-700">
           {data.label}
         </span>
       </div>
