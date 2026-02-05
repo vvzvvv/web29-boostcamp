@@ -197,8 +197,8 @@ export default function RouteTableEdit({ onAfterSubmit }: RouteTableEditProps) {
           </div>
 
           {currentVpcId && (
-            <div className="text-muted-foreground bg-muted/50 inline-block rounded border p-3 text-sm">
-              <span className="mr-2 font-semibold">VPC:</span>
+            <div className="text-muted-foreground bg-muted/50 inline-block rounded-lg border px-3 py-1.5 text-sm">
+              <span className="mr-1 font-semibold">VPC :</span>
               {currentVpcId}
             </div>
           )}
