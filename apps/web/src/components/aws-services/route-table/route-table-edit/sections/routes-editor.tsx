@@ -77,7 +77,7 @@ export function RoutesEditor() {
                         type="button"
                         variant="ghost"
                         size="icon"
-                        className="text-destructive hover:bg-destructive/10"
+                        className="text-destructive hover:bg-destructive/10 hover:text-destructive"
                         onClick={() => remove(index)}
                       >
                         <Trash2 className="h-4 w-4" />
