@@ -2,6 +2,7 @@ import { Info } from 'lucide-react'
 
 import { Controller } from 'react-hook-form'
 
+import { TooltipBox } from '@/components/aws-services/common/tooltip-box'
 import { SectionContainer } from '@/components/section-container'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -12,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { BUCKET_CREATE_TOOLTIPS } from '@/constants/aws-services/s3'
 import type { S3SectionProps } from '@/types/aws-services/s3/bucket-create'
 
 const GENERAL_OPTIONS = {
@@ -39,7 +41,12 @@ export const GeneralConfiguration = ({
 }: S3SectionProps) => {
   return (
     <SectionContainer
-      title="일반 구성"
+      title={
+        <div className="flex items-center gap-2">
+          일반 구성
+          <TooltipBox content={BUCKET_CREATE_TOOLTIPS.general} />
+        </div>
+      }
       description="버킷에 고유한 이름을 선택하고 AWS 리전을 선택하세요"
     >
       <div className="space-y-6">
