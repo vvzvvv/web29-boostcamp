@@ -1,7 +1,10 @@
 name: Deploy to Production
 
 on:
-  push:
+  workflow_run:
+    workflows: ["Build Docker Images"]
+    types:
+      - completed
     branches:
       - main
   workflow_dispatch:
@@ -17,6 +20,8 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
 
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -24,21 +29,21 @@ jobs:
       - name: Determine image tag
         id: tag
         run: |
-          if [ "${{ github.event_name }}" == "push" ]; then
-            # Push 이벤트면 SHA 기반 태그 사용
-            SHA_SHORT=$(git rev-parse --short HEAD)
+          if [ "${{ github.event_name }}" == "workflow_run" ]; then
+            # workflow_run 이벤트면 Build가 실행된 커밋의 SHA 사용
+            SHA_SHORT=$(echo "${{ github.event.workflow_run.head_sha }}" | cut -c1-7)
             TAG="rc-${SHA_SHORT}"
-            echo "🚀 Auto deployment triggered by push to main"
-            echo "Using auto-generated tag: $TAG"
+            echo "🚀 Auto deployment triggered by successful build"
+            echo "Build commit: ${{ github.event.workflow_run.head_sha }}"
+            echo "Using tag: $TAG"
           elif [ -n "${{ inputs.image_tag }}" ]; then
             # workflow_dispatch이고 입력값이 있으면 사용
             TAG="${{ inputs.image_tag }}"
             echo "📦 Manual deployment with specified tag: $TAG"
           else
-            # workflow_dispatch인데 입력값이 없으면 최신 SHA 사용
-            SHA_SHORT=$(git rev-parse --short HEAD)
-            TAG="rc-${SHA_SHORT}"
-            echo "📦 Manual deployment with auto-generated tag: $TAG"
+            # workflow_dispatch인데 입력값이 없으면 latest 사용
+            TAG="latest"
+            echo "📦 Manual deployment with latest tag"
           fi
           echo "image_tag=$TAG" >> $GITHUB_OUTPUT
           echo "✅ Target image tag: $TAG"
