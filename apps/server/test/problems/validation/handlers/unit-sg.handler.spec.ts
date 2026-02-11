@@ -194,9 +194,10 @@ describe('SgScenarioHandler', () => {
           vpcName: 'vpc-1',
           subnetId: 's-1',
           subnetName: 's-1',
-          instanceType: 't2',
+          instanceType: 't2.micro',
+          ami: 'ami-12345678',
           securityGroups: ['sg-default'], // sg-web Missing
-        } as any,
+        },
       ],
     };
     const reqs: SgRequirements = {
