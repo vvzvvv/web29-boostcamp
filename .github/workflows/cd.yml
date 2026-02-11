@@ -110,6 +110,15 @@ jobs:
             # 컨테이너 재시작
             IMAGE_TAG=$IMAGE_TAG docker compose up -d
 
+            echo "⏳ Waiting 30s for server startup..."
+            sleep 30
+
+            echo "🔄 Running DB Migrations..."
+            docker exec cloudcraft-server npm run migration:run:prod || echo "⚠️ Migration step failed"
+
+            echo "🌱 Running Seeds..."
+            docker exec cloudcraft-server npm run seed:prod || echo "⚠️ Seed step failed"
+
             echo "✅ Deployment complete! Current status:"
             docker compose ps
 
