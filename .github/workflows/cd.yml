@@ -1,11 +1,14 @@
 name: Deploy to Production
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       image_tag:
-        description: "Docker image tag to deploy (e.g., rc-abc1234 or v1.0.0)"
-        required: true
+        description: "Docker image tag to deploy (e.g., rc-abc1234 or v1.0.0). Leave empty for auto (latest commit SHA)"
+        required: false
         type: string
 
 jobs:
@@ -18,9 +21,31 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Determine image tag
+        id: tag
+        run: |
+          if [ "${{ github.event_name }}" == "push" ]; then
+            # Push 이벤트면 SHA 기반 태그 사용
+            SHA_SHORT=$(git rev-parse --short HEAD)
+            TAG="rc-${SHA_SHORT}"
+            echo "🚀 Auto deployment triggered by push to main"
+            echo "Using auto-generated tag: $TAG"
+          elif [ -n "${{ inputs.image_tag }}" ]; then
+            # workflow_dispatch이고 입력값이 있으면 사용
+            TAG="${{ inputs.image_tag }}"
+            echo "📦 Manual deployment with specified tag: $TAG"
+          else
+            # workflow_dispatch인데 입력값이 없으면 최신 SHA 사용
+            SHA_SHORT=$(git rev-parse --short HEAD)
+            TAG="rc-${SHA_SHORT}"
+            echo "📦 Manual deployment with auto-generated tag: $TAG"
+          fi
+          echo "image_tag=$TAG" >> $GITHUB_OUTPUT
+          echo "✅ Target image tag: $TAG"
+
       - name: Validate image tag format
         run: |
-          TAG="${{ inputs.image_tag }}"
+          TAG="${{ steps.tag.outputs.image_tag }}"
           if [[ $TAG =~ ^rc-[a-f0-9]{7}$ ]] || [[ $TAG =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             echo "✅ Valid tag format: $TAG"
           else
@@ -45,15 +70,12 @@ jobs:
         if: always()
         run: rm -f .env
 
-      # docker hub 계정이 다른데 협업 기능은 유료이므로 두 번에 걸쳐서 이미지를 가져와야함.
       - name: Deploy with Docker Compose
         uses: appleboy/ssh-action@v1.2.4
         env:
-          IMAGE_TAG: ${{ inputs.image_tag }}
-          DOCKERHUB_WEB_USERNAME: ${{ secrets.DOCKERHUB_WEB_USERNAME }}
-          DOCKERHUB_WEB_TOKEN: ${{ secrets.DOCKERHUB_WEB_TOKEN }}
-          DOCKERHUB_SERVER_USERNAME: ${{ secrets.DOCKERHUB_SERVER_USERNAME }}
-          DOCKERHUB_SERVER_TOKEN: ${{ secrets.DOCKERHUB_SERVER_TOKEN }}
+          IMAGE_TAG: ${{ steps.tag.outputs.image_tag }}
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
           WEB_IMAGE_NAME: ${{ secrets.WEB_IMAGE_NAME }}
           SERVER_IMAGE_NAME: ${{ secrets.SERVER_IMAGE_NAME }}
         with:
@@ -61,7 +83,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT || 22 }}
-          envs: IMAGE_TAG,DOCKERHUB_WEB_USERNAME,DOCKERHUB_WEB_TOKEN,DOCKERHUB_SERVER_USERNAME,DOCKERHUB_SERVER_TOKEN, WEB_IMAGE_NAME, SERVER_IMAGE_NAME
+          envs: IMAGE_TAG,DOCKERHUB_USERNAME,DOCKERHUB_TOKEN,WEB_IMAGE_NAME,SERVER_IMAGE_NAME
           command_timeout: 30m
           script: |
             cd ${{ secrets.DEPLOY_PATH }} || exit 1
@@ -70,14 +92,17 @@ jobs:
 
             echo "🚀 Starting deployment for tag: $IMAGE_TAG"
 
-            echo "$DOCKERHUB_WEB_TOKEN" | docker login -u "$DOCKERHUB_WEB_USERNAME" --password-stdin
+            # 통합된 Docker Hub 계정으로 로그인
+            echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+
+            # 이미지 Pull
             IMAGE_TAG=$IMAGE_TAG docker compose pull web
-            docker logout
-
-            echo "$DOCKERHUB_SERVER_TOKEN" | docker login -u "$DOCKERHUB_SERVER_USERNAME" --password-stdin
             IMAGE_TAG=$IMAGE_TAG docker compose pull server
+
+            # 로그아웃
             docker logout
 
+            # 컨테이너 재시작
             IMAGE_TAG=$IMAGE_TAG docker compose up -d
 
             echo "✅ Deployment complete! Current status:"
@@ -91,5 +116,6 @@ jobs:
         run: |
           echo "### Deployment Successful! 🚀" >> $GITHUB_STEP_SUMMARY
           echo "**Environment:** Production" >> $GITHUB_STEP_SUMMARY
-          echo "**Image tag:** ${{ inputs.image_tag }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Image tag:** ${{ steps.tag.outputs.image_tag }}" >> $GITHUB_STEP_SUMMARY
           echo "**Deployed at:** $(date)" >> $GITHUB_STEP_SUMMARY
+          echo "**Triggered by:** ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY

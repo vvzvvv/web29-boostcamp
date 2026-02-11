@@ -26,10 +26,11 @@ describe('S3ScenarioHandler', () => {
         {
           id: 'b-1',
           name: 'secure-bucket',
-          serverSideEncryption: true,
-          publicAccessBlockEnabled: true,
+          region: 'us-east-1',
+          encryptionType: 'sse-s3',
+          blockAll: true,
           versioningEnabled: true,
-        } as any,
+        },
       ],
     };
 
@@ -54,7 +55,8 @@ describe('S3ScenarioHandler', () => {
         {
           id: 'b-1',
           name: 'data-bucket',
-          serverSideEncryption: false, // Missing
+          region: 'us-east-1',
+          // encryptionType missing
         },
       ],
     };
@@ -74,7 +76,8 @@ describe('S3ScenarioHandler', () => {
         {
           id: 'b-1',
           name: 'private-bucket',
-          publicAccessBlockEnabled: false, // Missing
+          region: 'us-east-1',
+          blockAll: false, // Missing
         },
       ],
     };
@@ -96,6 +99,7 @@ describe('S3ScenarioHandler', () => {
         {
           id: 'b-1',
           name: 'versioned-bucket',
+          region: 'us-east-1',
           versioningEnabled: false, // Disabled
         },
       ],

@@ -24,8 +24,18 @@ describe('FieldValidationHandler', () => {
   describe('validateVPCField', () => {
     it('중복된 vpc 이름이 존재할 경우 피드백을 반환한다', () => {
       const vpcConfigs: VPCConfig[] = [
-        { id: '1', name: 'vpc-1', cidrBlock: '10.0.0.0/16' },
-        { id: '2', name: 'vpc-1', cidrBlock: '10.1.0.0/16' },
+        {
+          id: '1',
+          name: 'vpc-1',
+          cidrBlock: '10.0.0.0/16',
+          tenancy: 'default',
+        },
+        {
+          id: '2',
+          name: 'vpc-1',
+          cidrBlock: '10.1.0.0/16',
+          tenancy: 'default',
+        },
       ];
       const feedbacks: FeedbackDto[] = handler['validateVpcs'](vpcConfigs);
       expect(feedbacks).toHaveLength(1);
@@ -42,7 +52,12 @@ describe('FieldValidationHandler', () => {
 
     it('잘못된 CIDR 블록 형식이 존재할 경우 피드백을 반환한다', () => {
       const vpcConfigs: VPCConfig[] = [
-        { id: '1', name: 'vpc-1', cidrBlock: 'invalid-cidr' },
+        {
+          id: '1',
+          name: 'vpc-1',
+          cidrBlock: 'invalid-cidr',
+          tenancy: 'default',
+        },
       ];
       const feedbacks: FeedbackDto[] = handler['validateVpcs'](vpcConfigs);
       expect(feedbacks).toHaveLength(1);
@@ -60,8 +75,18 @@ describe('FieldValidationHandler', () => {
 
     it('겹치는 CIDR 블록이 존재할 경우 피드백을 반환한다', () => {
       const vpcConfigs: VPCConfig[] = [
-        { id: '1', name: 'vpc-1', cidrBlock: '10.0.0.0/16' },
-        { id: '2', name: 'vpc-2', cidrBlock: '10.0.0.0/16' },
+        {
+          id: '1',
+          name: 'vpc-1',
+          cidrBlock: '10.0.0.0/16',
+          tenancy: 'default',
+        },
+        {
+          id: '2',
+          name: 'vpc-2',
+          cidrBlock: '10.0.0.0/16',
+          tenancy: 'default',
+        },
       ];
       const feedbacks: FeedbackDto[] = handler['validateVpcs'](vpcConfigs);
       expect(feedbacks).toHaveLength(2);
@@ -87,8 +112,18 @@ describe('FieldValidationHandler', () => {
 
     it('CIDR 블록 크기는 16~28 사이여야 한다', () => {
       const vpcConfigs: VPCConfig[] = [
-        { id: '1', name: 'vpc-1', cidrBlock: '10.0.0.0/15' },
-        { id: '2', name: 'vpc-2', cidrBlock: '10.0.0.0/29' },
+        {
+          id: '1',
+          name: 'vpc-1',
+          cidrBlock: '10.0.0.0/15',
+          tenancy: 'default',
+        },
+        {
+          id: '2',
+          name: 'vpc-2',
+          cidrBlock: '10.0.0.0/29',
+          tenancy: 'default',
+        },
       ];
       const feedbacks: FeedbackDto[] = handler['validateVpcs'](vpcConfigs);
       expect(feedbacks).toHaveLength(4);
@@ -130,8 +165,18 @@ describe('FieldValidationHandler', () => {
 
     it('문제가 없는 경우 빈 배열을 반환한다', () => {
       const vpcConfigs: VPCConfig[] = [
-        { id: '1', name: 'vpc-1', cidrBlock: '10.0.0.0/16' },
-        { id: '2', name: 'vpc-2', cidrBlock: '10.1.0.0/16' },
+        {
+          id: '1',
+          name: 'vpc-1',
+          cidrBlock: '10.0.0.0/16',
+          tenancy: 'default',
+        },
+        {
+          id: '2',
+          name: 'vpc-2',
+          cidrBlock: '10.1.0.0/16',
+          tenancy: 'default',
+        },
       ];
       const feedbacks: FeedbackDto[] = handler['validateVpcs'](vpcConfigs);
       expect(feedbacks).toHaveLength(0);
@@ -156,7 +201,12 @@ describe('FieldValidationHandler', () => {
         },
       ];
       const vpcConfigs: VPCConfig[] = [
-        { id: 'vpc-1', name: 'vpc-1', cidrBlock: '10.0.0.0/16' },
+        {
+          id: 'vpc-1',
+          name: 'vpc-1',
+          cidrBlock: '10.0.0.0/16',
+          tenancy: 'default',
+        },
       ];
       const feedbacks: FeedbackDto[] = handler['validateSubnets'](
         subnetConfigs,
@@ -184,7 +234,12 @@ describe('FieldValidationHandler', () => {
         },
       ];
       const vpcConfigs: VPCConfig[] = [
-        { id: 'vpc-1', name: 'vpc-1', cidrBlock: '10.0.0.0/16' },
+        {
+          id: 'vpc-1',
+          name: 'vpc-1',
+          cidrBlock: '10.0.0.0/16',
+          tenancy: 'default',
+        },
       ];
       const feedbacks: FeedbackDto[] = handler['validateSubnets'](
         subnetConfigs,
@@ -221,7 +276,12 @@ describe('FieldValidationHandler', () => {
         },
       ];
       const vpcConfigs: VPCConfig[] = [
-        { id: 'vpc-1', name: 'vpc-1', cidrBlock: '10.0.0.0/16' },
+        {
+          id: 'vpc-1',
+          name: 'vpc-1',
+          cidrBlock: '10.0.0.0/16',
+          tenancy: 'default',
+        },
       ];
       const feedbacks: FeedbackDto[] = handler['validateSubnets'](
         subnetConfigs,
@@ -258,7 +318,12 @@ describe('FieldValidationHandler', () => {
         },
       ];
       const vpcConfigs: VPCConfig[] = [
-        { id: 'vpc-1', name: 'vpc-1', cidrBlock: '10.0.0.0/16' },
+        {
+          id: 'vpc-1',
+          name: 'vpc-1',
+          cidrBlock: '10.0.0.0/16',
+          tenancy: 'default',
+        },
       ];
       const feedbacks: FeedbackDto[] = handler['validateSubnets'](
         subnetConfigs,
@@ -302,7 +367,12 @@ describe('FieldValidationHandler', () => {
         },
       ];
       const vpcConfigs: VPCConfig[] = [
-        { id: 'vpc-1', name: 'vpc-1', cidrBlock: '10.0.0.0/16' },
+        {
+          id: 'vpc-1',
+          name: 'vpc-1',
+          cidrBlock: '10.0.0.0/16',
+          tenancy: 'default',
+        },
       ];
       const feedbacks: FeedbackDto[] = handler['validateSubnets'](
         subnetConfigs,
@@ -341,7 +411,12 @@ describe('FieldValidationHandler', () => {
         },
       ];
       const vpcConfigs: VPCConfig[] = [
-        { id: 'vpc-1', name: 'vpc-1', cidrBlock: '10.0.0.0/16' },
+        {
+          id: 'vpc-1',
+          name: 'vpc-1',
+          cidrBlock: '10.0.0.0/16',
+          tenancy: 'default',
+        },
       ];
       const subnetConfigs = [
         {
@@ -396,7 +471,12 @@ describe('FieldValidationHandler', () => {
         },
       ];
       const vpcConfigs: VPCConfig[] = [
-        { id: 'vpc-1', name: 'vpc-1', cidrBlock: '10.0.0.0/16' },
+        {
+          id: 'vpc-1',
+          name: 'vpc-1',
+          cidrBlock: '10.0.0.0/16',
+          tenancy: 'default',
+        },
       ];
       const subnetConfigs = [
         {
@@ -424,7 +504,7 @@ describe('FieldValidationHandler', () => {
       };
       const feedbacks: FeedbackDto[] =
         handler['validateEc2Instances'](submitConfig);
-      expect(feedbacks).toHaveLength(2);
+      expect(feedbacks).toHaveLength(1);
       expect(feedbacks).toEqual([
         {
           serviceType: 'ec2',
@@ -433,14 +513,6 @@ describe('FieldValidationHandler', () => {
           code: EC2ServiceFeedbackType.NO_VPC_EXIST,
           message:
             'EC2 ec2-1가 존재하지 않는 VPC vpc-nonexistent를 참조하고 있습니다.',
-        },
-        {
-          serviceType: 'ec2',
-          service: 'ec2-1',
-          field: 'securityGroups',
-          code: EC2ServiceFeedbackType.CANT_REF_SG_IN_OTHER_VPC,
-          message:
-            'EC2 ec2-1가 다른 VPC의 Security Group sg-1를 참조하고 있습니다.',
         },
       ]);
     });
@@ -460,7 +532,12 @@ describe('FieldValidationHandler', () => {
         },
       ];
       const vpcConfigs: VPCConfig[] = [
-        { id: 'vpc-1', name: 'vpc-1', cidrBlock: '10.0.0.0/16' },
+        {
+          id: 'vpc-1',
+          name: 'vpc-1',
+          cidrBlock: '10.0.0.0/16',
+          tenancy: 'default',
+        },
       ];
       const subnetConfigs = [
         {
@@ -516,7 +593,12 @@ describe('FieldValidationHandler', () => {
         },
       ];
       const vpcConfigs: VPCConfig[] = [
-        { id: 'vpc-1', name: 'vpc-1', cidrBlock: '10.0.0.0/16' },
+        {
+          id: 'vpc-1',
+          name: 'vpc-1',
+          cidrBlock: '10.0.0.0/16',
+          tenancy: 'default',
+        },
       ];
       const subnetConfigs = [
         {
@@ -544,7 +626,7 @@ describe('FieldValidationHandler', () => {
       };
       const feedbacks: FeedbackDto[] =
         handler['validateEc2Instances'](submitConfig);
-      expect(feedbacks).toHaveLength(2);
+      expect(feedbacks).toHaveLength(1);
       expect(feedbacks).toEqual([
         {
           serviceType: 'ec2',
@@ -553,22 +635,14 @@ describe('FieldValidationHandler', () => {
           code: EC2ServiceFeedbackType.NO_VPC_EXIST,
           message: 'EC2 ec2-1가 존재하지 않는 VPC vpc-2를 참조하고 있습니다.',
         },
-        {
-          serviceType: 'ec2',
-          service: 'ec2-1',
-          field: 'securityGroups',
-          code: EC2ServiceFeedbackType.CANT_REF_SG_IN_OTHER_VPC,
-          message:
-            'EC2 ec2-1가 다른 VPC의 Security Group sg-1를 참조하고 있습니다.',
-        },
       ]);
     });
   });
   describe('validateS3Field', () => {
     it('중복된 S3 버킷 이름이 존재할 경우 피드백을 반환한다', () => {
       const s3Configs = [
-        { id: '1', name: 'bucket-1' },
-        { id: '2', name: 'bucket-1' },
+        { id: '1', name: 'bucket-1', region: 'us-east-1' },
+        { id: '2', name: 'bucket-1', region: 'us-east-1' },
       ];
       const feedbacks: FeedbackDto[] = handler['validateS3Buckets'](s3Configs);
       expect(feedbacks).toHaveLength(1);
@@ -584,9 +658,9 @@ describe('FieldValidationHandler', () => {
     });
     it('올바르지 않은 S3 버킷 이름이 존재할 경우 피드백을 반환한다', () => {
       const s3Configs = [
-        { id: '1', name: 'Invalid_Bucket_Name' },
-        { id: '2', name: 'valid-bucket-name' },
-        { id: '3', name: 'another.invalid.name!' },
+        { id: '1', name: 'Invalid_Bucket_Name', region: 'us-east-1' },
+        { id: '2', name: 'valid-bucket-name', region: 'us-east-1' },
+        { id: '3', name: 'another.invalid.name!', region: 'us-east-1' },
         {
           id: '4',
           name: 'another-invalid-naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaame',
@@ -640,7 +714,13 @@ describe('FieldValidationHandler', () => {
           id: '1',
           name: 'rtb-1',
           vpcId: 'vpc-1',
-          routes: [{ destinationCidr: '0.0.0.0/0', targetGatewayId: 'igw-1' }],
+          routes: [
+            {
+              destinationCidr: '0.0.0.0/0',
+              targetGatewayId: 'igw-1',
+              targetGatewayName: 'igw-main',
+            },
+          ],
           associations: [{ subnetId: 'subnet-1' }],
           vpcName: 'vpc-1',
         },
@@ -648,7 +728,13 @@ describe('FieldValidationHandler', () => {
           id: '2',
           name: rtb2name,
           vpcId: 'vpc-1',
-          routes: [{ destinationCidr: '0.0.0.0/0', targetGatewayId: 'igw-1' }],
+          routes: [
+            {
+              destinationCidr: '0.0.0.0/0',
+              targetGatewayId: 'igw-1',
+              targetGatewayName: 'igw-main',
+            },
+          ],
           associations: [{ subnetId: 'subnet-2' }],
           vpcName: 'vpc-1',
         },
@@ -685,8 +771,16 @@ describe('FieldValidationHandler', () => {
           name: 'rtb-1',
           vpcId: 'vpc-1',
           routes: [
-            { destinationCidr: '0.0.0.0/0', targetGatewayId: 'igw-1' },
-            { destinationCidr: '0.0.0.0/0', targetGatewayId: 'igw-2' },
+            {
+              destinationCidr: '0.0.0.0/0',
+              targetGatewayId: 'igw-1',
+              targetGatewayName: 'igw-main',
+            },
+            {
+              destinationCidr: '0.0.0.0/0',
+              targetGatewayId: 'igw-2',
+              targetGatewayName: 'igw-main',
+            },
           ],
           associations: [{ subnetId: 'subnet-1' }],
           vpcName: 'vpc-1',

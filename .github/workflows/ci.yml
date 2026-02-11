@@ -43,7 +43,7 @@ jobs:
 
   test-server:
     name: Server Tests
-    runs-on: [self-hosted, Linux]
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code

@@ -228,7 +228,8 @@ describe('UnitValidationHandler', () => {
           service: 'vpc-2',
           field: 'cidrBlock',
           code: UnitProblemFeedbackType.INCORRECT,
-          message: '제출한 vpc 설정에 올바르지 않은 값이 있습니다: cidrBlock',
+          message:
+            "vpc의 'cidrBlock' 설정이 요구사항과 다릅니다. 문제 지문을 다시 확인하여 올바른 값을 선택해주세요.",
         },
         {
           serviceType: 'vpc',
@@ -267,7 +268,7 @@ describe('UnitValidationHandler', () => {
           serviceType: 'vpc',
           code: UnitProblemFeedbackType.SERVICE_MISSING,
           message:
-            '제출한 vpc 설정에 누락된 서비스가 있습니다: 1개의 서비스 설정이 누락되었습니다.',
+            'vpc 리소스가 부족합니다. 문제 해결을 위해 vpc를 추가로 생성해야 합니다. (1개의 서비스 설정이 누락되었습니다.)',
         },
       ]);
     });
@@ -287,7 +288,8 @@ describe('UnitValidationHandler', () => {
           service: 'vpc-1',
           field: 'region',
           code: UnitProblemFeedbackType.FIELD_MISSING,
-          message: '제출한 vpc 설정에 누락된 필드가 있습니다: region',
+          message:
+            "vpc 설정에서 'region' 항목이 빠져 있습니다. 해당 항목을 설정해주세요.",
         },
       ]);
     });
@@ -307,7 +309,8 @@ describe('UnitValidationHandler', () => {
           service: 'vpc-1',
           field: 'region',
           code: UnitProblemFeedbackType.UNNECESSARY,
-          message: '제출한 vpc 설정에 불필요한 필드가 있습니다: region',
+          message:
+            "vpc 설정에 불필요한 'region' 항목이 포함되어 있습니다. 해당 설정을 제거하거나 기본값으로 되돌려주세요.",
         },
       ]);
     });
@@ -336,7 +339,8 @@ describe('UnitValidationHandler', () => {
           service: 'vpc-1',
           field: 'cidrBlock',
           code: UnitProblemFeedbackType.INCORRECT,
-          message: '제출한 vpc 설정에 올바르지 않은 값이 있습니다: cidrBlock',
+          message:
+            "vpc의 'cidrBlock' 설정이 요구사항과 다릅니다. 문제 지문을 다시 확인하여 올바른 값을 선택해주세요.",
         },
       ]);
     });
@@ -368,7 +372,8 @@ describe('UnitValidationHandler', () => {
           service: 'vpc-1',
           field: 'nested',
           code: UnitProblemFeedbackType.INCORRECT,
-          message: '제출한 vpc 설정에 올바르지 않은 값이 있습니다: nested',
+          message:
+            "vpc의 'nested' 설정이 요구사항과 다릅니다. 문제 지문을 다시 확인하여 올바른 값을 선택해주세요.",
         },
       ]);
     });
@@ -390,7 +395,8 @@ describe('UnitValidationHandler', () => {
           service: 'vpc-1',
           field: 'cidrBlock',
           code: UnitProblemFeedbackType.INCORRECT,
-          message: '제출한 vpc 설정에 올바르지 않은 값이 있습니다: cidrBlock',
+          message:
+            "vpc의 'cidrBlock' 설정이 요구사항과 다릅니다. 문제 지문을 다시 확인하여 올바른 값을 선택해주세요.",
         },
         {
           serviceType: 'subnet',
@@ -398,7 +404,7 @@ describe('UnitValidationHandler', () => {
           field: 'cidrBlock',
           code: UnitProblemFeedbackType.INCORRECT,
           message:
-            '제출한 subnet 설정에 올바르지 않은 값이 있습니다: cidrBlock',
+            "subnet의 'cidrBlock' 설정이 요구사항과 다릅니다. 문제 지문을 다시 확인하여 올바른 값을 선택해주세요.",
         },
       ]);
     });
@@ -419,21 +425,23 @@ describe('UnitValidationHandler', () => {
           serviceType: 'vpc',
           code: UnitProblemFeedbackType.SERVICE_MISSING,
           message:
-            '제출한 vpc 설정에 누락된 서비스가 있습니다: 1개의 서비스 설정이 누락되었습니다.',
+            'vpc 리소스가 부족합니다. 문제 해결을 위해 vpc를 추가로 생성해야 합니다. (1개의 서비스 설정이 누락되었습니다.)',
         },
         {
           serviceType: 'vpc',
           service: 'vpc-1',
           field: 'region',
           code: UnitProblemFeedbackType.FIELD_MISSING,
-          message: '제출한 vpc 설정에 누락된 필드가 있습니다: region',
+          message:
+            "vpc 설정에서 'region' 항목이 빠져 있습니다. 해당 항목을 설정해주세요.",
         },
         {
           serviceType: 'vpc',
           service: 'vpc-1',
           field: 'cidrBlock',
           code: UnitProblemFeedbackType.INCORRECT,
-          message: '제출한 vpc 설정에 올바르지 않은 값이 있습니다: cidrBlock',
+          message:
+            "vpc의 'cidrBlock' 설정이 요구사항과 다릅니다. 문제 지문을 다시 확인하여 올바른 값을 선택해주세요.",
         },
       ]);
     });
