@@ -32,8 +32,7 @@ describe('Ec2ScenarioHandler', () => {
           instanceType: 't2.micro', // Correct Type
           securityGroups: ['sg-web'],
           ami: 'ami-12345678', // Correct AMI
-          privateIpAddress: '10.0.0.1',
-          publicIpAddress: '1.2.3.4', // Correct Public IP
+          autoAssignPublicIp: true, // Correct Public IP setting
         },
       ],
     };

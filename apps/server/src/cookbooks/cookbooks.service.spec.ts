@@ -91,7 +91,7 @@ describe('CookbooksService', () => {
       // Then: 쿡북 상세 정보와 정렬된 문제 목록 반환
       expect(cookbookRepository.findOne).toHaveBeenCalledWith({
         where: { id: cookbookId },
-        relations: ['tags', 'cookbook_problems', 'cookbook_problems.problem'],
+        relations: ['tags', 'cookbookProblems', 'cookbookProblems.problem'],
       });
       expect(result).toEqual({
         id: 1,
@@ -119,7 +119,7 @@ describe('CookbooksService', () => {
 
       expect(cookbookRepository.findOne).toHaveBeenCalledWith({
         where: { id: cookbookId },
-        relations: ['tags', 'cookbook_problems', 'cookbook_problems.problem'],
+        relations: ['tags', 'cookbookProblems', 'cookbookProblems.problem'],
       });
     });
 

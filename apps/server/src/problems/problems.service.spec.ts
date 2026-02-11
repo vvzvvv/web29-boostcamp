@@ -6,6 +6,7 @@ import { NotFoundException } from '@nestjs/common';
 import { ProblemsService } from './problems.service';
 import { Problem } from '../entities/problem.entity';
 import { Cookbook } from '../entities/cookbook.entity';
+import { Solution } from '../entities/solution.entity';
 import { ValidationService } from './validation/validation.service';
 import { ProblemType } from './types/problem-type.enum';
 
@@ -55,6 +56,10 @@ describe('ProblemsService', () => {
       findOne: jest.fn(),
     };
 
+    const mockSolutionRepository = {
+      findOne: jest.fn(),
+    };
+
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ProblemsService,
@@ -69,6 +74,10 @@ describe('ProblemsService', () => {
         {
           provide: getRepositoryToken(Cookbook),
           useValue: mockCookbookRepository,
+        },
+        {
+          provide: getRepositoryToken(Solution),
+          useValue: mockSolutionRepository,
         },
       ],
     }).compile();

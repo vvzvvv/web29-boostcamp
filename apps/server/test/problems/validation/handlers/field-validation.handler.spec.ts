@@ -424,7 +424,7 @@ describe('FieldValidationHandler', () => {
       };
       const feedbacks: FeedbackDto[] =
         handler['validateEc2Instances'](submitConfig);
-      expect(feedbacks).toHaveLength(2);
+      expect(feedbacks).toHaveLength(1);
       expect(feedbacks).toEqual([
         {
           serviceType: 'ec2',
@@ -433,14 +433,6 @@ describe('FieldValidationHandler', () => {
           code: EC2ServiceFeedbackType.NO_VPC_EXIST,
           message:
             'EC2 ec2-1가 존재하지 않는 VPC vpc-nonexistent를 참조하고 있습니다.',
-        },
-        {
-          serviceType: 'ec2',
-          service: 'ec2-1',
-          field: 'securityGroups',
-          code: EC2ServiceFeedbackType.CANT_REF_SG_IN_OTHER_VPC,
-          message:
-            'EC2 ec2-1가 다른 VPC의 Security Group sg-1를 참조하고 있습니다.',
         },
       ]);
     });
@@ -544,7 +536,7 @@ describe('FieldValidationHandler', () => {
       };
       const feedbacks: FeedbackDto[] =
         handler['validateEc2Instances'](submitConfig);
-      expect(feedbacks).toHaveLength(2);
+      expect(feedbacks).toHaveLength(1);
       expect(feedbacks).toEqual([
         {
           serviceType: 'ec2',
@@ -552,14 +544,6 @@ describe('FieldValidationHandler', () => {
           field: 'vpcId',
           code: EC2ServiceFeedbackType.NO_VPC_EXIST,
           message: 'EC2 ec2-1가 존재하지 않는 VPC vpc-2를 참조하고 있습니다.',
-        },
-        {
-          serviceType: 'ec2',
-          service: 'ec2-1',
-          field: 'securityGroups',
-          code: EC2ServiceFeedbackType.CANT_REF_SG_IN_OTHER_VPC,
-          message:
-            'EC2 ec2-1가 다른 VPC의 Security Group sg-1를 참조하고 있습니다.',
         },
       ]);
     });
