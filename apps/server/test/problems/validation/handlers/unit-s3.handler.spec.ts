@@ -30,7 +30,7 @@ describe('S3ScenarioHandler', () => {
           encryptionType: 'sse-s3',
           blockAll: true,
           versioningEnabled: true,
-        } as any,
+        },
       ],
     };
 

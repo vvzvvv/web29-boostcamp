@@ -65,8 +65,9 @@ describe('SgScenarioHandler', () => {
           subnetId: 's-1',
           subnetName: 's-1',
           instanceType: 't2.micro',
+          ami: 'ami-12345678',
           securityGroups: ['sg-web'],
-        } as any,
+        },
       ],
     };
 
