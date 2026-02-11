@@ -68,7 +68,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT || 22 }}
-          source: "docker-compose.yml,.env"
+          source: "docker-compose.yml,.env,nginx/default.conf"
           target: "${{ secrets.DEPLOY_PATH }}"
 
       - name: Cleanup local .env
