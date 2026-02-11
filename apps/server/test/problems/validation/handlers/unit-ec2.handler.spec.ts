@@ -31,7 +31,6 @@ describe('Ec2ScenarioHandler', () => {
           subnetName: 'subnet-public', // Correct Subnet
           instanceType: 't2.micro', // Correct Type
           securityGroups: ['sg-web'],
-          ami: 'ami-12345678', // Correct AMI
           autoAssignPublicIp: true, // Correct Public IP setting
         },
       ],
@@ -42,7 +41,6 @@ describe('Ec2ScenarioHandler', () => {
         'web-server': {
           expectedSubnet: 'subnet-public',
           expectedInstanceType: 't2.micro',
-          expectedAmi: 'ami-12345678',
           requirePublicIp: true,
         },
       },
@@ -65,8 +63,6 @@ describe('Ec2ScenarioHandler', () => {
           subnetName: 'subnet-private', // Wrong Subnet
           instanceType: 't2.micro',
           securityGroups: [],
-          ami: 'ami-12345678',
-          privateIpAddress: '10.0.0.2',
         },
       ],
     };
@@ -93,8 +89,6 @@ describe('Ec2ScenarioHandler', () => {
           subnetName: 'subnet-public',
           instanceType: 't2.micro',
           securityGroups: [],
-          privateIpAddress: '10.0.0.1',
-          ami: 'ami-12345678',
         },
       ],
     };
@@ -105,33 +99,6 @@ describe('Ec2ScenarioHandler', () => {
     const result = handler.validate(config, reqs);
     expect(result).toHaveLength(1);
     expect(result[0].code).toBe(EC2FeedbackScenarios.EC2_PUBLIC_IP_MISSING);
-  });
-
-  // --- [Case 4] Wrong AMI ---
-  it('AMI가 다르면 EC2_WRONG_AMI 피드백을 반환해야 한다', () => {
-    const config: SubmitConfig = {
-      ec2: [
-        {
-          id: 'i-1',
-          name: 'web-server',
-          vpcId: 'vpc-1',
-          vpcName: 'vpc-1',
-          subnetId: 'sub-1',
-          subnetName: 'subnet-public',
-          instanceType: 't2.micro',
-          securityGroups: [],
-          ami: 'ami-wrong', // Wrong AMI
-          privateIpAddress: '10.0.0.2', // Wrong AMI
-        },
-      ],
-    };
-    const reqs: Ec2Requirements = {
-      ec2: { 'web-server': { expectedAmi: 'ami-correct' } },
-    };
-
-    const result = handler.validate(config, reqs);
-    expect(result).toHaveLength(1);
-    expect(result[0].code).toBe(EC2FeedbackScenarios.EC2_WRONG_AMI);
   });
 
   // --- [Case 5] Wrong Instance Type ---
@@ -147,8 +114,6 @@ describe('Ec2ScenarioHandler', () => {
           subnetName: 'subnet-public',
           instanceType: 'm5.large', // Wrong Type
           securityGroups: [],
-          ami: 'ami-12345678',
-          privateIpAddress: '10.0.0.2',
         },
       ],
     };
