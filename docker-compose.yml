@@ -3,7 +3,7 @@ version: "3.8"
 services:
   nginx:
     image: nginx:alpine
-    container_name: web29-nginx
+    container_name: cloudcraft-nginx
     restart: always
     ports:
       - "80:80"
@@ -20,7 +20,7 @@ services:
 
   certbot:
     image: certbot/certbot
-    container_name: web29-certbot
+    container_name: cloudcraft-certbot
     volumes:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
@@ -29,7 +29,7 @@ services:
 
   web:
     image: ${WEB_IMAGE_NAME}:${IMAGE_TAG:-latest}
-    container_name: web29-web
+    container_name: cloudcraft-web
     env_file:
       - .env
     restart: unless-stopped
@@ -44,7 +44,7 @@ services:
 
   server:
     image: ${SERVER_IMAGE_NAME}:${IMAGE_TAG:-latest}
-    container_name: web29-server
+    container_name: cloudcraft-server
     env_file:
       - .env
     restart: unless-stopped

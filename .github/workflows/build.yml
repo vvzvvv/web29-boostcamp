@@ -60,6 +60,7 @@ jobs:
           tags: |
             type=raw,value=rc-${{ steps.check_tag.outputs.sha_short }}
             type=raw,value=${{ steps.check_tag.outputs.semver_tag }},enable=${{ steps.check_tag.outputs.has_semver == 'true' }}
+            type=raw,value=latest
           flavor: |
             latest=false
 
@@ -135,6 +136,7 @@ jobs:
           tags: |
             type=raw,value=rc-${{ steps.check_tag.outputs.sha_short }}
             type=raw,value=${{ steps.check_tag.outputs.semver_tag }},enable=${{ steps.check_tag.outputs.has_semver == 'true' }}
+            type=raw,value=latest
           flavor: |
             latest=false
 
